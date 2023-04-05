@@ -1,0 +1,82 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx,url,hyperref}
+\usepackage{sectsty}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+}
+
+\sectionfont{\fontsize{15}{20}\selectfont}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\usepackage{tgpagella}
+\usepackage{tcolorbox}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{CS224R Spring 2023 Homework 1 \\ Imitation Learning}}
+\\ {\large Due 4/19/2023}
+
+\begin{tabular}{rl}
+SUNet ID: & $\hspace{6cm}$\\
+Name: & \\
+Collaborators: & 
+\end{tabular}
+\end{center}
+
+\noindent By turning in this assignment, I agree by the Stanford honor code and declare
+that all of this is my own work.
+
+
+\newpage
+\section*{Problem 1: Behavior Cloning}
+\begin{enumerate}
+\item Run behavioral cloning (BC) and report results on two tasks: the Ant environment, where a behavioral cloning agent should achieve at least $30\%$ of the performance of the expert, and one environment of your choosing where it does not. A policy that achieves greater than $30\%$ of the expert on the Ant task will receive full credit on the autograder. Here is how you can run the Ant task:
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+python cs224r/scripts/run_hw1.py \
+    --expert_policy_file cs224r/policies/experts/Ant.pkl \
+    --env_name Ant-v4 --exp_name bc_ant --n_iter 1 \
+    --expert_data cs224r/expert_data/expert_data_Ant-v4.pkl \
+    --video_log_freq -1
+\end{verbatim}
+\end{tcolorbox}
+
+\noindent When providing results, report the mean and standard deviation of your policy’s return over multiple rollouts in a table, and state which task was used. When comparing one that is working versus one that is not working, be sure to set up a fair comparison in terms of network size, amount of data, and number of training iterations. Provide these details (and any others you feel are appropriate) in the table caption.\\
+\\
+\textbf{\color{red}Include your table here.}
+
+\item Experiment with one set of hyperparameters that affects the performance of the behavioral cloning agent, such as the amount of training steps, the amount of expert data provided, or something that you come up with yourself. For one of the tasks used in the previous question, show a graph of how the BC agent’s performance varies with the value of this hyperparameter. State the hyperparameter and a brief rationale for why you chose it.\\
+\\
+\textbf{\color{red}Include your chosen hyperparameter, plot, and rationale here.}
+
+\end{enumerate}
+
+\newpage
+
+\section*{Problem 2: DAgger}
+\begin{enumerate}
+\item Once you’ve filled in all of the TODO commands, you should be able to run DAgger.
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+python cs224r/scripts/run_hw1.py \
+  --expert_policy_file cs224r/policies/experts/Ant.pkl \
+  --env_name Ant-v4 --exp_name dagger_ant --n_iter 10 \
+  --do_dagger \
+  --expert_data cs224r/expert_data/expert_data_Ant-v4.pkl \
+  --video_log_freq -1
+\end{verbatim}
+\end{tcolorbox}
+\item Run DAgger and report results on the two tasks you tested previously with behavioral cloning (i.e., Ant + another environment). Report your results in the form of a learning curve, plotting the number of DAgger iterations vs. the policy’s mean return, with error bars to show the standard deviation. Include the performance of the expert policy and the behavioral cloning agent on the same plot (as horizontal lines that go across the plot). In the caption, state which task you used, and any details regarding network architecture, amount of data, etc. (as in the previous section).\\
+\\
+\textbf{\color{red}Include the plots of the two tasks here.}
+\end{enumerate}
+
+%\bibliography{Homework1/references}
+%\bibliographystyle{unsrt}
+
+\end{document}
