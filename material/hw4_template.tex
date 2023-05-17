@@ -1,0 +1,469 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\PassOptionsToPackage{usenames,dvipsnames}{color}  %% Allow color names
+\usepackage{xcolor}
+\usepackage{framed}        % enable shading
+\usepackage[hyphens]{url}  % wrap urls across lines, breaking by hyphens
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{float}         % keep figures in order
+\usepackage{graphicx}      % allow graphics/figures
+\usepackage{sectsty}       % set section header font sizes
+\usepackage[compact]{titlesec}  % set skip after sections
+\usepackage{enumitem}
+\usepackage{wrapfig}
+\usepackage{caption}
+\usepackage{amsfonts, amsmath}
+
+
+\geometry{margin=1in}
+
+% set up url
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+\usepackage{tgpagella}
+
+% color to shade with
+\definecolor{shadecolor}{gray}{0.9}
+
+\newcommand{\rl}{{RL$^2$ }}
+\newcommand{\dream}{\textsc{Dream }}
+
+ %put box around figure captions
+\makeatletter
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{\fbox{#1: #2}}%
+  \ifdim \wd\@tempboxa >\hsize
+    \fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule}{#1: #2}}\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother
+
+%no indent and modify distance between paragraphs
+\setlength\parindent{0pt}
+\setlength\parskip{12pt}
+
+% Reduce spacing after section headers
+\titlespacing{\section}{0pt}{*1}{*0}
+\titlespacing{\subsection}{0pt}{*1}{*0}
+\titlespacing{\subsubsection}{0pt}{*0}{*0}
+
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{CS 224R Spring 2022/2023 Homework 4} \\ Goal-Conditioned Reinforcement Learning \& Meta-Reinforcement Learning
+\\ 
+\vspace{0.2cm}
+Due Wednesday May 31st, 11:59 PM PT}
+
+\begin{tabular}{rl}
+SUNet ID: &  \\
+Name: & \\
+Collaborators: & 
+\end{tabular}
+\end{center}
+
+By turning in this assignment, I agree by the Stanford honor code and declare that all of this is my own work.
+
+\section*{Overview}
+This assigment consists of two parts. 
+
+In Part 1, we will be looking at goal-conditioned reinforcement learning and hindsight experience replay (HER). In particular, you will:
+
+\begin{enumerate}
+    \item Adapt an existing model (Deep Q-Network) to be goal-conditioned.
+    \item Run goal-conditioned DQN on two environments.
+    \item Implement Hindsight Experience Replay (HER) [1,2] on top of goal-conditioned DQN.
+    \item Compare the performance with and without HER.
+\end{enumerate}
+
+
+In Part 2, we will be exploring meta-reinforcement learning algorithms. In particular, you will:
+
+\begin{enumerate}
+    \item Experiment with a black-box meta-RL method [3] trained end-to-end.
+    \item Implement components of DREAM [4] to replace the end-to-end optimization objective.
+    \item Compare the performance of end-to-end versus decoupled optimization.
+\end{enumerate}
+
+
+\noindent We have provided you with starter code, which can be downloaded from the course website. All code for Part 1 is located in the directory \texttt{hw4/goal\_conditioned\_rl} and all code for Part 2 is located in \texttt{hw4/meta\_rl}.
+
+
+
+\vspace{0.2cm}
+\noindent\textbf{Submitting the PDF}: Submit a PDF report to Gradescope containing the written answers, plots, and Tensorboard graphs (screenshots are acceptable) to the questions. The PDF should include your name and any students you talked to or collaborated with.
+
+\vspace{0.2cm}
+
+\noindent\textbf{Submitting the Code and Experiment Runs}: In order to turn in your code and experiment logs, create a folder that contains the following:
+\begin{itemize}
+\item \texttt{data/goal\_conditioned\_rl} folder with all logged runs for Part 1 of the assignment. \textbf{Note: Please remove any redundant run folders. Remove any empty/incomplete logs that correspond to interrupted/failed runs.}
+
+\item \texttt{data/meta\_rl} folder with all logged runs for Part 2 of the assignment. \textbf{Note: Please remove any redundant run folders. Remove any empty/incomplete logs that correspond to interrupted/failed runs.}
+
+\item \texttt{code/goal\_conditioned\_rl} folder with the files \texttt{trainer.py} and \texttt{run\_episode.py} from Part 1.
+
+\item \texttt{code/meta\_rl} folder with the file \texttt{encoder\_decoder.py} from Part 2.
+\end{itemize} 
+
+\noindent\textbf{Gradescope}: Submit both the PDF and the code and experiment runs in the appropriate assignments on Gradescope. An autograder will be provided to evaluate the performance of your policies from the generated tensorboard files. 
+
+\noindent\textbf{Use of GPT/Codex/Copilot:} For the sake of deeper understanding on implementing imitation learning methods, assistance from generative models to write code for this homework is prohibited. 
+
+\newpage
+\section*{Part 1: Goal-Conditioned Reinforcement Learning}
+
+In Part 1, we will be running goal-conditioned $Q$-learning on two problems: (a) a toy problem where we flip bits in a bit vector to match it to the current goal vector and (b) move the end effector of a simulated robotic arm to the desired goal position. Applying hindsight relabeling to a goal-conditioned reinforcement learning setting is one of the most promising and commonly-used ways to improve sample efficiency and exploration challenges of RL!
+
+\textbf{Setup:} Part 1 requires the use of physics simulator MuJoCo, and installing the related python bindings. While we have provided instructions to setup MuJoCo and install the corresponding python bindings \texttt{mujoco-py} in \texttt{hw4/goal\_conditioned\_rl/README.md}, the setup can be dependent on the machine and it may require additional steps to be setup successfully. \textbf{We recommend completing the setup as soon as possible}. In particular, we recommend setting up the virtual environment and installing the requirements, and then running \texttt{python test\_installation.py}. The script should print \texttt{Dependencies successfully installed!} if the setup was successful. In case the local setup is unsuccessful after following the troubleshooting guide, we recommend completing the assignment by creating a virtual machine on AWS.  Please follow the detailed instructions in \texttt{hw4/goal\_conditioned\_rl/README.md}.
+
+\textbf{Part 1 Code Overview:} The code consists of several files to enable $Q$-learning. All code for Part 1 is located in the directory \texttt{hw4/goal\_conditioned\_rl} You are expected to write the code in the following files: \texttt{run\_episode.py, trainer.py}. A brief description for the codebase is provided here:
+\begin{itemize}
+    \item \texttt{trainer.py}: The main training loop \texttt{train}. Alternates between collecting transitions using $Q$-value networks and training the networks on collected transitions.
+    \item \textbf{\texttt{run\_episode.py}}: Collects an episode using the current $Q$-value network, and returns the transitions, collected reward and whether the agent was successful during the episode.
+    \item \texttt{replay\_buffer.py}: Buffer for storing the transitions collected in the environment.
+    \item \texttt{q\_network.py}: Creates a feedforward neural network with one hidden layer. This neural net represents our $Q$-network.
+    \item\texttt{bit\_flip\_env.py}: The source code for the bit flipping environment, which is set up to follow the gym API with an \texttt{\_\_init\_\_, reset} and \texttt{step} functions.
+    \item\texttt{sawyer\_action\_discretize.py}: Wraps the \texttt{SawyerReachXYEnv} from \texttt{multiworld} environment and converts the continuous action space into a discrete action space with a simplified 2D observation space.
+    \item \texttt{main.py}: Main file to configure the experiment.
+\end{itemize}
+
+A detailed description for every function can be found in the comments. You are not expected to change any code except for sections marked with \texttt{TODO}. Next, we provide description of the environments followed by the exact expectations for this assignment.
+
+\section*{Environments}
+You will be running RL methods on two environments:
+
+\subsubsection*{Environment 1: Bit Flipping Environment}
+
+In the bit-flipping environment, the state is a binary vector with length \verb|n|. The goal is to reach a known goal vector, which is also a binary vector with length \verb|n|. At each step, we can flip a single bit in the vector (changing a 0 to 1 or a 1 to 0). This environment can very easily be solved without reinforcement learning, but we will use the DQN algorithm to understand how adding hindsight relabelling (HER) can improve performance.
+
+The bit flipping environment is an example of an environment with sparse rewards. At each step, we receive a reward of -1 when the goal and state vector do not match and a reward of 0 when they do. With a larger vector size, we receive fewer non-negative rewards.
+
+\subsubsection*{Environment 2: 2D Sawyer Arm}
+
+The Sawyer Arm is a multi-jointed robotic arm for grasping and reaching (\url{https://robots.ieee.org/robots/sawyer/}). The arm operates in a 2D space, and the goal is to move the robot to a set of coordinates. The sawyer reach is an example of a dense reward environment, where the reward is given by negative Euclidean distance between the robot arm and the goal state. The end-effector (EE) is constrained to a 2-dimensional rectangle parallel to a table. The action controls EE position. The state is the XY position of the EE and the goal is an XY position of the EE.
+
+\newpage
+
+\subsection*{Problem 1: Implementing Goal-conditioned RL}
+We start this problem with a goal-conditioned implementation of DQN. The $Q$-function takes in the concatenated state and goal as input. You can think of the goal-conditioned implementation as an extended Markov decision process (MDP), where your state space contains both the original state and the goal. We will use this goal-conditioned $Q$-network to collect episodic data in \texttt{run\_episode.py}.
+
+
+For this part of the assignment, complete \texttt{run\_episode.py} and run the following command:
+
+\verb|python main.py --env bit_flip --num_bits 6 --num_epochs 250 --her_type no_hindsight|
+
+The evaluation metrics should be available in tensorboard events logged in \texttt{logs/} by default. \textbf{Verify} the \texttt{eval\_metrics}, that is \texttt{total\_reward} should be above $-40.0$ and \texttt{success\_rate} should be $1.0$. This plot illustrates the performance without using HER. You do \textbf{not} need to include this in the homework.
+
+\textbf{Implementation notes}: 
+\begin{itemize}
+    \item For simplicity, we will only consider the \textit{greedy} action with respect to     $Q$-network. Pass this action to \texttt{env.step}.
+    \item The \texttt{env.step} function returns \texttt{next\_state, reward, done, info}, where \texttt{info} is a dictionary containing the a boolean under the key \texttt{`successful\_this\_state'}, indicating whether the state was successful or not. Use this value to update \texttt{succeeded}, such that \texttt{run\_episode} returns \texttt{True} if the \textit{policy was successful at any step of the episode}. To understand more about \texttt{env.step}, read the documentation for the function in \texttt{bit\_flip\_env.py}.
+    \item Ensure that floating point numpy arrays use \texttt{np.float32}. You may need to recast some of the arrays to ensure that.
+\end{itemize}
+
+
+\subsection*{Problem 2: Adding HER to Bit Flipping}
+With HER, the model is trained on the actual (state, goal, reward) tuples along with (state, goal, reward) tuples where the goal has been relabeled after the fact. The goals are relabeled to the state that was \textit{actually reached} and the rewards should be relabeled correspondingly. In other words, we pretend that the state we reached was our goal all along. HER gives us more examples of actions that lead to positive rewards, effectively doubling our experience (since we use the original episode as well as the relabeled one). The reward function for relabeled goals is the same as the environment reward function; for the bit flipping environment, the reward is -1 if the state and goal vector do not match and 0 if they do match.
+
+There are three different variations of HER: \verb|final|, \verb|random|, and \verb|future|. Suppose the data collected in an episode consists of the following (state, goal, reward) tuples: $\{ (s_t, g, r_t) \}_{t=0}^{T}$, where $t$ indicates each time step in the episode. 
+Given a (state, goal, reward) tuple $(s_i, g_i, r_i)$ each variation of HER relabels the goal $g_i$ differently:
+\begin{itemize}
+    \item \verb|final|: The final state of the episode is used as the goal.
+    \item \verb|random|: A random state in the episode is used as the goal.
+    \item \verb|future|: A random future state of the episode is used as the goal. Specifically, if you want to relabel the goal in the tuple $(s_i, g_i, r_i)$, only states $s_j$ with $j > i$ can be used.
+\end{itemize}
+
+Implementation Notes:
+\begin{itemize}
+    \item Always use \texttt{copy()} when assigning an existing numpy array to a new variable. NumPy does not create a new copy by default.
+    \item When choosing a new goal for relabelling, choose the state corresponding to \texttt{next\_state} from the experience.
+\end{itemize}
+More details of these three implementations are in the comments of \verb|trainer.py|. Implement the three variations of HER in the function \verb|update_replay_buffer| in \texttt{trainer.py}. You \textbf{do not} need to submit a plot for this. 
+
+\subsection*{Problem 3: Analyzing HER for Bit Flipping Environment}
+Once you have completed the previous problems, we can analyze the role of HER in goal-conditioned RL. We analyze the performance of HER as the size of the bit vector is increased from $6$ to $25$. For each of the parts (a) to (d), submit a tensorboard screenshot showing the \texttt{eval\_metrics} for different runs on the same plot (check the correct event files). A total of 4 screenshots should be submitted for this section.
+
+\begin{enumerate}[label=\alph*)]
+
+\item Run the following commands:
+
+\small
+\verb|python main.py --env=bit_flip --num_bits=6 --num_epochs=250 --her_type no_hindsight| \\
+\verb|python main.py --env=bit_flip --num_bits=6 --num_epochs=250 --her_type final|
+
+\textcolor{red}{Include your screenshot here.}
+
+\normalsize
+\item Run the following commands:
+
+\small
+\verb|python main.py --env=bit_flip --num_bits=15 --num_epochs=500 --her_type no_hindsight| \\
+\verb|python main.py --env=bit_flip --num_bits=15 --num_epochs=500 --her_type final|
+
+\textcolor{red}{Include your screenshot here.}
+
+
+\normalsize
+\item Run the following commands:
+
+\small
+\verb|python main.py --env=bit_flip --num_bits=25 --num_epochs=1000 --her_type no_hindsight| \\
+\verb|python main.py --env=bit_flip --num_bits=25 --num_epochs=1000 --her_type final|
+
+\textcolor{red}{Include your screenshot here.}
+
+\normalsize Explain your findings in parts (a)-(c) and why you expect the methods to perform in the observed manner for the varying numbers of bits.
+
+\textcolor{red}{Write your response here.}
+
+\normalsize
+\item Finally, we will compare the three versions of HER, with the baseline of not using HER:
+
+\small
+\verb|python main.py --env=bit_flip --num_bits=15 --num_epochs=500 --her_type no_hindsight| \\
+\verb|python main.py --env=bit_flip --num_bits=15 --num_epochs=500 --her_type final| \\
+\verb|python main.py --env=bit_flip --num_bits=15 --num_epochs=500 --her_type random| \\
+\verb|python main.py --env=bit_flip --num_bits=15 --num_epochs=500 --her_type future|
+
+\normalsize
+Since two of the commands (\verb|her_type no_hindsight| and \verb|her_type final|) are identical to part (b), you do \textbf{not} need to run them again.
+
+\normalsize Explain your findings from these four runs and provide justification as to why you expect the methods to perform the way it did for the varying relabelling strategies.
+
+\textcolor{red}{Write your response here.}
+
+\end{enumerate}
+
+
+\subsection*{Problem 4: Analyzing HER for Sawyer Reach}
+If implemented correctly, HER should work for the second environment, \texttt{Sawyer Reach}.
+
+Compare the performance of the Sawyer arm with and without HER. Run the following commands:
+
+\verb|python main.py --env=sawyer_reach --num_epochs=1000 --her_type no_hindsight| \\
+\verb|python main.py --env=sawyer_reach --num_epochs=1000 --her_type final|
+
+
+\begin{enumerate}[label=\alph*)]
+    \item Submit the tensorboard screenshot comparing the \texttt{eval\_metrics} in your report. \\
+    \textcolor{red}{Include your screenshot here.}
+    \item Discuss your findings: Compare the role of HER in Bit Flipping Environment and Sawyer Reach. Comment on the differences between the contribution of HER, if any. \\
+    \textcolor{red}{Write your response here.}
+\end{enumerate}
+
+\newpage
+
+\section*{Part 2: Meta-Reinforcement Learning}
+
+\textbf{Setup:} Please navigate to \texttt{hw4/meta\_rl} and follow the instructions in the README. \textbf{Please ensure that you're using Python3.7. Otherwise, installing the dependencies will not work.}
+
+\textbf{Code Overview:} The main entry point for the code is via \texttt{scripts/dream.py} and \texttt{scripts/rl2.py}, which are the training scripts for \dream and \rl respectively.
+Both of these can be invoked as follows:
+
+\texttt{\$ python scripts/\{script\}.py \{experiment\_name\} -b environment=\textbackslash"map\textbackslash"}
+
+In this invocation, \texttt{\{script\}} can either be \texttt{dream.py} or \texttt{rl2.py} and \{experiment\_name\} can be any string with no white spaces. Results from this invocation are saved under \texttt{experiments/\{experiment\_name\}}.
+For example, to launch the \dream training script and save the results to \texttt{experiments/dream}, you would run:
+
+\texttt{\$ python scripts/dream.py dream -b environment=\textbackslash"map\textbackslash"}
+
+To overwrite previous results, you would run: 
+
+You can pass the \texttt{--force\_overwrite} flag to run another experiment with the same experiment name, which will overwrite any previously saved files at the corresponding experiment directory. An example command for running \dream is below:
+
+\texttt{\$ python scripts/dream.py dream -b environment=\textbackslash"map\textbackslash" --force\_overwrite}
+
+If you do not pass this flag, the scripts will not allow you to run two experiments with the same experiment name.
+
+There are two important subdirectories in each experiment directory:
+\begin{itemize}
+    \item \textbf{Tensorboard:} Each experiment includes a \texttt{experiments/experiment\_name/tensorboard} subdirectory, which will log important statistics about the training run, including the meta-testing returns under the \texttt{rewards/test} tag and the meta-training returns under the \texttt{rewards/training} tag. To view these, point Tensorboard at the appropriate directories. All curves are plotted with two versions, one where the x-axis is number of meta-training trials under \texttt{tensorboard/episode} and one where the x-axis is the number of environment steps \texttt{tensorboard/step}.
+    \item \textbf{Visualizations:} Each experiment also includes a \texttt{experiments/experiment\_name/visualize} subdirectory. This directory includes \texttt{.gif} videos of the agent during meta-testing and is structured as follows.
+    The top level of subdirectories identify how many meta-training trials have elapsed before the video.
+    
+    In experiments run with \texttt{dream.py}, the exploration episode is saved under \linebreak
+    \texttt{\{video\_num\}-exploration.gif} and the exploration episode is saved under \linebreak \texttt{\{video\_num\}-exploitation.gif}.
+    For example, the video under \linebreak
+    \texttt{experiments/dream/visualize/10000/0-exploration.gif} is the first exploration meta-testing episode after 10000 meta-training trials.
+    
+    In experiments run with \texttt{rl2.py}, \texttt{\{video\_num\}.gif} contains both the exploration and exploitation episodes, with the exploration episode first.
+    For example, the video under \texttt{experiments/rl2/visualize/10000/0.gif} contains the first exploration and exploitation episode after 10000 meta-training trials.
+\end{itemize}
+
+You will implement two short methods inside the \texttt{embed/encoder\_decoder.py} file.
+
+\subsection*{Problem 0: Grid World Navigation with Buses}
+
+We consider a grid world illustrated in the Homework 4 PDF.
+From a high level, the agent is given a goal each episode and must reach it in as few steps as possible.
+To quickly get to the goal, the agent may ride a bus.
+This brings the agent to the destination of that bus, which is the other bus of the same color.
+In different tasks, the buses in the corners permute, while the buses in the center remain fixed.
+For example, in the left task, the center light blue bus's destination is the bottom right corner, while in the right task, its destination is the top right corner.
+Note that the goal is not part of the task, and all four corners are potential goals in all tasks.
+There is also a map at a fixed location in all of the tasks, which tells the agent the destination of each bus, when visited.
+
+More concretely, the \textbf{state} consists of 4 components
+\begin{itemize}
+    \item The agent's $(x, y)$-position in the grid
+    \item A one-hot indicator of the object at the agent's current position (none, bus, map).
+    \item A one-hot goal $g$ corresponding to one of the four possible goal locations in the corners (shown in green).
+    \item A one-hot that is equal to the problem ID $\mu$ (defined below) if the agent is standing on the map, and $0$ otherwise. Standing on the map effectively encodes the destination of each bus.
+\end{itemize}
+
+The agent begins every episode at the center of the grid.
+During an episode, the goal is held fixed, while it is re-sampled uniformly across the 4 potential goal locations in each new episode.
+
+At each timestep, the agent can take one of 5 \textbf{actions}:
+\begin{itemize}
+    \item Move one cell up, down, left or right.
+    \item Ride the bus that the agent is currently on. This teleports the agent to the other bus of the same color.
+\end{itemize}
+
+The agent receives $+1$ \textbf{reward} for reaching the correct goal position.
+The agent receives $-0.3$ \textbf{reward} at each timestep it is not at the correct goal, incentivizing it to reach the goal as quickly as possible.
+The episode ends if either the agent goes to any goal location (correct or incorrect) or if 20 timesteps have passed.
+
+Each task is associated with a \textbf{problem ID} $\mu$. The only thing that changes between tasks is the bus destinations: i.e., which colored bus appears in which outer corner. Therefore, there are $4! = 24$ different tasks. These tasks are \textbf{uniformly sampled} during meta-training and meta-testing.
+
+Throughout the assignment, we consider the meta-RL setting with one \emph{exploration episode} and one \emph{exploitation episode}.
+The objective is to maximize the returns achieved in the exploitation episode, which we refer to as the \emph{exploitation returns}.
+Note that the returns achieved in the exploration episode do not matter.
+During the exploitation episode, the agent is allowed to condition on the exploration episode $\tau^\text{exp} = (s_0, a_0, r_0, \ldots)$.
+
+\begin{enumerate}
+    \item What returns are achieved by only taking the move action to get to the goal, without riding any buses: i.e., directly walking to the goal? \\
+    \textcolor{red}{Write your response here.}
+    \item If the bus destinations (i.e., the problem ID) were known, what is the optimal returns that could be achieved in a single exploitation episode? Describe an exploitation policy that achieves such returns given knowledge of the bus destinations. \\
+    \textcolor{red}{Write your response here.}
+    \item Describe the exploration policy that discovers all of the bus destinations within the fewest number of timesteps. \\
+    \textcolor{red}{Write your response here.}
+    \item Given your answers in b) and c), what is the optimal exploitation returns achievable by a meta-RL agent? \\
+    \textcolor{red}{Write your response here.}
+\end{enumerate}
+
+For Problems 1 and 2, note that in the visualizations saved under \linebreak \texttt{experiments/experiment\_name/visualize}:
+\begin{itemize}
+    \item The agent is rendered as a red square.
+    \item The grid cells that the agent has visited in the episode are rendered as small origin squares.
+    \item There are four pairs of buses, rendered as blue, pink, cyan, and yellow squares.
+    \item The map is rendered as a black square.
+    \item The goal state is rendered as a green square, which obscures one of the buses.
+\end{itemize}
+
+\subsection*{Problem 1: End-to-End Meta-Reinforcement Learning}
+
+In this problem, we'll analyze the performance of end-to-end meta-RL algorithms on the grid world. To do this, start by running the \rl agent on the grid world navigation task for $50,000$ trials by running the below command. This should take approximately $2$ hours.
+\begin{equation*}
+    \texttt{python scripts/rl2.py rl2 -b environment=\textbackslash"map\textbackslash"}
+\end{equation*}
+
+\begin{enumerate}
+    \item Examine the Tensorboard results under the tag \texttt{reward/test} in the \texttt{experiments/rl2} directory. To 1 decimal place, what is the average meta-testing exploitation returns \rl achieves after training? \\
+    \textcolor{red}{Include your screenshot here.} \\
+    \textcolor{red}{Write your response here.}
+    \item Examine the videos saved under \texttt{experiments/rl2/visualize/36000/}. Describe the exploration and exploitation behaviors that \rl learns. Does \rl achieve the optimal returns? \\
+    \textcolor{red}{Write your response here.}
+\end{enumerate}
+
+\subsection*{Problem 2: DREAM}
+In Problem 1, we observed some shortcomings of end-to-end and existing decoupled meta-RL approaches.
+In this problem, we'll implement some components of \dream, which attempts to address these shortcomings, given the assumption that each meta-training task is assigned a unique \emph{problem ID} $\mu$.
+During meta-testing, \dream does not assume access to the problem ID.
+
+From a high level, \dream works by separately learning exploration and exploitation.
+To learn exploitation, \dream learns an exploitation policy $\pi_\theta^\text{task}(a \mid s, z)$ that tries to maximize returns during exploitation episodes, conditioned on a task encoding $z$.
+\dream learns a \emph{encoder} $F_\psi(z \mid \mu)$ to produce the task encoding $z$ from the problem ID $\mu$.
+Critically, this encoder is trained in such a way that $z$ contains only the information necessary for the exploitation policy $\pi_\theta^\text{task}$ to solve the task and achieve high returns.
+
+By training the encoder in this way, \dream can then learn to explore by trying to recover the information contained in $z$.
+To achieve this, \dream learns an exploration policy $\pi_\phi^\text{exp}$, which produces an exploration trajectory $\tau^\text{exp} = (s_0, a_0, r_0, \ldots)$ when rolled out during the exploration episode.
+To recover the information contained in $z$, \dream tries to maximize the mutual information between the encoding $z$ and the exploration trajectory $\tau^\text{exp}$:
+$$\max_{\phi}I(F_{\psi}(z \mid \mu), \tau^\text{exp}).$$
+%
+This objective can be optimized by maximizing the following variational lower bound:
+%
+\begin{equation*}
+    \mathcal{J(\omega, \phi)} = \mathbb{E}_{\mu, z\sim F_{\psi},\tau^\text{exp} \sim \pi_\phi^\text{exp}}[\log q_{\omega}(z \mid \tau^\text{exp})]
+\end{equation*}
+%
+where $q_{\omega}(z \mid \tau^\text{exp})$ is a learned \emph{decoder}.
+Note that this decoder enables us to convert an exploration trajectory $\tau^\text{exp}$ into a task encoding $z$ that the exploitation policy uses.
+This is critical for meta-test time, where the problem ID is unavailable, and $z$ cannot be computed via the encoder $F_\psi(z \mid \mu)$.
+
+The objective $\mathcal{J}(\omega, \phi)$ is optimized with respect to both the decoder $q_\omega$ and the exploration policy $\pi_\phi^\text{exp}$:
+
+\begin{enumerate}
+    \item
+        For simplicity, we parametrize the decoder $q_\omega(z \mid \tau^\text{exp})$ as a Gaussian $\mathcal{N}(g_{\omega}(\tau^\text{exp}), \sigma^2I)$ centered at a learned $g_\omega(\tau^\text{exp})$ with unit variance.
+        Then, $\log q_\omega(z \mid \tau^\text{exp})$ equals negative mean-squared error $-\lVert g_\omega(\tau^\text{exp}) - \text{stop\_gradient}(z) \rVert^2_2$ plus some constants independent of $\omega$.
+        Overall, \emph{maximizing} $\mathcal{J}(\omega, \phi)$ with respect to the decoder parameters $\omega$ is equal to \emph{minimizing} the below mean-squared error \textbf{with respect to} $\omega$:
+        \begin{equation*}
+            \mathbb{E}_{z \sim F_\psi(\mu)} \left[ \lVert g_\omega(\tau^\text{exp}) - \text{stop\_gradient}(z) \rVert^2_2 \right].
+        \end{equation*}
+        
+        \textbf{Code:} Fill in the \texttt{\_compute\_losses} method of the \texttt{EncoderDecoder} in \texttt{encoder\_decoder.py} to implement the above equation for optimize $\mathcal{J}(\omega, \phi)$ with respect to the decoder parameters $\omega$.
+
+    \item
+        To optimize $\mathcal{J}(\omega, \phi)$ with respect to the exploration policy parameters $\phi$, we expand out $\mathcal{J}(\omega, \phi)$ as a telescoping series:
+        \begin{equation*}
+            \mathcal{J(\omega, \phi)} = \mathbb{E}_{\mu, z\sim F_{\psi}(\mu)}[\log q_{\omega}(z \mid s_0)] + \mathbb{E}_{\mu, z\sim F_{\psi}(\mu), \tau^\text{exp} \sim \pi^\text{exp}}\Big[\sum_{t=0}^{T - 1} \log q_{\omega}(z \mid \tau^\text{exp}_{:t + 1}) - \log q_{\omega}(z \mid \tau^\text{exp}_{:t})\Big],
+        \end{equation*}
+        where $\tau^\text{exp}_{:t}$ denotes the exploration trajectory up to timestep $t$: $(s_0, a_0, r_0, \ldots, s_t)$. Only the second term depends on the exploration policy, and since it occurs per timestep, it can be maximized by treating it as the following intrinsic reward function $r_t^\text{exp}$, which we can maximize with standard reinforcement learning:
+        \begin{equation}\label{eqn:exploration_rewards}
+            r_t^\text{exp}(a_t, r_t, s_{t+1}, \tau^\text{exp}_{t-1};\mu) = \mathbb{E}_{z\sim F_\psi(\mu)}\left[\log q_{\omega}(z \mid \tau^\text{exp}_{:t + 1}]) - \log q_{\omega}(z \mid \tau^\text{exp}_{:t})\right].
+        \end{equation}
+        Note that $\tau^\text{exp}_{:t + 1}$ is equal to $\tau^\text{exp}_{:t}$ with the additional observations of $(a_t, r_t, s_{t + 1})$.
+        The exploration policy is optimized to maximize this intrinsic reward $r_t^\text{exp}$ instead of the extrinsic rewards $r_t$, which will maximize the objective $\mathcal{J}(\omega, \phi)$.
+        Intuitively, $r_t^\text{exp}$ is the ``information gain'' representing how much additional information about $z$ -- which encodes all the information to solve the task -- the tuple $(a_t, r_t, s_{t + 1})$ contains over what was already observed in $\tau^\text{exp}_{:t}$.
+        
+        \textbf{Code: } Implement the reward function $r_t^\text{exp}(a_t, r_t, s_{t + 1}, \tau^\text{exp}_{t - 1}; \mu)$ by filling in the \texttt{label\_rewards} function of \texttt{EncoderDecoder} in \texttt{encoder\_decoder.py}.
+        Note that you'll need to make the same substitution for $\log q_\omega(z \mid \tau^\text{exp})$ in Equation (\ref{eqn:exploration_rewards}) that we used in part a).
+    
+    \item
+        Check your implementation by running \dream:
+        \begin{equation*}
+            \texttt{python scripts/dream.py dream -b environment=\textbackslash"map\textbackslash"}
+        \end{equation*}
+        Submit the plot for test returns under the tag \texttt{rewards/test} from the \texttt{experiments/dream} directory.
+        Submit the plot under \texttt{tensorboard/step}, not the plot under \texttt{tensorboard/episode}.
+        If your implementation in part a) and b) is correct, you should see the test returns training curve improve within 30 minutes of training.
+        By around 40 minutes, the test returns curve should begin to look different from \rl. The total run should take around 2 hours. It may take 1-2 hours longer if training locally. \\
+        \textcolor{red}{Include your screenshot here.}
+        
+    \item
+        Does \dream achieve optimal returns in your results from c)? Based on what you know about \dream, do these results align with your expectations? Why or why not? \\ 
+        \textcolor{red}{Write your response here.}
+        
+    \item
+        Inspect the videos saved under \texttt{experiments/dream/visualize/28000} or a later step after \dream converges. Describe the exploration and exploitation behaviors that \dream has learned. \\
+        \textcolor{red}{Write your response here.}
+\end{enumerate}
+
+\newpage
+
+\section*{References}
+
+[1] Marcin Andrychowicz, Filip Wolski, Alex Ray, Jonas Schneider, Rachel Fong, Peter Welinder, Bob McGrew, Josh Tobin, Pieter Abbeel, Wojciech Zaremba. Hindsight Experience Replay. Neural Information Processing Systems (NeurIPS), 2017. \url{https://arxiv.org/abs/1707.01495}
+
+[2] Leslie Kaelbling. Learning to Achieve Goals. International Joint Conferences on Artificial Intelligence (IJCAI), 1993. \url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.51.3077}
+
+[3] Yan Duan, John Schulman, Xi Chen, Peter L. Bartlett, Ilya Sutskever, Pieter Abbeel. RL$^2$: Fast Reinforcement Learning via Slow Reinforcement Learning. \url{https://arxiv.org/abs/1611.02779}
+
+[4] Evan Liu, Aditi Raghunathan, Percy Liang, Chelsea Finn. Explore then Execute: Adapting without Rewards via Factorized Meta-Reinforcement Learning. \url{https://arxiv.org/abs/2008.02790v1}
+
+
+\end{document}
