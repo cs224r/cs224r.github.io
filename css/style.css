@@ -1,10 +1,22 @@
 a {
-	color: #2980B9;	
+    color: #2980B9;
 }
 
 
-body,h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-	font-family: "TeXGyrePagella", "Palatino Linotype", "Book Antiqua", Palatino, serif;
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-family: "TeXGyrePagella", "Palatino Linotype", "Book Antiqua", Palatino, serif;
 }
 
 p {
@@ -15,18 +27,20 @@ p {
     -webkit-margin-end: 0px;
 }
 
-body p, body a, body table{
+body p,
+body a,
+body table {
     font-weight: 400;
     line-height: 1.5;
     font-size: 16px;
 }
 
-body b a{
+body b a {
     font-weight: 600;
 }
 
 .label {
-	display: inline;
+    display: inline;
     padding: .2em .6em .3em;
     font-size: 75%;
     font-weight: bold;
@@ -43,7 +57,7 @@ body b a{
 }
 
 .label-lecture {
-    background-color: #839192  ;
+    background-color: #839192;
 }
 
 .label-reading {
@@ -60,4 +74,12 @@ body b a{
 
 .label-guest {
     background-color: #807e9b;
+}
+
+.square-image {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 8px;
 }
