@@ -72,6 +72,10 @@ body b a {
     background-color: #CD6155;
 }
 
+.label-out {
+    background-color: #30a418;
+}
+
 .label-guest {
     background-color: #807e9b;
 }
