@@ -15,6 +15,7 @@
 \usepackage{wrapfig}
 \usepackage{caption}
 \usepackage{amsfonts, amsmath}
+\usepackage{forest}
 
 
 \geometry{margin=1in}
@@ -117,6 +118,89 @@ In Part 2, we will be exploring meta-reinforcement learning algorithms. In parti
 
 \item \texttt{code/meta\_rl} folder with the file \texttt{encoder\_decoder.py} from Part 2.
 \end{itemize} 
+
+\textbf{Important : To avoid autograder issues, your submission folder should follow the folder layout displayed on the next page:} 
+
+Note that sometimes a folder name which has a ``:" in it will get replaced with a ``/" when being displayed by Mac's finder. If this happens, don't worry, the folder path when submitted should still have the ``:" in it. For display purposes, Finder switches these characters to ``/". Just make sure you are copying the folders/folder paths/results from your AWS instance. In other words, don't make the whole folder layour yourself or manually. The folder layout should just be copied from your AWS machine. When you run experiments, parts of the folder layout will automatically get created. However, you should still go through afterward and remove results/runs you don't want to submit and any other extraneous folders/files.
+
+\begin{forest}
+  for tree={
+    font=\ttfamily,
+    grow'=0,
+    child anchor=west,
+    parent anchor=south,
+    anchor=west,
+    calign=first,
+    edge path={
+      \noexpand\path [draw, \forestoption{edge}]
+      (!u.south west) +(7.0pt,0) |- node[fill,inner sep=1.25pt] {} (.child anchor)\forestoption{edge label};
+    },
+    before typesetting nodes={
+      if n=1
+        {insert before={[,phantom]}}
+        {}
+    },
+    fit=band,
+    before computing xy={l=12pt},
+  }
+[submission
+  [code
+    [goal\_conditioned\_rl
+        [run\_episode.py]
+        [trainer.py]
+    ]
+    [meta\_rl
+        [encoder\_decoder.py]
+    ]
+  ]
+  [data
+    [goal\_conditioned\_rl
+        [bit\_flip
+            [num\_bits/6
+                [HER\_type/final
+                    [seed/42 (or another number if you choose to use a different seed)
+                        [YOUR\_TF\_FILE]
+                    ]
+                ]
+                [HER\_type/no\_hindsight
+                    [seed/42 (or another number if you choose to use a different seed)
+                        [YOUR\_TF\_FILE]
+                    ]
+                ]
+            ]
+            [num\_bits/15
+                [Same as num\_bits/6 but with runs for final/future/no\_hindsight/random]
+            ]
+            [num\_bits/25
+                [Same as num\_bits/6 but with runs for final/no\_hindsight]
+            ]
+            [sawyer\_reach
+                [Same as num\_bits/6 but with runs for final/no\_hindsight]
+            ]
+        ]
+    ]
+    [meta\_rl
+        [dream
+            [tensorboard
+                [episode
+                    [YOUR\_TF\_FILE]
+                ]
+                [step
+                    [YOUR\_TF\_FILE]
+                ]
+            ]
+        ]
+        [rl2
+            [Same as dream but with rl2 runs]
+        ]
+    ]
+  ]
+]
+\end{forest}
+
+
+\textbf{Important}: In order to avoid issues with the autograder, when submitting a zipped folder with your code and data to Gradescope, make sure to zip the folder from the command line. For example: \\
+\texttt{zip -r submission.zip submission/}
 
 \noindent\textbf{Gradescope}: Submit both the PDF and the code and experiment runs in the appropriate assignments on Gradescope. An autograder will be provided to evaluate the performance of your policies from the generated tensorboard files. 
 
