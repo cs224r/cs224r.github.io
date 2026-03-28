@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>CS 224R Deep Reinforcement Learning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="samir">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+        integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+		<script src="js/html5shiv.js"></script>
+	<![endif]-->
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/scripts.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div class="row clearfix">
+                    <br />
+                    <h1>CS 224R Deep Reinforcement Learning</h2>
+                        <h3>Spring 2025, Class: Wed, Fri 10:30am-11:50am @ Hewlett 200</h3>
+                        <br />
+
+                        <h3>Description:</h3>
+                        <p>Humans, animals, and robots faced with the world must make decisions and take actions in the
+                            world. Moreover, the decisions they choose affect the world they exist in and those outcomes
+                            must
+                            be taken into account. This course is about algorithms for deep reinforcement learning –
+                            methods for
+                            learning behavior from experience, with a focus on practical algorithms that use deep neural
+                            networks
+                            to learn behavior from high-dimensional observations. Topics will include methods for
+                            learning from
+                            demonstrations, both model-based and model-free deep RL methods, methods for learning from
+                            offline
+                            datasets, and more advanced techniques for learning multiple tasks such as goal-conditioned
+                            RL, meta-RL,
+                            and unsupervised skill discovery. These methods will be instantiated with examples from
+                            domains with
+                            high-dimensional state and action spaces, such as robotics, visual navigation, and control.
+                            This course
+                            is complementary to CS234, which neither being a pre-requisite for the other. In comparison
+                            to CS234,
+                            this course will have a more applied and deep learning focus and an emphasis on use-cases in
+                            robotics
+                            and language modeling.</p>
+
+
+                        <h3>Format:</h3>
+                        <p>The course will consist of twice weekly lectures, four homework assignments, and a final
+                            project.
+                            The lectures will cover fundamental topics in deep reinforcement learning, with a focus on
+                            methods
+                            that are applicable to domains such as robotics and language modeling The assignments will
+                            focus on
+                            conceptual
+                            questions and coding problems that emphasize these fundamentals. Finally, students will
+                            present their
+                            projects at a poster session and through a final report at the end of the quarter.</p>
+
+                        <h3>Prerequisites:</h3>
+                        <p><b>Machine learning</b>: CS229 or equivalent is a prerequisite. We will be assuming knowledge
+                            of concepts including, but not limited to (stochastic) gradient descent and
+                            cross-validation,
+                            and pre-requisites such as probability theory, multivariable calculus, and basic linear
+                            algebra.
+                        </p>
+                        <p><b>Some familiarity with deep learning</b>: The course will build on deep learning concepts
+                            such as
+                            backpropagation, convolutional networks, and sequence models such as transformers. The
+                            assignments will
+                            involve programming in PyTorch. The first week will include a short PyTorch review tutorial.
+                        </p>
+                        <p><b>Some familiarity with reinforcement learning</b>: We will assume some familiarity with the
+                            basics
+                            of reinforcement learning. For introductory material on RL and Markov decision processes
+                            (MDPs),
+                            see CS221's <a href="https://stanford-cs221.github.io/autumn2022/modules/">lectures</a> on
+                            MDPs and
+                            RL, or see Chapters 3 and 4 of <a
+                                href="http://incompleteideas.net/book/RLbook2020.pdf">Sutton & Barto</a>.</p>
+
+                        <h3>Previous Offerings</h3>
+                        <ul>
+                            <li><a href="spring_2023/index.html">Spring 2023</a></li>
+                        </ul>
+                        <h3>Final Project Reports</h3>
+                        <ul>
+                            <li><a href="projects/cs224r_final_projects.html">Spring 2025</a></li>
+                        </ul>
+                </div>
+
+                <div class="hrline">
+                    <hr />
+                </div>
+                <div class="row clearfix">
+                    <h3> Staff </h3>
+                    <div class="row clearfix">
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/chelsea_finn_square_crop.jpg"
+                                alt="Chelsea Finn" width="160" height="160">
+                            <h4><a href="https://ai.stanford.edu/~cbfinn/">Prof. Chelsea Finn</a></h4>
+                            <h5>Instructor</h5>
+                            <h5>
+                                </h4>
+                                <h5>OH: Wed 5 &ndash; 6pm</h5>
+                                <h5>Location: Huang Basement</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/John Cho (Course Manager).jpg"
+                                alt="John Cho" width="160" height="160">
+                            <h4>John Cho</h4>
+                            <h5>Course Manager</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/amelie.jpg" alt="John Cho" width="160"
+                                height="160">
+                            <h4>Amelie Byun</h4>
+                            <h5>Course Manager</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/swati_dube_batra.jpg" alt="Swati Batra"
+                                width="160" height="160">
+                            <h4>Swati Batra</h4>
+                            <h5>Course Advisor</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/jubayer_ibn_hamid.jpeg"
+                                alt="Jubayer Ibn Hamid" width="160" height="160">
+                            <h4>Jubayer Ibn Hamid</h4>
+                            <h5>Head Teaching Assistant</h5>
+                            <h5>OH: Wed 6 &ndash; 8pm </h5>
+                            <h5>Location: Huang Basement</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/anikait_singh.png" alt="Anikait Singh"
+                                width="160" height="160">
+                            <h4>Anikait Singh</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Thurs 7 &ndash; 9pm </h5>
+                            <h5>Location: Huang Basement</h5>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/anniechen.jpg" alt="Annie Chen"
+                                width="160" height="160">
+                            <h4>Annie Chen</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Thurs 10am &ndash; 12pm </h5>
+                            <h5>Location: Huang Basement</h5>
+                            </h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/sergio_charles.png" alt="Sergio Charles"
+                                width="160" height="160">
+                            <h4>Sergio Charles</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Mon 3 &ndash; 5pm </h5>
+                            <h5>Location: Huang Basement</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/haoyi_duan.jpg" alt="Haoyi Duan"
+                                width="160" height="160">
+                            <h4>Haoyi Duan</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Fri 3 &ndash; 5pm </h5>
+                            <h5>Location: Huang Basement</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/Yash_Kankariya-headshot.jpg"
+                                alt="Yash Kankariya" width="160" height="160">
+                            <h4>Yash Kankariya</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Sun 1 &ndash; 3pm </h5>
+                            <h5>Location: Huang Basement </h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/andy_headshot_new.jpg" alt="Andy Tang"
+                                width="160" height="160">
+                            <h4>Andy Tang</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Wed 6 &ndash; 8pm </h5>
+                            <h5>Location: Huang Basement </h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/marcel_headshot.png" alt="Marcel Torne"
+                                width="160" height="160">
+                            <h4>Marcel Torne</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Thurs 5 &ndash; 7 pm</h5>
+                            <h5>Location: Huang Basement</h5>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/fengyu_li.jpeg" alt="Fengyu Li"
+                                width="160" height="160">
+                            <h4>Fengyu Li</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Tues 10am &ndash; 12pm </h5>
+                            <h5>Location: Zoom (link on Canvas calendar)</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/ashish_rao.jpg" alt="Ashish Rao"
+                                width="160" height="160">
+                            <h4>Ashish Rao</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Sat 9 &ndash; 11am </h5>
+                            <h5>Location: Huang Basement</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/shirley_wu_square.jpg" alt="Shirley Wu"
+                                width="160" height="160">
+                            <h4>Shirley Wu</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Sun 7 &ndash; 9pm </h5>
+                            <h5>Location: Zoom (link on Canvas calendar)</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/zhenwu.jpg" alt="Zhen Wu" width="160"
+                                height="160">
+                            <h4>Zhen Wu</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Mon 3 &ndash; 5pm </h5>
+                            <h5>Location: Zoom (link on Canvas calendar)</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/jinny_chung.jpeg" alt="Jinny Chung"
+                                width="160" height="160">
+                            <h4>Jinny Chung</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Tues 9 &ndash; 11am </h5>
+                            <h5>Location: Huang Basement</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/Sirui_Chen.png" alt="Sirui Chen"
+                                width="160" height="160">
+                            <h4>Sirui Chen</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Mon 9 &ndash; 11am </h5>
+                            <h5>Location: Huang Basement</h5>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/Pulkit Goel headshot.png"
+                                alt="Pulkit Goel" width="160" height="160">
+                            <h4>Pulkit Goel</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Wed 3 &ndash; 5pm </h5>
+                            <h5>Location: Huang Basement</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/joy_he-yueya.jpg" alt="Joy He Yueya"
+                                width="160" height="160">
+                            <h4>Joy He Yueya</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Fri 1 &ndash; 3pm </h5>
+                            <h5>Location: Huang Basement</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/jensen_gao.png" alt="Jensen Gao"
+                                width="160" height="160">
+                            <h4>Jensen Gao</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Sat 3 &ndash; 5pm </h5>
+                            <h5>Location: Zoom (link on Canvas calendar)</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/sri_jaladi.png" alt="Sri Jaladi"
+                                width="160" height="160">
+                            <h4>Sri Jaladi</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Thurs 3 &ndash; 5pm </h5>
+                            <h5>Location: Zoom (link on Canvas calendar)</h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/daniel_shin.jpg" alt="Daniel Shin"
+                                width="160" height="160">
+                            <h4>Daniel Shin</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Tues 5 &ndash; 7pm </h5>
+                            <h5>Location: Zoom (link on Canvas calendar) </h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/prateek_varshney.jpg"
+                                alt="Prateek Varshney" width="160" height="160">
+                            <h4>Prateek Varshney</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Mon 5 &ndash; 7pm </h5>
+                            <h5>Location: Huang Basement</h5>
+                        </div>
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/xingze_dai.jpg" alt="Xingze Dai"
+                                width="160" height="160">
+                            <h4>Xingze Dai</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Tues 3 &ndash; 5pm </h5>
+                            <h5>Location: Zoom (link on Canvas calendar) </h5>
+                        </div>
+                        <div class="col-md-2 column">
+                            <img class="img-thumbnail square-image" src="images/Bassem-Akoush.jpeg" alt="Bassem Akoush"
+                                width="160" height="160">
+                            <h4>Bassem Akoush</h4>
+                            <h5>Teaching Assistant</h5>
+                            <h5>OH: Sat 11 am &ndash; 1pm </h5>
+                            <h5>Location: Zoom (link on Canvas calendar) </h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="hrline">
+                <hr />
+            </div> <br>
+            <h3 id="topics">Timeline</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 12%">Date</th>
+                        <th style="width: 23%">Lecture</th>
+                        <th style="width: 15%">Deadlines</th>
+                        <th style="width: 50%">Notes & Optional Reading</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="active">
+                        <td><b>Week 1</b><br />
+                            Wed, April 2
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/01_cs224r_intro_2025.pdf">Course intro + MDPs</a>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td><b>Week 1</b><br />
+                            Fri, April 4
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/02_cs224r_imitation_2025.pdf">Imitation Learning</a>
+                        </td>
+                        <td>
+                            <div style="margin-top: 6px;">
+                                <span class="label label-out text-base">Out</span> Homework 1<br>
+                                [<a href="material/CS224R_2025_Homework_1.pdf">PDF</a>, <a
+                                href="material/hw1_starter_code.zip">code</a>, <a
+                                href="material/CS224R_2025_Homework_1.tex">template</a>]
+                            </div>
+                        </td>
+                        <td>
+
+                            <ul>
+                                <li> <a href="https://arxiv.org/pdf/2303.04137v5"> Diffusion Policy: Visuomotor Policy
+                                        Learning via Action Diffusion.</a> Chi et
+                                    al. (2024) </li>
+                            </ul>
+
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td><b>Week 1</b><br />
+                            Fri, April 4
+                        </td>
+                        <td><i><span class="label label-lecture text-base">TA Session</span></i>
+                            <a">Pytorch Tutorial</a>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <ul>
+                                <li> Logistics: 1:30 - 2:50 pm in Gates B01</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Week 2</b><br />
+                            Wed, April 9
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/03_cs224r_policy_gradients_2025.pdf">Policy Gradients</a>
+                        </td>
+                        <td>
+                            <!--
+								<span class="label label-due text-base">Due</span></i><b> Optional Homework 0</b><br>
+								<b> Homework 1 out</b>
+								[<a href="material/CS330_Homework_1.pdf">PDF</a>][<a href="material/hw1.zip">Zip</a>]
+                            -->
+                        </td>
+                        <td>
+                            <ul>
+                                <li> <a href="https://link.springer.com/article/10.1007/BF00992696"> Simple statistical
+                                        gradient-following algorithms for connectionist reinforcement learning.</a>
+                                    Williams (1992)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Week 2</b><br />
+                            Fri, April 11
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/04_cs224r_actor_critic_2025.pdf">Actor-Critic Methods</a>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <ul>
+                                <li> <a
+                                        href="https://proceedings.neurips.cc/paper_files/paper/1999/file/464d828b85b0bed98e80ade0a5c43b0f-Paper.pdf">
+                                        Policy Gradient Methods for Reinforcement Learning with Function Approximation.
+                                    </a> Sutton et al. (1999)</li>
+                                <li> <a href="https://arxiv.org/pdf/1707.06347"> Proximal
+                                        Policy Optimization.</a> Schulman et al. (2017)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td><b>Week 3</b><br />
+                            Wed, April 16
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/05_cs224r_offpolicy_actor_critic_2025.pdf">Off-Policy Actor Critic</a>
+                        </td>
+                        <td>
+                            <span class="label label-due text-base">Due</span></i> <b>Project Survey</b><br>
+                        </td>
+                        <td>
+
+                            <ul>
+                                <li> <a href="https://arxiv.org/abs/1312.5602"> Playing
+                                        Atari with Deep Reinforcement Learning.</a> Mnih et al. (2013)</li>
+                            </ul>
+
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td><b>Week 3</b><br />
+                            Fri, April 18
+                        </td>
+                        <td><i><span class="label label-lecture text-base"> Lecture</span></i>
+                            <a href="slides/06_cs224r_qlearning_2025.pdf">Q-learning</a>
+                        </td>
+                        <td>
+                            <div>
+                                <span class="label label-due text-base">Due</span><b> Homework 1</b>
+                            </div>
+                            <div style="margin-top: 6px;">
+                                <span class="label label-out text-base">Out</span> Homework 2<br>
+                                [<a href="material/CS224R_2025_Homework_2.pdf">PDF</a>, 
+                                 <a href="material/hw2_starter_code.zip">code</a>, 
+                                 <a href="material/CS224R_2025_Homework_2.tex">template</a>]
+                            </div>
+                        </td>
+                        <td>
+                            <ul>
+                                <li> <a href="https://arxiv.org/abs/1509.06461"> Deep Reinforcement Learning
+                                        with Double Q-learning.</a> Hasselt et al. (2015)</li>
+                                <li> <a href="https://arxiv.org/abs/1806.10293"> A Distributional Perspective on
+                                        Reinforcement Learning.
+                                    </a> Bellemare et al. (2017)
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td><b>Week 3</b><br />
+                            Fri, April 18
+                        </td>
+                        <td><i><span class="label label-lecture text-base">TA Session</span></i>
+                            <a href="slides/section_q_learning_tutorial.pdf">Extra section on Q-learning</a>
+                        </td>
+                        <td></td>
+                        <td>
+                            <ul>
+                                <li> Logistics: 1:30 - 2:30 pm in Gates B01</li>
+                                <!-- <li> <a href="https://arxiv.org/abs/1509.06461"> Learning to Predict by the Methods of
+                                        Temporal Differences </a> Sutton (1988)</li>
+                                <li> <a href="https://arxiv.org/abs/1806.10293"> Online Q-Learning using Connectionist
+                                        Systems
+                                    </a> Rummery et al. (1994)
+                                </li>
+                                <li> <a href="https://arxiv.org/abs/1806.10293"> Flow Q-Learning
+                                    </a> Park et al. (2025)
+                                </li> -->
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Week 4</b><br />
+                            Wed, April 23
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/07_cs224r_offline_rl_2025.pdf">Offline RL</a>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+
+                            <ul>
+                                <li> <a href="https://arxiv.org/abs/2006.04779"> Conservative Q-Learning for Offline
+                                        Reinforcement Learning.
+                                    </a> Kumar et al. (2020)</li>
+                                <li> <a href="https://arxiv.org/abs/1906.08253"> Offline Reinforcement Learning with
+                                        Implicit Q-Learning </a> Kostrikov et al. (2021)</li>
+                            </ul>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Week 4</b><br />
+                            Fri, April 25
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/08_cs224r_reward_learning_2025.pdf">Reward Learning</a>
+                        </td>
+                        <td>
+                            <span class="label label-due text-base">Due</span></i> <b>Project Proposal</b><br>
+                        </td>
+                        <td>
+                            <ul>
+                                <li> <a href="https://arxiv.org/abs/1706.03741"> Deep reinforcement learning from
+                                        human preferences.</a> Christiano et al. (2017)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td><b>Week 5</b><br />
+                            Wed, April 30
+                        </td>
+                        <td><i><span class="label label-guest text-base">Guest Lecture</span></i>
+                            <a href="slides/09_cs224r-2025-rlhf.pdf">RL for LLMs: Preference
+                                Optimization (Archit Sharma)</a>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+
+                            <ul>
+                                <li> <a href="https://arxiv.org/abs/2305.18290"> Direct Preference Optimization: Your
+                                        Language Model is Secretly a Reward Model.
+                                    </a> Rafailov et al. (2023)</li>
+                            </ul>
+
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td><b>Week 5</b><br />
+                            Fri, May 2
+                        </td>
+                        <td><i><span class="label label-guest text-base">Guest Lecture</span></i>
+                            <a href="slides/10_cs224r-rl_for_reasoning_lecture.pdf">RL for LLMs: Reasoning (Aviral Kumar)</a>
+                        </td>
+                        <td>
+                            <div>
+                                <span class="label label-due text-base">Due</span><b> Homework 2</b>
+                            </div>
+                            <div style="margin-top: 6px;">
+                                <span class="label label-out text-base">Out</span> Homework 3<br>
+                                [<a href="material/CS224r_Homework3_updated.pdf">PDF</a>, <a
+                                href="material/hw3_updated.zip">code</a>, <a
+                                href="material/cs224r_hw3_template_updated.zip">template</a>]
+                            </div>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Week 6</b><br />
+                            Wed, May 7
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/11_cs224r_mbrl_2025.pdf">Model-based RL</a>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <ul>
+                                <li> <a href="https://arxiv.org/abs/1906.08253">
+                                        When to Trust Your Model: Model-Based Policy Optimization
+                                    </a>
+                                    Janner et al. (2019)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Week 6</b><br />
+                            Fri, May 9
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/12_cs224r_mtrl_gcrl_2025.pdf">Multi-Task and Goal-Conditioned RL</a>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <ul>
+                                <li> <a href="https://arxiv.org/abs/1903.08254"> Hindsight Experience Replay </a>
+                                    Andrychowicz et al. (2018) </a> Rakelly et al. (2019)</li>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td><b>Week 7</b><br />
+                            Wed, May 14
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/13_cs224r_metarl_2025.pdf">Meta-RL</a>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <ul>
+                                <li> <a href="https://arxiv.org/abs/1611.02779"> RL2: Fast Reinforcement
+                                        Learning via Slow Reinforcement
+                                        Learning.</a> Duan et al. (2016)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td><b>Week 7</b><br />
+                            Fri, May 16
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/14_cs224r_exploration_2025.pdf">Exploration</a>
+                        </td>
+                        <td>
+                            <div>
+                                <span class="label label-due text-base">Due</span><b> Homework 3</b>
+                            </div>
+                            <div style="margin-top: 6px;">
+                                <span class="label label-out text-base">Out</span> Homework 4<br>
+                                [<a href="material/CS224R_2025_Homework_4.pdf">PDF</a>, <a
+                                href="material/hw4_starter_code.zip">code</a>, <a
+                                href="material/CS224R_2025_Homework_4.tex">template</a>]
+                            </div>
+                        </td>
+                        <td>
+                            <ul>
+                                <li> <a href="https://arxiv.org/abs/2008.02790"> Decoupling Exploration and
+                                        Exploitation for Meta-Reinforcement
+                                        Learning without Sacrifices.</a> Liu et al. (2021)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Week 8</b><br />
+                            Wed, May 21
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/15_cs224r_hierarchy_2025.pdf">Hierarchical RL and IL</a>
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <ul>
+                                <li> <a href="https://arxiv.org/abs/2204.01691"> Do As I Can, Not As I Say: Grounding
+                                        Language in Robotic Affordances. </a> Ahn et al. (2022)</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Week 8</b><br />
+                            Fri, May 23
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/16_cs224r_autonomy_2025.pdf">RL for Robots: Autonomous Learning</a>
+                        </td>
+                        <td>
+                            <span class="label label-due text-base">Due</span></i> <b>Milestone</b><br>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr class="active">
+                        <td><b>Week 9</b><br />
+                            Wed, May 28
+                        </td>
+                        <td><i><span class="label label-guest text-base">Guest Lecture</span></i>
+                            <a href="slides/17_rl_for_robotics.pdf">RL for Robots: Sim-to-Real Transfer (Ashish Kumar)</a>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                    </tr>
+                    <tr class="active">
+                        <td><b>Week 9</b><br />
+                            Fri, May 30
+                        </td>
+                        <td><i><span class="label label-lecture text-base">Lecture</span></i>
+                            <a href="slides/18_cs224r_frontiers_how_to_research.pdf">Frontiers</a>
+                        </td>
+                        <td>
+                            <span class="label label-due text-base">Due</span></i><b> Homework 4</b><br>
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Week 10</b><br />
+                            Wed, June 4
+                        </td>
+                        <td><i><span class="label label-reading text-base">Presentations</span></i>
+                            No Lecture (Poster Session)</td>
+                        <td>
+                            <span class="label label-due text-base">Due</span></i> <b>Poster</b><br>
+                        </td>
+                        <td>
+                            <ul>
+                                <li> The poster session is 10:30 am - 1:30 pm at Burnham Pavilion</li>
+                            </ul>
+                        </td>
+                    </tr>
+
+                    <tr class="active">
+                        <td><b>Week 11</b><br />
+                            Mon, June 9
+                        </td>
+                        <td>
+                        </td>
+                        <td>
+                            <span class="label label-due text-base">Due</span></i> <b>Final Project Report</b><br>
+                        </td>
+                        <td>
+                            <ul>
+                                <li> No late days are allowed for the final project report submission.</li>
+                            </ul>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <br>
+            <div class="hrline">
+                <hr />
+            </div>
+            <br>
+        </div>
+
+        <div id="calendar">
+            <h3> Course Calendar </h3>
+            <p>A course calendar with details of lectures, TA sessions, office hours, and miscellaneous course events is
+                available in a variety of formats: </p>
+            <ul>
+                <li>
+                    <a
+                        href="https://calendar.google.com/calendar/u/1?cid=MGMwMGNmNGM4OTM1NGJmN2VhYjdlNGM3NTU0N2QzMmI0MzRjMDY1MzUzNmJkMGNlZWIzMjgxNzM0MDkyZWYyN0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t">
+                        Google Calendar</a>
+                </li>
+                <li>
+                    <a
+                        href="https://calendar.google.com/calendar/ical/0c00cf4c89354bf7eab7e4c75547d32b434c0653536bd0ceeb3281734092ef27%40group.calendar.google.com/public/basic.ics">
+                        iCalendar file</a>
+                </li>
+                <li>
+                    <a
+                        href="https://calendar.google.com/calendar/embed?src=0c00cf4c89354bf7eab7e4c75547d32b434c0653536bd0ceeb3281734092ef27%40group.calendar.google.com&ctz=America%2FLos_Angeles">
+                        raw view</a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="course-policies">
+            <h3> Grading and Course Policies </h3>
+            <p><b>Homeworks</b> (50&#37;): There are four graded homework assignments. To provide some
+                flexibility, the lowest scoring homework for each student will be worth 5&#37; of the grade,
+                while the remaining three will be worth 15&#37; of the grade. Assignments will require
+                training neural networks in PyTorch. All assignments are due on Gradescope at 11:59 pm
+                Pacific Time on the respective due date.
+            </p>
+            <p><b>Project</b> (50&#37;): There's a research-level project of your choice. You may form groups of 1-3
+                students to complete the project, and you are encouraged to start early! Guidelines on the
+                project can be found in the following links:
+            <ul>
+                <li> <a href="material/CS224R_Default_Project_Guidelines.pdf">
+                        Default Project Guidelines
+                    </a>
+                </li>
+                <li> <a href="material/CS224R_Custom_Project_Guidelines.pdf">
+                        Custom Project Guidelines
+                    </a>
+                </li>
+            </ul>
+            </p>
+            <p><b>Late Days</b>: You have 6 total late days across homeworks, the project proposal, and the project
+                milestone.
+                Late days are not applicable to the project poster (due to its live nature) and the project report
+                (due to the university grading deadline). You may use a maximum of 2 late days for any single
+                assignment.
+                Late days used for group projects apply to all members of the group.
+            </p>
+            <p><b>Lecture Attendance</b>: While we do not require lecture attendance, students are encouraged to
+                join the live lecture. If you want to watch the lecture remotely, please see the Panopto tab of Canvas.
+                For those who cannot join the live lectures, lecture recordings will also be available on Canvas shortly
+                following the lecture.
+            </p>
+            <p><b>Honor Code</b>: Students are free to form study groups and may discuss homework in groups.
+                However, each student must write down the solutions and code from scratch independently, and without
+                referring to any written notes from the joint session. When debugging code together, you are only
+                allowed to look at the input-output behavior of each other's programs and not the code itself.
+                In other words, each student must understand the solution well enough in order to reconstruct it by
+                him/herself. It is an honor code violation to copy, refer to, or look at written or code solutions
+                from a previous year, including but not limited to: official solutions from a previous year,
+                solutions posted online, and solutions you or someone else may have written up in a previous year.
+                Furthermore, it is an honor code violation to post your assignment solutions online, such as on a
+                public git repo. For more details about honor code, see <a
+                    href="https://communitystandards.stanford.edu/policies-and-guidance/honor-code">The Stanford
+                    Honor
+                    Code</a> and <a
+                    href="https://web.stanford.edu/class/archive/cs/cs106b/cs106b.1164/handouts/honor-code.pdf">The
+                    Stanford Honor Code Pertaining to CS Courses</a>.
+            </p>
+            <p>
+                <b>Using AI Tools:</b> While we allow collaboration with AI tools to answer conceptual questions
+                pertaining to the course content, employing AI tools (e.g. ChatGPT, Cursor) substantially is not allowed
+                for the
+                homeworks and for parts of the project. Doing so is in violation of the honor code.
+                Please see the
+                <a href="https://communitystandards.stanford.edu/generative-ai-policy-guidance">generative AI policy
+                    guidance</a>
+                for more information.
+            </p>
+        </div>
+
+        <div id="academic-accomodations">
+            <h3> Academic Accommodations </h3>
+            <p>If you need an academic accommodation based on a disability, please register with the Office of
+                Accessible Education (OAE). Professional staff will evaluate your needs, support appropriate and
+                reasonable accommodations, and prepare an Academic Accommodation Letter for faculty. To get started,
+                or to re-initiate services, please visit oae.stanford.edu.
+                If you already have an Academic Accommodation Letter, please send your letter to
+                <a href="mailto:cs224r-staff-spr2425@cs.stanford.edu">cs224r-staff-spr2425@cs.stanford.edu</a>.
+                OAE Letters should be sent to us at the earliest possible
+                opportunity so that the course staff can partner with you and OAE to make the appropriate
+                accommodations.
+            </p>
+        </div>
+
+        <div id="financial-aid">
+            <h3> Note on Financial Aid </h3>
+            <p>All students should retain receipts for books and other course-related expenses, as these may be
+                qualified educational expenses for tax purposes. If you are an undergraduate receiving financial
+                aid, you may be eligible for additional financial aid for required books and course materials if
+                these expenses exceed the aid amount in your award letter. For more information, review your award
+                letter or visit the <a href="https://financialaid.stanford.edu/undergrad/budget/index.html">Student
+                    Budget website</a>. </p>
+        </div>
+
+
+        <br>
+
+
+        <!-- The footer -->
+        <div class="hrline">
+            <hr>
+        </div><br>
+        <div class="row clearfix">
+            <div class="col-md-3 column">
+            </div>
+            <div class="col-md-6 column">
+                <div class="text-center">
+                    <p>
+                        &nbsp;&nbsp;&nbsp; &#169; Chelsea Finn 2025
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-3 column">
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <!-- End of document -->
+    </div>
+</body>
+
+</html>

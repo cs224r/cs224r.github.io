@@ -35,10 +35,6 @@ body table {
     font-size: 16px;
 }
 
-body li a {
-    font-size: inherit;
-}
-
 body b a {
     font-weight: 600;
 }
@@ -60,23 +56,8 @@ body b a {
     font-size: 14px !important;
 }
 
-.session-meta {
-    display: block;
-    margin-top: 4px;
-    color: #666;
-    font-size: 14px;
-}
-
 .label-lecture {
     background-color: #839192;
-}
-
-.label-ta-session {
-    background-color: #1F7A8C;
-}
-
-.label-exam {
-    background-color: #8E44AD;
 }
 
 .label-reading {

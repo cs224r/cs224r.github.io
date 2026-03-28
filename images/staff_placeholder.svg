@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Staff photo placeholder</title>
+  <desc id="desc">Placeholder image for staff member headshot.</desc>
+  <rect width="160" height="160" fill="#d9e2ec"/>
+  <circle cx="80" cy="58" r="26" fill="#9fb3c8"/>
+  <path d="M36 136c6-24 24-38 44-38s38 14 44 38" fill="#9fb3c8"/>
+  <text x="80" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#486581">Photo coming soon</text>
+</svg>
