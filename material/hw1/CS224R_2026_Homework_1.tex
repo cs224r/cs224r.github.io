@@ -1,0 +1,279 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage,enumitem,amsmath,amssymb,graphicx,url,hyperref}
+\usepackage{sectsty}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+}
+
+\sectionfont{\fontsize{15}{20}\selectfont}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\usepackage{tgpagella}
+\usepackage{tcolorbox}
+\usepackage{forest}
+
+
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{CS224R Spring 2026 Homework 1 \\ Imitation Learning}}
+\\ {\large Due 4/10/2026 9pm PT}
+
+\begin{tabular}{rl}
+SUNet ID: & $\hspace{6cm}$\\
+Name: & \\
+Collaborators: & 
+\end{tabular}
+\end{center}
+
+\noindent By turning in this assignment, I agree by the Stanford honor code and declare
+that all of this is my own work. 
+
+\section*{Overview}
+
+\textbf{Goals:} In this assignment you will experiment with imitation learning on a custom Flappy Bird environment using action chunking. You will train behavior cloning (BC) policies with different losses regression and flow matching, and improve it with DAgger.
+
+\begin{enumerate} 
+    \item Implement and train an imitation learning agent using regression.
+    \item Implement and train an imitation learning agent via flow matching to learn a generative policy.
+    \item Implement DAgger to improve the first regression policy via iterative relabeling with a deterministic expert.
+\end{enumerate}
+
+\vspace{0.2cm}
+
+\subsection*{Environment}
+
+The environment is a physics-based Flappy Bird where the agent controls a target $y$-position (normalised to $[0, 1]$). A PD controller converts the target into thrust internally, creating momentum-based dynamics.
+
+\begin{itemize}
+    \item \textbf{Observation} (4-D, normalised): \texttt{[dist\_to\_pipe, gap1\_y, gap2\_y, bird\_y]}.
+    \item \textbf{Action}: target $y$-position in $[0, 1]$.
+    \item \textbf{Easy mode}: one gap per pipe.
+    \item \textbf{Hard mode}: alternating single and doulbe gap pipes.
+    \item \textbf{Max episode length}: 1000 steps. An agent that survives all 1000 steps is considered successful.
+\end{itemize}
+
+\noindent\textbf{Action chunking:} Policies predict \texttt{ACTION\_CHUNK=20} future target positions at once. During rollout, only the first \texttt{EXECUTE\_STEPS=10} are executed before re-querying the policy (called receding horizon control).
+
+\subsection*{Submission}
+
+\noindent\textbf{Submitting the PDF}: Make a PDF report containing the results to Problem 1, 2 and 3. And submit to gradescope on the \textbf{Homework 1 (Written Part)}.\\
+
+\noindent\textbf{Submitting the Code}: Submit on the gradescope assignment called \textbf{Homework 1 (Programming Part)} a zip file containing:
+\begin{itemize}
+\item Your completed code files (\texttt{networks.py}, \texttt{losses.py}, \texttt{expert.py}, \texttt{dagger.py}) in the original format under the folder hw1 with TODOs filled in.
+\item The results from your runs \texttt{bc\_reg\_easy.txt}, \texttt{bc\_reg\_hard.txt}, \texttt{bc\_flow\_hard.txt}, \texttt{dagger\_hard.txt}
+\item The resulting folder that you will submit should look like the following:\vspace{-1.5em}
+\begin{verbatim}
+.
+|-- hw1/                 # containing all the code
+|-- bc_reg_easy.txt
+|-- bc_reg_hard.txt
+|-- bc_flow_hard.txt
+|-- dagger_hard.txt
+\end{verbatim}
+
+\end{itemize}
+
+\noindent\textbf{Use of AI Tools (e.g.\ ChatGPT, Cursor):} For the sake of deeper understanding on implementing imitation learning methods, assistance from generative models to write code for this homework is prohibited. See the course website for more details.
+
+\newpage
+
+\section*{Setup}
+
+See \texttt{installation.md} in the starter code for detailed instructions. 
+
+\noindent See \texttt{colab\_instructions.md} if you prefer to run your code in google colab.
+
+\section*{Codebase}
+
+The starter code lives in the \texttt{hw1/} directory. Your task is to fill in the functions marked with \texttt{TODO} (which raise \texttt{NotImplementedError}).
+
+\begin{itemize}
+\item \texttt{main.py} --- training pipeline and CLI entrypoint \textbf{(read-only)}
+\item \texttt{visualization.py} --- evaluation, video recording, policy wrappers \textbf{(read-only)}
+\item \texttt{flappy\_bird\_env.py} --- Gymnasium environment \textbf{(read-only)}
+\item \texttt{networks.py} --- neural network architectures \textbf{[TODO: \texttt{BCPolicy}, \texttt{FlowMatchingSchedule}]}
+\item \texttt{losses.py} --- loss functions \textbf{[TODO: \texttt{bc\_loss}, \texttt{flow\_matching\_loss}]}
+\item \texttt{expert.py} --- expert policy + data collection \textbf{[TODO: \texttt{Expert.act}]}
+\item \texttt{dagger.py} --- DAgger relabeling \textbf{[TODO: \texttt{DeterministicExpert.act}, \texttt{rollout\_and\_relabel}]}
+\end{itemize}
+
+\noindent We recommend implementing in this order:
+\begin{enumerate}
+    \item \texttt{expert.py::Expert.act}
+    \item \texttt{networks.py::BCPolicy}
+    \item \texttt{losses.py::bc\_loss}
+    \item \texttt{networks.py::FlowMatchingSchedule.interpolate} and \texttt{FlowMatchingSchedule.sample}
+    \item \texttt{losses.py::flow\_matching\_loss}
+    \item \texttt{dagger.py::DeterministicExpert.act}
+    \item \texttt{dagger.py::rollout\_and\_relabel}
+\end{enumerate}
+
+%\noindent The provided \texttt{DDPMSchedule} class in \texttt{networks.py} serves as a useful reference when implementing \texttt{FlowMatchingSchedule}. Both follow the same pattern (a training-time method and a sampling method) but differ in their formulas.
+
+\newpage
+\section*{Problem 1: Behavior Cloning with Regression [2 points]}
+
+In this section, you will implement the Behavior Cloning (BC) algorithm to train your policies using the Mean Square Error (MSE) loss.
+
+We provide a set of demonstrations of an expert playing our Stanford Flappy Bird game (see \texttt{expert.py}). This dataset $\mathcal{D}$ consists of state action pairs $(s, a)$.
+
+BC entails learning a policy $\pi$ that matches from the state of the flappy bird environment $s$, to the action to be taken by the bird $a$.
+
+Today, most robot learning policies predict the set of $T$ future actions $a_{t}...a_{t+T}$ out of which only $K < T$ are rolled out open loop (without re-querying the policy) and the rest are discarded. This technique, called action chunking, generally results in much better performance.
+
+\begin{enumerate}
+
+\item \textbf{Implementation.} Implement the following:
+\begin{itemize}
+    %\item \texttt{Expert.act} in \texttt{expert.py}: the expert targeting logic. In easy mode, target \texttt{gap1\_y}. In hard mode, hover at the midpoint of both gaps, then randomly commit to one when within \texttt{commit\_dist}. Apply EMA smoothing. See the docstring for details.
+    \item \texttt{BCPolicy.\_\_init\_\_} and \texttt{BCPolicy.forward} in \texttt{networks.py}: a 3-layer MLP (Linear $\to$ ReLU $\to$ Linear $\to$ ReLU $\to$ Linear $\to$ Sigmoid).
+    \item \texttt{bc\_loss} in \texttt{losses.py}: MSE loss between predicted and expert actions:
+    \begin{equation}
+        \mathcal{L}_{\text{MSE}} = \frac{1}{N} \sum_{i=1}^{N} \| \hat{a}_i - a_i^* \|^2
+    \end{equation}
+    where $\hat{a}_i = \pi_\theta(s_i)$ is the predicted action and $a_i^*$ is the expert action.
+\end{itemize}
+
+\item \textbf{Run the regression agent on easy mode} and report your results in a table (mean and standard deviation of episode length over 50 evaluation episodes) [1 point].
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+python main.py --method bc_reg --env easy
+\end{verbatim}
+\end{tcolorbox}
+
+\textbf{\color{red}Include your results table here.}
+
+\item \textbf{Run the regression agent on hard mode} and report the results in a table below (no new code needed):
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+python main.py --method bc_reg --env hard
+\end{verbatim}
+\end{tcolorbox}
+
+\textbf{\color{red}Include your results table here.}
+
+%\noindent You should see $\sim$100--200 average steps. The agent crashes quickly.
+
+\item \textbf{Explain} in 2--3 sentences the performance of the MSE regression on hard mode. Why is it performing the way it is? [1 point]\\
+\\
+\textbf{\color{red}Include your explanation here.}
+\end{enumerate}
+
+
+\newpage
+\section*{Problem 2: Flow Matching [2 points]}
+
+In this section, you will implement flow matching to train your policies instead of using an MSE loss.
+Flow matching learns a conditional vector field that iteratively transports noise into realistic action chunk predictions.
+Flow matching is similar to diffusion, but it is simpler to implement and generally exhibits similar or better performance.
+
+Let $\mathbf{a}_t$ be an action chunk in the demonstration dataset and $\mathbf{a}_{t,0} \sim \mathcal{N}(0, I)$ be noise of the same shape.
+We first sample a ``flow matching timestep'' $\tau \sim \mathcal{U}(0, 1)$ and define the interpolation
+$\mathbf{a}_{t,\tau} = \tau\mathbf{a}_t + (1 - \tau)\mathbf{a}_{t,0}$.
+We then train a network $v_\theta$ to predict the velocity that moves $\mathbf{a}_{t,\tau}$ toward $\mathbf{a}_t$, using the flow-matching loss:
+\begin{equation}
+    \mathcal{L}_{\mathrm{FM}}(\theta) = \frac{1}{|\mathcal{D}|}\sum_{(s_t, a_t) \in \mathcal{D}} \left\| v_\theta(\mathbf{s}_t,\, \mathbf{a}_{t,\tau},\, \tau) - \left(\mathbf{a}_t - \mathbf{a}_{t,0}\right) \right\|_2^2.
+\end{equation}
+
+At inference time, we sample initial noise $\mathbf{a}_{t,0} \sim \mathcal{N}(0, I)$ and integrate the ODE $\frac{d\mathbf{a}_{t,\tau}}{d\tau} = v_\theta(\mathbf{s}_t, \mathbf{a}_{t,\tau}, \tau)$ from $\tau = 0$ to $\tau = 1$.
+The simplest integration method is Euler integration, which is given by the following update rule:
+\begin{equation}
+    \mathbf{a}_{t,\tau+\frac{1}{n}} = \mathbf{a}_{t,\tau} + \frac{1}{n} \cdot v_\theta(\mathbf{s}_t, \mathbf{a}_{t,\tau}, \tau),
+\end{equation}
+which is repeated $n$ times from $\tau = 0$ to $\tau = 1$ to obtain $\mathbf{a}_{t,1}$, where $n$ is the number of integration steps (also called ``denoising steps''). $\mathbf{a}_{t,1} = \mathbf{a}_t$ is the final action chunk that is executed as before.
+
+%\subsection*{2.1 \quad Implementation}
+
+
+
+%\textbf{Deliverables:}
+%% Changed the below to match the format of problem 1
+
+\begin{enumerate}
+
+\item \textbf{Implementation.} For this part, you will implement the \texttt{FlowMatchingSchedule} class in \texttt{networks.py} and \texttt{flow\_matching\_loss} in \texttt{losses.py}. Specifically, you should implement the following:
+
+\begin{itemize}
+    \item \texttt{FlowMatchingSchedule.interpolate}: given a clean action chunk $\textbf{a}_1$ and timestep $\tau \in [0,1]$, sample noise and return the interpolated $\textbf{a}_\tau$ and target velocity $v = a_1 - \epsilon$.
+    \item \texttt{FlowMatchingSchedule.sample}: starting from $\textbf{a}_0 \sim \mathcal{N}(0, I)$, run Euler integration for \texttt{num\_steps} steps and return the result clamped to $[0,1]$.
+    \item \texttt{flow\_matching\_loss}: implement the flow matching loss presented above (tip: call \texttt{schedule.interpolate})
+\end{itemize}
+
+\item \textbf{Run flow matching on hard mode} and report your results in a table (mean and standard deviation of episode length) [1 point]:
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+python main.py --method bc_flow --env hard
+\end{verbatim}
+\end{tcolorbox}
+
+\textbf{\color{red}Include your results here.}
+
+\item \textbf{Explain} in 2--3 sentences why flow matching performs the way it does on hard mode. [1 point]\\
+\\
+\textbf{\color{red}Include your results and explanation here.}
+
+\end{enumerate}
+
+\section*{Problem 3: DAgger [2 points]}
+
+In this section, you will implement the DAgger algorithm to improve the behavioral cloning (BC) policy trained with the regression objective in Problem 1.
+
+As discussed in class, DAgger works by iteratively rolling out the current learned policy, $\pi$, to collect states encountered under its own behavior, which we store in $\mathcal{D}_\pi$. For each visited state $s$, the policy produces an action $\pi(s)$, but instead of keeping that action, we query the expert and relabel the state with the expert action. This gives the dataset
+$$
+\mathcal{D}_{\textit{DAgger}} = \{ (s, \pi_{\textit{expert}}(s)) \mid s \sim \mathcal{D}_{\pi} \}.
+$$
+
+Once this relabeled dataset has been collected, we perform imitation learning on the aggregated dataset $\mathcal{D} \bigcup \mathcal{D}_{\textit{DAgger}}$ using the same regression objective from Problem 1. This process is typically repeated for multiple DAgger iterations.
+
+DAgger helps mitigate distribution shift between the expert and the learned policy by visiting states that might be present in the policy rollouts but not in the demos, and acquiring expert supervision in those states.
+
+\begin{enumerate}
+
+\item \textbf{Implementation.} Implement the following in \texttt{dagger.py}:
+
+\begin{itemize}
+    \item \texttt{DeterministicExpert.act}: same logic as \texttt{Expert.act} in hard mode, but pick a strategy that will resolve the ambiguity found in the previous questions so that you make the MSE regression policy work.
+    \item \texttt{rollout\_episode}: roll out the current policy, don't forget to reset the environment and to use the action chunks from the policy and return the state action pairs.
+    \item \texttt{rollout\_and\_relabel}: roll out the current policy using \texttt{rollout\_episode}, use \texttt{DeterministicExpert} to relabel the episodes, and get the new action state training pairs.
+\end{itemize}
+
+\item \textbf{Run DAgger on hard mode} and report your results as a learning curve [1 point]:
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+python main.py --method dagger --env hard
+\end{verbatim}
+\end{tcolorbox}
+
+\noindent Run dagger for 5 rounds (the default value). Plot the DAgger learning curve (round number on x-axis, mean episode length on y-axis, with error bars for standard deviation). Include the original regression performance as a horizontal line on the same plot.
+
+\textbf{\color{red}Include your DAgger learning curve plot here.}
+
+\item \textbf{Comparison.} Create a bar chart or table comparing the performance of all three methods on hard mode: Regression, Flow Matching, and DAgger (final round).  [0.5 points]\\
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+python main.py --plot
+\end{verbatim}
+\end{tcolorbox}
+
+\textbf{\color{red}Include the comparison plot and table here.}
+
+
+\item \textbf{Explain} in 3--4 sentences: why does DAgger improve over rounds? What role does the deterministic expert play? How does this DAgger's approach solve the challenges mentioned previously for the MSE regression policy? [0.5 points]\\
+\\
+\textbf{\color{red}Include your explanation here.}
+
+\end{enumerate}
+
+\end{document}
