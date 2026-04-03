@@ -115,7 +115,6 @@ The starter code lives in the \texttt{hw1/} directory. Your task is to fill in t
     \item \texttt{dagger.py::rollout\_and\_relabel}
 \end{enumerate}
 
-%\noindent The provided \texttt{DDPMSchedule} class in \texttt{networks.py} serves as a useful reference when implementing \texttt{FlowMatchingSchedule}. Both follow the same pattern (a training-time method and a sampling method) but differ in their formulas.
 
 \newpage
 \section*{Problem 1: Behavior Cloning with Regression [2 points]}
@@ -132,7 +131,6 @@ Today, most robot learning policies predict the set of $T$ future actions $a_{t}
 
 \item \textbf{Implementation.} Implement the following:
 \begin{itemize}
-    %\item \texttt{Expert.act} in \texttt{expert.py}: the expert targeting logic. In easy mode, target \texttt{gap1\_y}. In hard mode, hover at the midpoint of both gaps, then randomly commit to one when within \texttt{commit\_dist}. Apply EMA smoothing. See the docstring for details.
     \item \texttt{BCPolicy.\_\_init\_\_} and \texttt{BCPolicy.forward} in \texttt{networks.py}: a 3-layer MLP (Linear $\to$ ReLU $\to$ Linear $\to$ ReLU $\to$ Linear $\to$ Sigmoid).
     \item \texttt{bc\_loss} in \texttt{losses.py}: MSE loss between predicted and expert actions:
     \begin{equation}
@@ -161,7 +159,6 @@ python main.py --method bc_reg --env hard
 
 \textbf{\color{red}Include your results table here.}
 
-%\noindent You should see $\sim$100--200 average steps. The agent crashes quickly.
 
 \item \textbf{Explain} in 2--3 sentences the performance of the MSE regression on hard mode. Why is it performing the way it is? [1 point]\\
 \\
@@ -190,13 +187,6 @@ The simplest integration method is Euler integration, which is given by the foll
     \mathbf{a}_{t,\tau+\frac{1}{n}} = \mathbf{a}_{t,\tau} + \frac{1}{n} \cdot v_\theta(\mathbf{s}_t, \mathbf{a}_{t,\tau}, \tau),
 \end{equation}
 which is repeated $n$ times from $\tau = 0$ to $\tau = 1$ to obtain $\mathbf{a}_{t,1}$, where $n$ is the number of integration steps (also called ``denoising steps''). $\mathbf{a}_{t,1} = \mathbf{a}_t$ is the final action chunk that is executed as before.
-
-%\subsection*{2.1 \quad Implementation}
-
-
-
-%\textbf{Deliverables:}
-%% Changed the below to match the format of problem 1
 
 \begin{enumerate}
 
