@@ -98,20 +98,20 @@ The starter code lives in the \texttt{hw1/} directory. Your task is to fill in t
 \item \texttt{main.py} --- training pipeline and CLI entrypoint \textbf{(read-only)}
 \item \texttt{visualization.py} --- evaluation, video recording, policy wrappers \textbf{(read-only)}
 \item \texttt{flappy\_bird\_env.py} --- Gymnasium environment \textbf{(read-only)}
+\item \texttt{expert.py} --- Agent expert that provides the initial demos \textbf{(read-only)}
 \item \texttt{networks.py} --- neural network architectures \textbf{[TODO: \texttt{BCPolicy}, \texttt{FlowMatchingSchedule}]}
 \item \texttt{losses.py} --- loss functions \textbf{[TODO: \texttt{bc\_loss}, \texttt{flow\_matching\_loss}]}
-\item \texttt{expert.py} --- expert policy + data collection \textbf{[TODO: \texttt{Expert.act}]}
 \item \texttt{dagger.py} --- DAgger relabeling \textbf{[TODO: \texttt{DeterministicExpert.act}, \texttt{rollout\_and\_relabel}]}
 \end{itemize}
 
 \noindent We recommend implementing in this order:
 \begin{enumerate}
-    \item \texttt{expert.py::Expert.act}
     \item \texttt{networks.py::BCPolicy}
     \item \texttt{losses.py::bc\_loss}
     \item \texttt{networks.py::FlowMatchingSchedule.interpolate} and \texttt{FlowMatchingSchedule.sample}
     \item \texttt{losses.py::flow\_matching\_loss}
     \item \texttt{dagger.py::DeterministicExpert.act}
+    \item \texttt{dagger.py::rollout\_episode}
     \item \texttt{dagger.py::rollout\_and\_relabel}
 \end{enumerate}
 
