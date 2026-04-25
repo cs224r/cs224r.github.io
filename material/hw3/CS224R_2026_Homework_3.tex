@@ -1,0 +1,603 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage,enumitem,amsmath,bbm,amssymb,amsfonts,,url,hyperref,booktabs}
+\usepackage[T1]{fontenc}
+\usepackage{sectsty}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+}
+
+\sectionfont{\fontsize{15}{20}\selectfont}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\E}{\mathbb{E}}
+\usepackage{tgpagella}
+\usepackage{tcolorbox}
+\usepackage{forest}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{colortbl}
+\usepackage{float}
+
+
+\newcommand{\AK}[1]{{\bf \color{blue}AK: #1}}
+\newcommand{\answer}[1]{{\bf \color{red}Answer:\\ #1}}
+
+
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{CS224R Spring 2026 Homework 3 \\ Offline RL}}
+\\ {\large Due 5/8/2026}
+
+\begin{tabular}{rl}
+SUNet ID: & $\hspace{6cm}$\\
+Name: & \\
+Collaborators: & 
+\end{tabular}
+\end{center}
+
+\noindent By turning in this assignment, I agree by the Stanford honor code and declare
+that all of this is my own work. \\
+\\
+
+\section*{Overview}
+
+\textbf{Goals:} In this assignment, you will implement two offline reinforcement learning algorithms: Advantage-Weighted Actor-Critic (AWAC) and Implicit Q-Learning (IQL). You will compare their performance across offline datasets on tasks of different difficulty levels in \texttt{Antmaze} which is a domain from \href{https://arxiv.org/abs/2004.07219}{D4RL}. You will also study the stitching behavior of offline RL using IQL in the \texttt{PointMass} environment.
+
+\noindent Your objectives are as follows:
+
+\begin{enumerate} 
+    \item Implement and train AWAC and IQL algorithms for offline reinforcement learning on the \texttt{Antmaze} tasks, and compare their performance.
+    \item Experiment with key hyperparameters for offline RL algorithms and analyze how they affect performance.
+    \item Study the stitching behavior of offline RL using IQL on a \texttt{PointMass} task with suboptimal data, and evaluate whether the learned policy can compose better trajectories than those seen in the data.
+\end{enumerate}
+
+\vspace{0.2cm}
+\noindent\textbf{Submitting the PDF}: Fill in your responses in the provided \texttt{answer\{\}} tags. Submit all requested values in tables, and put in all required plots/images as Tex figures. Your PDF should also include all your reasoning and text responses.
+
+\vspace{0.2cm}
+
+\noindent\textbf{Submitting the Code and Experiment Runs}: To turn in your code and experiment logs, create a folder that contains the following:
+
+\begin{itemize}
+\item \texttt{csv\_data/} folder with all CSV files used for autograding, organized according to the structure described in the Autograder section. Please follow the required directory structure and submission guidelines (number of files per experiment, seed requirements, etc.) as specified there.
+
+
+\item \texttt{cs224r/} folder with all the .py files, with the same names and directory structure as the original homework repository. 
+\end{itemize} 
+
+Zip and submit the folder on Gradescope.
+\vspace{0.2cm}
+
+\noindent\textbf{Gradescope}: Submit both the PDF and the code and experiment runs in the appropriate assignment on Gradescope. An autograder will be provided to evaluate the performance of your policies from the generated tensorboard files. 
+
+\vspace{0.2cm}
+
+\noindent\textbf{Use of GPT/Codex/Copilot:} For the sake of deeper understanding on implementing imitation learning methods, assistance from generative models to write code for this homework is prohibited. 
+
+
+\section*{Autograder}
+\paragraph{Autograder Submission Instructions (CSV from wandb)}
+
+For autograding, we provide graders for \textbf{both parts of Question 1} (to test your AWAC implementation on two environments) and for the \textbf{first two parts of Question 2} (to test your IQL implementation on two environments). 
+
+For Question 2, Part 1, you will sweep different IQL expectile hyperparameters. However, for autograder submission, you should \textbf{only upload the CSV files corresponding to the best-performing expectile hyperparameter}.
+
+Please download the CSV files \textbf{directly from the \texttt{Eval\_AverageReturn} plot in your Weights \& Biases (wandb) logs}. Specifically, you must export the CSV from the plot named exactly \texttt{Eval\_AverageReturn} in the wandb dashboard. \textbf{Do not} download CSVs from any other plots or metrics. For each run, use the wandb UI to export the CSV from the \texttt{Eval\_AverageReturn} plot corresponding to that specific seed. 
+
+Please \textbf{download one CSV file per single seed}, rather than combining multiple seeds into one file. This means that for any experiment run with \textbf{3 random seeds}, you should have \textbf{3 separate CSV files}, one for each seed. Therefore, for each autograded part, your submission must include \textbf{exactly 3 CSV files corresponding to the same experiment configuration across the 3 seeds}, all exported from the \texttt{Eval\_AverageReturn} plot.
+
+\paragraph{Required CSV File Structure}
+
+\begin{verbatim}
+P1/
+    |- 1/
+    |   |- awac_umaze_seed1.csv
+    |   |- awac_umaze_seed2.csv
+    |   |- awac_umaze_seed3.csv
+    |- 2/
+        |- awac_medium_maze_seed1.csv
+        |- awac_medium_maze_seed2.csv
+        |- awac_medium_maze_seed3.csv
+
+P2/
+    |- 1/
+    |   |- iql_umaze_seed1.csv
+    |   |- iql_umaze_seed2.csv
+    |   |- iql_umaze_seed3.csv
+    |- 2/
+        |- iql_medium_maze_seed1.csv
+        |- iql_medium_maze_seed2.csv
+        |- iql_medium_maze_seed3.csv
+\end{verbatim}
+
+\paragraph{Important Notes}
+\begin{itemize}
+    \item Each folder (e.g., \texttt{P1/1/}, \texttt{P2/2/}) must contain \textbf{exactly 3 CSV files}, one per seed.
+    \item All 3 CSV files within a folder must correspond to the \textbf{same experiment setting}.
+    \item For IQL (Question 2, Part 1), ensure the submitted CSVs are from the \textbf{best expectile hyperparameter only}.
+    \item Do \textbf{not} merge multiple seeds into a single CSV file.
+\end{itemize}
+
+
+\section*{Setup}
+
+\paragraph{Codebase:} We provide you with offline transitions dataset $\mathcal{D}$. Your goal is to implement the AWAC and IQL reinforcement learning algorithms to learn a policy from this dataset. For each problem, we provide you with the files that you need to complete. Sections that need to be filled have been marked with \texttt{TODO} tags.
+
+
+\paragraph{Modal Compute Setup:} For this assignment, you will complete all sections on Modal instances. \textbf{We recommend only using Modal for compute}, as we \textbf{do not} support setup on any other platform, such as your own local computer. You may still develop code on your local computer, which we suggest to save compute credits. You may find \href{https://cs224r.stanford.edu/material/CS224R_compute_guide.pdf}{this guide} helpful on how to set up your code to run on modal. 
+
+For set up, create a conda environment that you will use to launch modal with from your local machine:
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+conda create -n cs224r-hw3 python=3.10.19
+conda activate cs224r-hw3
+\end{verbatim}
+\end{tcolorbox}
+
+
+For simplicity, for this homework we already provide the entry points needed to run jobs on Modal, so you will not need to configure the full setup yourself. However, before launching any training job, you should complete the basic Modal setup steps below:
+\begin{enumerate}
+    \item Install Modal in your conda environment:
+\begin{verbatim}
+pip install modal
+\end{verbatim}
+    \item Authenticate your account:
+\begin{verbatim}
+modal setup
+\end{verbatim}
+    \item Redeem the course compute credits using the link provided in the course email at \href{https://modal.com/credits}{modal.com/credits}.
+\end{enumerate}
+
+After completing these steps, you should be able to launch the provided training scripts on Modal directly.
+
+\noindent\paragraph{Retrieving Results from Modal Container}: 
+Training outputs (logs, checkpoints, and evaluation videos) are saved to the \texttt{cs224r-hw3-results} Modal Volume, mounted at \\
+\texttt{/root/hw/data} inside the container.
+To download all results to your local machine, run:
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+mkdir -p data
+modal volume get cs224r-hw3-results / ./data/
+\end{verbatim}
+\end{tcolorbox}
+
+The command above copies all contents from the Modal Volume into a local \texttt{data/} directory.
+
+To download only a specific experiment, run
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+modal volume get cs224r-hw3-results /<exp-name>/ ./data/
+\end{verbatim}
+\end{tcolorbox}
+
+You can browse the volume without downloading by running:
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+modal volume ls cs224r-hw3-results
+modal volume ls cs224r-hw3-results /<exp-name>/
+\end{verbatim}
+\end{tcolorbox}
+
+\noindent\paragraph{Weights and Biases Experiment Tracking}: This homework uses Weights and Biases (Wandb) logging to track training stats. You will need a wandb account at \url{https://wandb.ai/site/}. \\
+
+\noindent Step 1: Create a wandb account.
+ 
+\noindent Go to \url{https://wandb.ai/site} and sign up for a free account. You can authenticate using your existing GitHub or Google credentials. \\
+
+\noindent Step 2: Install the wandb library.
+ 
+\noindent Install via \texttt{conda} in your terminal (or add it to your \texttt{environment.yml}):
+
+\noindent \texttt{
+conda install -c conda-forge wandb
+}
+
+\noindent This step should be handled automatically when installing the conda environment. \\
+
+
+
+\noindent Step 3: Authenticate with your API key.
+ 
+\noindent Run the login command and paste your API key when prompted:
+ 
+\noindent \texttt{
+wandb login
+}
+ 
+\noindent Your API key can be found at \url{https://wandb.ai/authorize}. The key is saved locally, so you only need to run this once per machine. \\
+
+If you have any issues with the wandb key not found when running on modal try running the following:
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+modal secret create wandb-secret WANDB_API_KEY=<wandb_key> --force
+\end{verbatim}
+\end{tcolorbox}
+
+
+\noindent  Step 4: Viewing your results.
+ 
+\noindent Once training starts, wandb prints a direct URL to your terminal. Open it to see your metrics update in real time or you can also go to \url{https://wandb.ai/home} and click into the project. \\
+
+\newpage
+\section*{Preliminaries}
+
+\paragraph{Environments: } In this assignment, you will work with two domains: \texttt{AntMaze} and \texttt{PointMass}. The \texttt{AntMaze} domain involves continuous control with a \textbf{continuous} action space, while \texttt{PointMass} is a discrete control domain with a \textbf{discrete} action space.
+
+In the \texttt{AntMaze} environments, the agent must navigate a maze to reach a goal location. You will experiment with two variants: \texttt{antmaze-umaze}, a simpler U-shaped maze where the agent starts near the bottom-left and navigates to the top-left (Figure~\ref{fig:antmaze_umaze_vis}), and \texttt{antmaze-medium}, a more complex maze where the agent starts from the bottom-left and must reach the top-right, requiring longer-horizon planning and making it a harder task. A visualization is shown in Figure \ref{fig:antmaze_medium_vis}
+
+Rewards are sparse: the agent receives a reward of $0$ upon reaching the goal and $-1$ otherwise, which penalizes each non-goal step and encourages the agent to reach the goal as quickly as possible.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[t]{0.43\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Homework3/figures/antmaze_umaze_vis.png}
+        \caption{Visualization of the \texttt{antmaze-umaze} environment.}
+        \label{fig:antmaze_umaze_vis}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{Homework3/figures/antmaze_medium_vis.png}
+        \caption{Visualization of the \texttt{antmaze-medium} environment.}
+        \label{fig:antmaze_medium_vis}
+    \end{subfigure}
+    \caption{Visualization of \texttt{AntMaze} environments}
+    \label{fig:antmaze_vis}
+\end{figure}
+
+ In the \texttt{PointMass} environment, the goal is to navigate a gridworld and reach the \texttt{goal} location. The \texttt{PointMass} environment is visualized in Figure~\ref{fig:pointmass_vis}. Rewards are sparse: the agent receives $-1$ at every step and $0$ upon reaching the goal. A visualization is in Figure~\ref{fig:pointmass_vis}
+ 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.38]{Homework3/figures/pointmass_medium_vis.png}
+    \caption{Visualization of the PointMass environment.}
+    \label{fig:pointmass_vis}
+\end{figure}
+
+\paragraph{Evaluations:} 
+
+Performance in both AntMaze and PointMass is evaluated using the average return over evaluation episodes. The return \(R\) is defined as the sum of rewards collected over an episode. Rewards are in \(\{-1, 0\}\), where the agent receives \(0\) upon reaching the goal and \(-1\) at all other timesteps.
+Episodes in which the agent fails to reach the goal will therefore have cumulative rewards close to \(-\texttt{episode\_length}\), while successful episodes will have higher returns (closer to \(0\)) depending on how quickly the goal is reached.
+
+
+\paragraph{Offline datasets: } Offline datasets for \texttt{AntMaze} environments will be automatically downloaded when you run the scripts. The datasets will be automatically downloaded to \\
+\verb|~/.d4rl/datasets/| at the start of each run, and will be cleared once the container exits after the job finishes.
+
+We also provide an additional dataset, \texttt{pointmass\_stitching\_dataset.npz}, which is specifically designed to study the stitching behavior of offline reinforcement learning in \texttt{PointMass}. This dataset can be found under \texttt{offline\_datasets/} in your homework codebase.
+
+\newpage
+
+\section*{Problem 1: Advantage-Weighted Actor-Critic [2 points]}
+In this problem, you will implement the \href{https://arxiv.org/abs/2006.09359}{Advantage-Weighted Actor-Critic} (AWAC) method for offline RL. The objective for updating the actor is an advantage-weighted negative log-likelihood loss function: 
+\begin{equation}
+\label{eq:awac_actor}
+L_\pi(\psi)=-\mathbb{E}_{(s, a) \sim \mathcal{D}}\left[\log \pi_\psi(a \mid s) \exp \left(\frac{1}{\lambda} \mathcal{A}^{\pi_k}(s, a)\right)\right]
+\end{equation}
+where $\mathcal{D}$ denotes the offline dataset, $\pi_\psi(a \mid s)$ is the policy parameterized by $\psi$, $\mathcal{A}^{\pi_k}(s,a)$ is the advantage function computed using a  policy $\pi_k$ (implemented as the current policy with a stop gradient), and $\lambda$ is a temperature parameter.
+
+The Q-function is learned using a Temporal Difference (TD) loss:
+\begin{equation}
+\label{eq:td_objective}
+\mathcal{L}_Q(\phi) =
+\mathbb{E}_{(s,a,s') \sim \mathcal{D}}
+\left[\left(Q_{\phi}(s, a) -
+\left( r(s, a) + \gamma \, \mathbb{E}_{a^{\prime} \sim \pi_\psi(\cdot \mid s^{\prime})}
+\left[Q_{\bar{\phi}}\left(s^{\prime}, a^{\prime}\right)\right]
+\right)\right)^2\right]
+\end{equation}
+where $Q_\phi$ is the Q-function parameterized by $\phi$, $Q_{\bar{\phi}}$ is a target Q-network, $\gamma$ is the discount factor, and $a' \sim \pi_\psi(\cdot \mid s')$ denotes sampling from the current policy.
+
+To reduce overestimation bias in the critic, we use clipped double Q learning. Instead of maintaining a single Q-function, we maintain two Q-networks $Q_{\phi_1}$ and $Q_{\phi_2}$, each with a corresponding target network $Q_{\bar{\phi}_1}$ and $Q_{\bar{\phi}_2}$. The target value is computed using the minimum of the two target Q-functions:
+\begin{equation}
+    y = r(s, a) + \gamma \, \mathbb{E}_{a' \sim \pi_\psi(\cdot \mid s')} \left[ \min_{i \in \{1,2\}} Q_{\bar{\phi}_i}(s', a') \right]
+\end{equation}
+
+The critic is then trained by minimizing the TD error for both Q-functions:
+\begin{equation}
+    \mathbb{E}_{(s,a,s') \sim \mathcal{D}} \left[ \sum_{i=1}^2 \left( Q_{\phi_i}(s, a) - y \right)^2 \right].
+\end{equation}
+
+
+\begin{enumerate}
+\item~\textbf{[1 point]} Fill in the TO-DOs in:
+\begin{itemize}
+    \item \texttt{cs224r/policies/MLP\_policy.py}
+    \item \texttt{cs224r/critics/awac\_critic.py}
+    \item \texttt{cs224r/agents/awac\_agent.py}
+\end{itemize}
+
+After completing the TODOs, experiment with your implementation by training an AWAC agent on \texttt{antmaze-umaze} task over the dataset \texttt{antmaze-umaze-v0} using the command below. The expected training time is around 1 hour.
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+modal run --detach modal_train_para.py --algo awac \
+--env-name antmaze-umaze-v0 \
+--exp-name awac_antmaze_umaze \
+--use-wandb
+\end{verbatim}
+\end{tcolorbox}
+
+\textbf{Tip:} It’s easier to run a single seed using the command below while debugging the code.  You may also inspect the final evaluation rollout videos saved under the \texttt{/data} directory to qualitatively assess your agent’s performance and behavior (see the Setup section for instructions on downloading logs and videos from the Modal Container).
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+modal run --detach modal_train.py --algo awac \
+--env-name antmaze-umaze-v0 \
+--exp-name awac_antmaze_umaze \
+--use-wandb --seed 1
+\end{verbatim}
+\end{tcolorbox}
+
+\textbf{Your tasks:} Report the \textbf{mean and standard deviation across 3 random seeds} of the \textbf{final average return} on the dataset \texttt{antmaze-umaze-v0}. Specifically, for each seed, extract the \texttt{Eval\_AverageReturn} at the \textbf{final checkpoint} from the wandb logs to obtain one scalar value per seed, and then compute the mean and standard deviation over these three values (i.e., aggregate \emph{across seeds}, not within a single run). The provided script automatically launches experiments for all 3 seeds in \textbf{parallel}, and both training and evaluation metrics are logged in \texttt{wandb}. 
+
+\noindent
+
+\answer{
+Fill in Table~\ref{table:awac_antmaze}.
+\begin{table}[H]
+  \centering
+  \caption{AWAC on \texttt{antmaze-umaze-v0}}
+  \vspace{3pt}
+  \label{table:awac_antmaze}
+  \arrayrulecolor{red}
+  \begin{tabular}{|c|c|}
+    \toprule
+    Eval Average Return & Eval Std.\ Dev \\
+    \midrule
+       &  \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+}
+
+\item~\textbf{[1 point]} Experiment with your implementation by training an AWAC agent on a harder task \texttt{antmaze-medium} over the dataset \texttt{antmaze-medium-diverse-v0} using the command below. The expected training time is around 1.5 hours.
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+modal run --detach modal_train_para.py --algo awac \
+--env-name antmaze-medium-diverse-v0 \
+--exp-name awac_antmaze_medium_diverse \
+--use-wandb
+\end{verbatim}
+\end{tcolorbox}
+
+\textbf{Your tasks:} Report the \textbf{mean and standard deviation across 3 random seeds} of the \textbf{final average return} on the dataset \texttt{antmaze-medium-diverse-v0}. For each seed, use the \texttt{Eval\_AverageReturn} at the \textbf{final checkpoint}, and compute the statistics over these three values.
+
+
+\answer{
+Fill in Table~\ref{table:awac_antmaze_medium_diverse}.
+\begin{table}[H]
+  \centering
+  \caption{AWAC on \texttt{antmaze-medium-diverse-v0}}
+  \vspace{3pt}
+  \label{table:awac_antmaze_medium_diverse}
+  \begin{tabular}{|c|c|}
+    \toprule
+    Eval Average Return & Eval Std.\ Dev \\
+    \midrule
+      &  \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+}
+
+
+\end{enumerate}
+
+\newpage
+\section*{Problem 2: Implicit Q-Learning [5 points]}
+In this problem, you'll implement the \href{https://arxiv.org/abs/2110.06169}{Implicit Q-Learning} (IQL) method for offline RL. The actor update for IQL incorporates the advantage function similar to the actor update in the AWAC algorithm (see Equation \ref{eq:awac_actor}).
+
+For critic updates, IQL modifies the critic update to use expectile regression. The expectile $\zeta$ of a random variable $X$ is defined as:
+
+\begin{equation}
+    \arg \min _{m_\zeta} \mathbb{E}_{x \sim X}\left[L_2^\zeta\left(x-m_\zeta\right)\right]
+\end{equation}
+
+\begin{equation}
+ L_2^\zeta(\mu)= |\zeta - \mathbbm{1} \{\mu \leq 0\}|    \mu^2
+\end{equation}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{Homework3/figures/expectile_example.png}
+    \caption{Expectile loss function visualized for different values of $\zeta$.}
+    \label{fig:expectile_example}
+\end{figure}
+
+That is for $\zeta > 0.5$, this asymmetric loss function downweights the contributions of $x$ values smaller than $m_\zeta$, while giving more weights to large values as visualized in Figure~\ref{fig:expectile_example}.
+
+The offline dataset might contain different outcomes from similar states; in standard Q learning, we would want the critic to learn the expected value for any particular state-action pair. IQL, instead of learning the expected value, learns a given percentile. Our goal is to predict an upper expectile of the TD targets that approximate high values of $r(s, a) + \gamma * Q_\theta(s', a')$ which are present in the support of the offline dataset.
+
+To perform this expectile regression, we need a separate parametric value function $V_{\phi}$. Rather than using a single Q-function that requires sampling next-state actions $a' \sim \pi(\cdot \mid s')$ to compute TD targets, IQL introduces a separate $V_\phi(s')$ that directly estimates the value of the next state from the offline dataset. Finally, the critic is \textbf{only} updated with actions that were seen in the offline dataset, and not on any out of distribution (unseen) sampled actions. This leads to the following loss functions:
+
+\begin{equation}
+    L_V(\phi)=\mathbb{E}_{(s, a) \sim D}\left[L_2^\zeta\left(Q_{\bar{\theta}}(s, a)-V_\phi(s)\right)\right],
+\end{equation}
+and 
+\begin{equation}
+    L_Q(\theta)=\mathbb{E}_{\left(s, a, s^{\prime}\right) \sim D}\left[\left(r(s, a)+\gamma V_\phi\left(s^{\prime}\right)-Q_\theta(s, a)\right)^2\right],
+\end{equation}
+where $Q_{\bar{\theta}}$ denotes a target Q-network with parameters $\bar{\theta}$.
+
+\begin{enumerate}
+\item~\textbf{[2 points]} Fill in the TO-DOs in:
+\begin{itemize}
+    \item \texttt{cs224r/critics/iql\_critic.py}
+    \item \texttt{cs224r/agents/iql\_agent.py}
+\end{itemize}
+
+Experiment with $\zeta = 0.2, 0.9$ on the \texttt{antmaze-umaze-v0} using the command below. The expected training time for each run is around 1 hour. 
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+modal run --detach modal_train_para.py --algo iql \
+--env-name antmaze-umaze-v0 \
+--iql-expectile {enter_your_zeta} \
+--exp-name iql_zeta_{enter_your_zeta}_umaze \
+--use-wandb
+\end{verbatim}
+\end{tcolorbox}
+
+\textbf{Tip:} It’s easier to run a single seed using the command below while debugging the code.  
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+modal run --detach modal_train.py --algo iql \
+--env-name antmaze-umaze-v0 \
+--iql-expectile {enter_your_zeta} \
+--exp-name iql_zeta_{enter_your_zeta}_umaze \
+--use-wandb --seed 1
+\end{verbatim}
+\end{tcolorbox}
+
+\textbf{Your task:} \\
+(1) Report the \textbf{mean and standard deviation across 3 random seeds} of the \textbf{final average return} on the dataset \texttt{antmaze-umaze-v0}. For each seed, use the \texttt{Eval\_AverageReturn} at the \textbf{final checkpoint}, and compute the statistics over these three values.\\
+(2) In 2-3 sentences, briefly describe which $\zeta$ value performs better, and why.
+
+
+\noindent
+
+\answer{
+(1) Fill in Table~\ref{table:iql_umaze}.
+ 
+\begin{table}[H]
+  \centering
+  \caption{IQL on \texttt{antmaze-umaze-v0}}
+  \label{table:iql_umaze}
+  \begin{tabular}{|l|c|c|}
+    \toprule
+    $\zeta$ & Eval Average Return & Eval Std.\ Dev \\
+    \midrule
+    0.2 &   &  \\
+    0.9 &   &  \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+ 
+(2) Explanation:
+}
+
+\item~\textbf{[2 points]} Train an IQL agent on \texttt{antmaze-medium-diverse-v0} using the \textbf{better} $\zeta$ value you found in part (1). The expected training time is around 1.5 hours. 
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+modal run --detach modal_train_para.py --algo iql \
+--env-name antmaze-medium-diverse-v0 \
+--iql-expectile {better_zeta} \
+--exp-name iql_zeta_{better_zeta}_medium_diverse \
+--use-wandb
+\end{verbatim}
+\end{tcolorbox}
+
+
+\textbf{Your task:}\\
+(1) Report the \textbf{mean and standard deviation across 3 random seeds} of the \textbf{final average return} on the dataset \texttt{antmaze-medium-diverse-v0}. For each seed, use the \texttt{Eval\_AverageReturn} at the \textbf{final checkpoint}, and compute the statistics over these three values.\\
+(2) Summarize your results in a table that includes the final average return (averaged across the 3 seeds) for both AWAC and IQL (with the selected $\zeta$) on \texttt{antmaze-umaze-v0} and \texttt{antmaze-medium-diverse-v0}. Using this table, compare the performance difference between IQL and AWAC across two tasks with different difficulties. In 3 sentences, discuss which algorithm performs better under the harder task (longer horizon and larger map), and explain why in terms of how each algorithm handles out-of-distribution actions and value estimation.
+
+
+\answer{
+(1) Fill in Table~\ref{table:iql_antmaze_medium_diverse}.
+\begin{table}[htbp]
+  \centering
+  \caption{IQL on \texttt{antmaze-medium-diverse-v0}}
+  \vspace{3pt}
+  \label{table:iql_antmaze_medium_diverse}
+  \begin{tabular}{|c|c|}
+    \toprule
+    Eval Average Return & Eval Std.\ Dev \\
+    \midrule
+      &  \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+ 
+(2) Fill in Table~\ref{table:all_comp} and give the explanation.
+\begin{table}[H]
+  \centering
+  \caption{Final average returns for IQL vs.\ AWAC across two offline datasets}
+  \label{table:all_comp}
+  \begin{tabular}{|l|c|c|}
+    \toprule
+     & AWAC & IQL \\
+    \midrule
+     antmaze-umaze & &  \\
+     antmaze-medium-diverse &  &  \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+ 
+Explanation:
+}
+
+\item~\textbf{[1 point]} In offline reinforcement learning, stitching behavior refers to the ability of an algorithm to combine suboptimal trajectory segments from the dataset to construct a higher-quality policy that was not explicitly observed. In other words, even if the dataset does not contain optimal trajectories, a successful offline RL algorithm can ``stitch'' together good parts of different trajectories to achieve better performance than any individual trajectory in the dataset.
+
+In this problem, you will investigate whether IQL exhibits stitching behavior on a \texttt{PointMass} task.
+
+You are given a suboptimal dataset \texttt{pointmass\_stitching\_dataset.npz} which with max return $-46$ and average return $-104$. 
+
+Train IQL (using the \textbf{better} $\zeta$ value you found in part (1)) and Filtered Behavioral Cloning (Filtered BC) on this dataset using the provided commands. Filtered BC uses only the top $10\%$ highest-return trajectories. The expected training time for IQL is around 15 minutes and for Filtered BC is around 10 minutes.
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+modal run --detach modal_train_para.py --algo iql \
+--env-name PointmassMedium-v0 \
+--exp-name iql_zeta_{better_zeta}_stitching \
+--iql-expectile {better_zeta} \
+--offline-dataset offline_datasets/pointmass_stitching_dataset.npz \
+--use-wandb
+\end{verbatim}
+\end{tcolorbox}
+
+\begin{tcolorbox}[width=\linewidth, sharp corners=all, colback=white!95!black]
+\begin{verbatim}
+modal run --detach modal_train_para.py --algo bc \
+--env-name PointmassMedium-v0 \
+--exp-name filtered_bc_stitching \
+--offline-dataset offline_datasets/pointmass_stitching_dataset.npz \
+--filter-top-percent 10 \
+--use-wandb
+\end{verbatim}
+\end{tcolorbox}
+
+
+\textbf{Your tasks:} \\
+(1) Report the mean and standard deviation (across \textbf{3 different random seeds}) of the average and maximum return for both IQL and Filtered BC. \\
+(2) Attach the trajectory visualization of the final trajectory generated by the last checkpoint for both IQL and Filtered BC as a qualitative evaluation. You can find the trajectory visualization figures under the downloaded results directory after retrieving the outputs from the Modal container. See the instruction in the \textbf{Retrieving Results from Modal Container} section. \\
+(3) Analyze whether IQL achieves returns higher than $-46$, compare its performance with Filtered BC, and analyze whether IQL demonstrates better \textbf{stitching behavior}, i.e., whether it can combine suboptimal trajectory segments from the offline dataset to compose a higher-return path that neither trajectory achieves alone.
+
+\answer{
+(1) Fill in Table~\ref{table:stitching}.
+\begin{table}[H]
+  \centering
+  \caption{IQL and Filtered BC on \texttt{PointMass}}
+  \vspace{3pt}
+  \label{table:stitching}
+  \begin{tabular}{|l|c|c|}
+    \toprule
+    Algorithm & Average Return $\pm$ Std.\ Dev & Maximum Return $\pm$ Std.\ Dev \\
+    \midrule
+     IQL & $\pm$ & $\pm$ \\
+     Filtered BC & $\pm$ & $\pm$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+ 
+(2) Trajectory visualization figures:
+ 
+(3) Explanation:
+}
+
+
+
+\end{enumerate}
+
+
+\end{document}
