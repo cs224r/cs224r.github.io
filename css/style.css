@@ -99,6 +99,42 @@ body b a {
     background-color: #807e9b;
 }
 
+.modal-support-note {
+    margin: 18px 0;
+    padding: 12px 16px;
+    background: #f8fbf8;
+    border-left: 3px solid #62de61;
+}
+
+.modal-support-note p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    color: #444;
+}
+
+.modal-support-note span {
+    min-width: 0;
+    line-height: 1.5;
+}
+
+.modal-support-note a {
+    color: inherit;
+    border-bottom: 1px dotted #444;
+}
+
+.modal-support-note a:hover {
+    text-decoration: none;
+    border-bottom-style: solid;
+}
+
+.modal-logo {
+    width: 32px;
+    height: auto;
+    flex: 0 0 auto;
+}
+
 .square-image {
     width: 160px;
     height: 160px;
