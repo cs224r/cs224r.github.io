@@ -1,0 +1,1634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>CS 224R Final Projects</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Final project reports from CS 224R Deep Reinforcement Learning, Stanford University, Spring 2026.">
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+
+    <style>
+        .back-link {
+            display: inline-block;
+            margin-top: 18px;
+            font-size: 15px;
+        }
+        #search {
+            max-width: 460px;
+            margin: 4px 0 6px;
+        }
+        #count {
+            color: #666;
+            font-size: 14px;
+            min-height: 20px;
+            margin-bottom: 12px;
+        }
+        table.projects {
+            table-layout: fixed;
+            margin-bottom: 10px;
+        }
+        table.projects th {
+            background-color: #f3f3f3;
+            position: sticky;
+            top: 0;
+        }
+        table.projects th.col-type { width: 9%; }
+        table.projects th.col-title { width: 51%; }
+        table.projects th.col-ta { width: 15%; }
+        table.projects th, table.projects td {
+            padding: 10px 14px;
+            vertical-align: top;
+        }
+        td.authors, td.type, td.ta { color: #666; }
+        tr.outstanding-row,
+        .table-hover > tbody > tr.outstanding-row:hover > td {
+            background-color: #fff8e1;
+        }
+        .label-outstanding { background-color: #b8860b; }
+        #noresults {
+            display: none;
+            padding: 24px 14px;
+            color: #666;
+        }
+        @media (max-width: 700px) {
+            table.projects thead { display: none; }
+            table.projects, table.projects tbody { display: block; width: 100%; }
+            table.projects tr {
+                display: flex;
+                flex-direction: column;
+                border-top: 1px solid #ddd;
+                padding: 10px 0;
+            }
+            table.projects td { display: block; width: 100%; border-top: none; padding: 2px 8px; }
+            td.title { order: 1; }
+            td.authors { order: 2; }
+            td.type, td.ta { order: 3; font-size: 14px; color: #888; }
+            td.type::before { content: "Track: "; }
+            td.ta::before { content: "Mentor TA: "; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <a class="back-link" href="../index.html">&#8592; Back to CS 224R Home</a>
+
+                <h1>CS 224R Final Projects</h1>
+                <h3>Spring 2026 &middot; 246 student projects</h3>
+                <p>Final project reports from CS 224R Deep Reinforcement Learning.
+                    Click a title to open the report (PDF, new tab).</p>
+
+                <input type="text" id="search" class="form-control"
+                    placeholder="Search by title or author..." autocomplete="off"
+                    aria-label="Search projects">
+                <div id="count"></div>
+
+                <table class="table table-hover projects">
+                    <thead>
+                        <tr>
+                            <th class="col-type">Type</th>
+                            <th class="col-title">Title</th>
+                            <th>Authors</th>
+                            <th class="col-ta">Mentor TA</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rows">
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Mauricio%20Berlanga%20Carrillo%20submission_416263800/final.pdf" target="_blank" rel="noopener"><b>A Contextual Bandit for Cheap-vs-Expensive Code Generation</b></a></td>
+                            <td class="authors">Mauricio Berlanga Carrillo</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Nikhil%20Raman%20Nadim%20Isaac%20submission_416084231/CS224R_Final_Project_v2.pdf" target="_blank" rel="noopener"><b>A Self-Play Algorithm for Countdown</b></a></td>
+                            <td class="authors">Nikhil Raman, Nadim Isaac</td>
+                            <td class="ta">Max Du</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Avi%20Singh%20Mahdi%20Al-Husseini%20submission_416283010/merged_ea_paper_cs224rl.pdf" target="_blank" rel="noopener"><b>A Semi-Decentralized Approach to Scalable Multiagent Control</b></a></td>
+                            <td class="authors">Avi Singh, Mahdi Al-Husseini</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Elvin%20Fu%20Cole%20Donald%20Van%20Hersett%20submission_416288553/cs224r_final_report_2025.pdf" target="_blank" rel="noopener"><b>Action-Token Pruning for Sample-Efficient RL Fine-Tuning of Robot Policies</b></a></td>
+                            <td class="authors">Elvin Fu, Cole Donald Van Hersett</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Zhengmao%20Liu%20submission_416149136/cs224r_final_report.pdf" target="_blank" rel="noopener"><b>Active RLOO: Online Filtering with Adaptive K</b></a></td>
+                            <td class="authors">Zhengmao Liu</td>
+                            <td class="ta">Max Du</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Daniel%20Steven%20Schreck%20Sheng-Yong%20Niu%20Karishma%20Aggarwal%20submission_416269754/Project_Report.pdf" target="_blank" rel="noopener"><b>Adaptive Competence-Boundary Curricula for Countdown with RLOO</b></a></td>
+                            <td class="authors">Daniel Steven Schreck, Sheng-Yong Niu, Karishma Aggarwal</td>
+                            <td class="ta">Max Du</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Agam%20Iheanyi-Igwe%20Olatayo%20Anthony%20Sobomehin%20submission_416288534/FinalCS224R_Report.pdf" target="_blank" rel="noopener"><b>Adaptive Curriculum Learning for Reinforcement-Trained Reasoning</b></a></td>
+                            <td class="authors">Agam Iheanyi-Igwe, Olatayo Anthony Sobomehin</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Yu%20Chi%20Hsu%20Ryan%20He%20submission_416242137/CS224R_Final_Project_Report.pdf" target="_blank" rel="noopener"><b>Adaptive Curriculum Learning for RL-Based Arithmetic Reasoning</b></a></td>
+                            <td class="authors">Yu Chi Hsu, Ryan He</td>
+                            <td class="ta">Shengqu Cai</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Jerry%20Jiayu%20Li%20submission_415585255/cs224r_final_report.pdf" target="_blank" rel="noopener"><b>Adaptive Curriculum Learning for RLOO on Countdown</b></a></td>
+                            <td class="authors">Jerry Jiayu Li</td>
+                            <td class="ta">Yash Kankariya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Mahmoud%20Elgenedy%20submission_416287412/Final_project_MahmoudElgenedy_v3.pdf" target="_blank" rel="noopener"><b>Adaptive Curriculum Learning with Difficulty-Conditioned Entropy Regularization for RL Fine-Tuning of Large Language Models</b></a></td>
+                            <td class="authors">Mahmoud Elgenedy</td>
+                            <td class="ta">Shengqu Cai</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Louis%20Weisdorf%20Laszlo%20Bollyky%20submission_416271112/CS_224R___Final_Project_Report.pdf" target="_blank" rel="noopener"><b>Adaptive Curriculum RL via LLM-Guided Complexity Scoring</b></a></td>
+                            <td class="authors">Louis Weisdorf, Laszlo Bollyky</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Kelechi%20Onuoha%20submission_416243674/CS_224R_Project_Report__1_.pdf" target="_blank" rel="noopener"><b>Adaptive Curriculum RLOO for Verifiable Arithmetic Reasoning in Language Models</b></a></td>
+                            <td class="authors">Kelechi Onuoha</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Donna%20Choi%20submission_416460376/CS224R_Project_Final.pdf" target="_blank" rel="noopener"><b>Adaptive Difficulty Scheduling: A Competency-Gated Curriculum for Small-LLM Reasoning</b></a></td>
+                            <td class="authors">Donna Choi</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Darren%20Chan%20Jayna%20Grace%20Huang%20Sophie%20Zhang%20submission_416260291/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Adaptive Difficulty-Aware Curriculum Learning for RLOO</b></a></td>
+                            <td class="authors">Darren Chan, Jayna Grace Huang, Sophie Zhang</td>
+                            <td class="ta">Anikait Singh</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Anya%20Han%20Zhang%20submission_416411079/final_project_report.pdf" target="_blank" rel="noopener"><b>Adaptive Multi-Turn Red-Teaming for Mental Health Adjacent Language Model Safety</b></a></td>
+                            <td class="authors">Anya Han Zhang</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Andrea%20Ji%20Woo%20Nam%20Song%20submission_416288321/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Adaptive Test-Time Sampling for RL-Fine-Tuned Reasoning Policies</b></a></td>
+                            <td class="authors">Andrea Ji Woo Nam Song</td>
+                            <td class="ta">Anikait Singh</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Nate%20Demchak%20Pravin%20Ravishanker%20Haosheng%20Li%20submission_416253945/CS224R_Final_Project_Report.pdf" target="_blank" rel="noopener"><b>Advantage-Driven Synthetic Curriculum for Reinforcement Learning based Fine-Tuning of Large Language Models</b></a></td>
+                            <td class="authors">Nate Demchak, Pravin Ravishanker, Haosheng Li</td>
+                            <td class="ta">Anikait Singh</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Viveak%20Ravichandiran%20submission_416282898/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Adversarial Co-evolution of a Difficulty Judge and an LLM Generator with an RLOO Policy for Cold-Start Countdown Reasoning</b></a></td>
+                            <td class="authors">Viveak Ravichandiran</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Ryan%20D%27Cunha%20Ethan%20Hersch%20Abhinav%20Chinta%20submission_416264098/CS224R__Final_Project_Report.pdf" target="_blank" rel="noopener"><b>Algorithm Sequencing and Curriculum Learning in Deep Reinforcement Learning</b></a></td>
+                            <td class="authors">Ryan D&#x27;Cunha, Ethan Hersch, Abhinav Chinta</td>
+                            <td class="ta">Ifdita Hasan Orney</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Ryan%20Nathan%20Padnis%20submission_415383266/CS_224R_Final_Paper_.pdf" target="_blank" rel="noopener"><b>Alpha-Informed Optimal Trading Execution: Reinforcement Learning with Domain Informed Priors</b></a></td>
+                            <td class="authors">Ryan Nathan Padnis</td>
+                            <td class="ta">Ethan Hsu</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Zeyuan%20Feng%20submission_416287718/CS224R_final_project_report_zf.pdf" target="_blank" rel="noopener"><b>An Actor-Critic Neural Reachability Solver for High-Dimensional Zero-Sum Games</b></a></td>
+                            <td class="authors">Zeyuan Feng</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Mihir%20S%20Menon%20Zihan%20Wang%20Aarav%20Arora%20submission_416237841/CS_224R_Final_Report.pdf" target="_blank" rel="noopener"><b>An RL Framework for Persistent Memory Attacks on LLM Agents</b></a></td>
+                            <td class="authors">Mihir S Menon, Zihan Wang, Aarav Arora</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Kailana%20Baker-Matsuoka%20submission_416167810/Your_Project_Title__1_.pdf" target="_blank" rel="noopener"><b>Architecture-Dependent Effects of Data Curation in Robot Manipulation Imitation Learning</b></a></td>
+                            <td class="authors">Kailana Baker-Matsuoka</td>
+                            <td class="ta">Jonathan Yang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Anna%20Wu%20Ethan%20Jun-shen%20Ho%20submission_416287520/cs224r_paper__1_.pdf" target="_blank" rel="noopener"><b>Augmenting Cybersecurity Capabilities with Adversarial RL and Autoregressive Action Parameterization in Small LLMs</b></a></td>
+                            <td class="authors">Anna Wu, Ethan Jun-shen Ho</td>
+                            <td class="ta">Ethan Hsu</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Nubia%20Elena%20Correa%20Abi%20Lopez%20Annie%20Gisselle%20Villalta%20submission_416149412/Final_Report_CS_224R_All_access.pdf" target="_blank" rel="noopener"><b>Automated Red Teaming using Reinforcement Learning</b></a></td>
+                            <td class="authors">Nubia Elena Correa, Abi Lopez, Annie Gisselle Villalta</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Ela%20Naz%20Sigin%20Anastasiya%20Masalava%20Eva%20Casto%20submission_416288591/CS224R_Final_Paper.pdf" target="_blank" rel="noopener"><b>Bandits for Cold-Start: Exploration vs. Exploitation in Recommendation</b></a></td>
+                            <td class="authors">Ela Naz Sigin, Anastasiya Masalava, Eva Casto</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Tyler%20Kinh%20Ho%20submission_416286558/CS224r_Final_Report.pdf" target="_blank" rel="noopener"><b>Begging for DEI: Increasing LLM Math Performance by Increasing Diversity</b></a></td>
+                            <td class="authors">Tyler Kinh Ho</td>
+                            <td class="ta">Joy He-Yueya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Stella%20Wu%20Daniel%20Mark%20Argento%20submission_416139495/Argento_and_Wu_RL_Reward_Design_in_Personal_Finance.pdf" target="_blank" rel="noopener"><b>Beyond Test Scores: Reward Design for Offline RL in Personal Finance Tutoring</b></a></td>
+                            <td class="authors">Stella Wu, Daniel Mark Argento</td>
+                            <td class="ta">Alex Nam</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Iris%20Zixiao%20Xu%20Jamin%20Jia-Ming%20Xie%20Eric%20Liang%20submission_416288445/CS_224R_Final_Report__BLIND__1_.pdf" target="_blank" rel="noopener"><b>BLIND: Bipedal Locomotion with Intermittent Navigation Data for Environmental Hazards</b></a></td>
+                            <td class="authors">Iris Zixiao Xu, Jamin Jia-Ming Xie, Eric Liang</td>
+                            <td class="ta">Tian Gao</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Rishabh%20Malviya%20submission_416289307/BSP_-_Project_Report.pdf" target="_blank" rel="noopener"><b>Body Schema Pretraining for Sample-Efficient Reinforcement Learning in Robotic Control</b></a></td>
+                            <td class="authors">Rishabh Malviya</td>
+                            <td class="ta">Tian Gao</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Ian%20Yue-Ran%20Chen%20submission_416149635/CS224R_DFP_Final_Report_-_Ian_Chen.pdf" target="_blank" rel="noopener"><b>Bounded Proximity Rewards: Accelerating Post-Training Reinforcement Learning for Arithmetic Reasoning without Policy Divergence</b></a></td>
+                            <td class="authors">Ian Yue-Ran Chen</td>
+                            <td class="ta">Yash Kankariya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Cole%20A%20Citrenbaum%20Noah%20Cowan%20Aymen%20Echarghaoui%20submission_416280760/Final_Project_CS224R_OT_based_Curriculum_Learning__Copy_-3.pdf" target="_blank" rel="noopener"><b>Bridging the Gap: Optimal Transport-Guided Curriculum Learning</b></a></td>
+                            <td class="authors">Cole A Citrenbaum, Noah Cowan, Aymen Echarghaoui</td>
+                            <td class="ta">Yash Kankariya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Luca%20De%20Donno%20submission_416332358/final_report.pdf" target="_blank" rel="noopener"><b>Budget-Conditioned Tool Use for Countdown Reasoning</b></a></td>
+                            <td class="authors">Luca De Donno</td>
+                            <td class="ta">Yash Kankariya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Anton%20Thieme%20submission_416027663/cs224r_project_final_report.pdf" target="_blank" rel="noopener"><b>Calibrated Reinforcement Learning for LLM-Guided Perturbation Screen Design</b></a></td>
+                            <td class="authors">Anton Thieme</td>
+                            <td class="ta">Megha Srivastava</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Amrita%20Malhotra%20Giselle%20Rivera%20Zofia%20Dudek%20submission_416287379/CS224R_Final_Project_Report.pdf" target="_blank" rel="noopener"><b>Can Teacher-Generated Curriculum Strategies Improve LLM Reasoning?</b></a></td>
+                            <td class="authors">Amrita Malhotra, Giselle Rivera, Zofia Dudek</td>
+                            <td class="ta">Anikait Singh</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Febie%20Jane%20Lin%20Fabio%20Ibanez%20Chris%20Stanulet%20submission_416241402/CS224R___CARVE_Final_Report.pdf" target="_blank" rel="noopener"><b>CARVE: Concept Avoidance via Reward-shaped Visual Erasure</b></a></td>
+                            <td class="authors">Febie Jane Lin, Fabio Ibanez, Chris Stanulet</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Daniel%20Marcelo%20Mottesi%20submission_416288153/City_Builder__2_.pdf" target="_blank" rel="noopener"><b>City Builder: Does Induced Demand Make Transit Network Design a Reinforcement Learning Problem?</b></a></td>
+                            <td class="authors">Daniel Marcelo Mottesi</td>
+                            <td class="ta">Joy He-Yueya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Ethan%20Zhang%20Tatiana%20Zhang%20Jenny%20Wei%20submission_416287485/CS224R_Project_Writeup.pdf" target="_blank" rel="noopener"><b>CKR: A Novel Baselining Improvement for T2I-Model Reinforcement Learning Using Noisy Rewards</b></a></td>
+                            <td class="authors">Ethan Zhang, Tatiana Zhang, Jenny Wei</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Xue%20Zhang%20submission_416334596/cs224r_final__1_.pdf" target="_blank" rel="noopener"><b>Collapse-Resistant Constitutional AI for Small Language Models through Synthetic Revision Filtering</b></a></td>
+                            <td class="authors">Xue Zhang</td>
+                            <td class="ta">Alex Nam</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Nathaniel%20D%20Laurent%20Matthew%20Michael%20Musson%20submission_416288593/224_Final_Poster__1_.pdf" target="_blank" rel="noopener"><b>Compressed Memory via LoRA Fine-Tuning for Vision-Language-Action Models</b></a></td>
+                            <td class="authors">Nathaniel D Laurent, Matthew Michael Musson</td>
+                            <td class="ta">Tian Gao</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><b>Compressing Vision-Language-Action Models via Backbone and DiT Quantization</b></td>
+                            <td class="authors">William Yang</td>
+                            <td class="ta">Tian Gao</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Deniz%20Zeren%20Yilmaz%20Sameer%20Agrawal%20Siddharth%20M.%20Bhatia%20submission_416288255/CS224R_Report__3_.pdf" target="_blank" rel="noopener"><b>Controlling a Fusion Reactor with Reinforcement Learning</b></a></td>
+                            <td class="authors">Deniz Zeren Yilmaz, Sameer Agrawal, Siddharth M. Bhatia</td>
+                            <td class="ta">Marcel Torne</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Kyler%20Shu%20Purushotham%20Mani%20John%20Tucker%20submission_416334219/CS224R_FinalReport.pdf" target="_blank" rel="noopener"><b>Cooperative Fine-Tuning of Pretrained Vision-Language-Action Policies: Centralization, Communication, and Inference Recipes on TwoArmTransport</b></a></td>
+                            <td class="authors">Kyler Shu, Purushotham Mani, John Tucker</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Patrick%20Wang%20submission_416202865/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Cost-Aware Tool-Integrated Reasoning for Countdown Arithmetic</b></a></td>
+                            <td class="authors">Patrick Wang</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Tao%20Sun%20submission_416288778/Archive__4_.pdf" target="_blank" rel="noopener"><b>Countdown as an Agentic Optimization Problem</b></a></td>
+                            <td class="authors">Tao Sun</td>
+                            <td class="ta">Yash Kankariya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Hlumelo%20Notshe%20submission_416288795/CS224R_Final_Report_Notshe.pdf" target="_blank" rel="noopener"><b>Critic-Targeted Exploration: Learned Per-Rollout Targeting of Entropy Bonuses in GRPO</b></a></td>
+                            <td class="authors">Hlumelo Notshe</td>
+                            <td class="ta">Joy He-Yueya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Jevon%20Mao%20Yifan%20Geng%20Alexia%20Huang%20submission_416288379/CS224R_Report.pdf" target="_blank" rel="noopener"><b>Curiosity-Driven Memory-Augmented Reinforcement Learning for Adaptive Robot Tasks</b></a></td>
+                            <td class="authors">Jevon Mao, Yifan Geng, Alexia Huang</td>
+                            <td class="ta">Marcel Torne</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Fengzhou%20Li%20submission_415833590/CS224R_final_report.pdf" target="_blank" rel="noopener"><b>Curriculum Learning for Countdown Reasoning in RL Fine-Tuning: Static Schedules Help, Adaptive Frontiers Forget</b></a></td>
+                            <td class="authors">Fengzhou Li</td>
+                            <td class="ta">Yash Kankariya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Andrew%20Tin-Lok%20Lee%20submission_416121494/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Curriculum Learning with Success-Rate-Driven Adaptive Gaussian Scheduler</b></a></td>
+                            <td class="authors">Andrew Tin-Lok Lee</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Catherine%20M%20Zhang%20Nora%20Menon%20submission_416286073/cs_224r_final_report__1_.pdf" target="_blank" rel="noopener"><b>Curriculum Sampling for RLOO Fine-Tuning on Countdown</b></a></td>
+                            <td class="authors">Catherine M Zhang, Nora Menon</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Gabrielle%20Marie%20Walrath%20Irene%20Ai%20Lin%20Ethan%20Tamer%20Farah%20submission_416285761/CS224R_Project_Proposal_Template__8_.pdf" target="_blank" rel="noopener"><b>Curriculum Strategies for Bimanual Dexterous Piano Playing in RoboPianist</b></a></td>
+                            <td class="authors">Gabrielle Marie Walrath, Irene Ai Lin, Ethan Tamer Farah</td>
+                            <td class="ta">Megha Srivastava</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Farzad%20Pourbabaee%20submission_416170334/main.pdf" target="_blank" rel="noopener"><b>Decentralized Q-Learning of the Social Optimum in Strategic Experimentation</b></a></td>
+                            <td class="authors">Farzad Pourbabaee</td>
+                            <td class="ta">Joy He-Yueya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Lisa%20Li%20Yaqi%20Fan%20submission_416234583/CS224R_final_project_report__2_.pdf" target="_blank" rel="noopener"><b>Deep Reinforcement Learning for Campus-Scale Vehicle-to-Grid Fleet Scheduling</b></a></td>
+                            <td class="authors">Lisa Li, Yaqi Fan</td>
+                            <td class="ta">Joy He-Yueya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Julia%20T%20Isaac%20Tanush%20Talati%20submission_416286517/cs_224_final_report__1_.pdf" target="_blank" rel="noopener"><b>Deep Reinforcement Learning for User Welfare Optimization on Recommendation Systems with Competing Content Creators</b></a></td>
+                            <td class="authors">Julia T Isaac, Tanush Talati</td>
+                            <td class="ta">Alex Nam</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Diya%20Janvi%20Kejriwal%20Andrew%20Su%20Gurmeher%20Kaur%20submission_416287372/CS224R_Final_Report__1_.pdf" target="_blank" rel="noopener"><b>Dense Language Rewards For Reasoning</b></a></td>
+                            <td class="authors">Diya Janvi Kejriwal, Andrew Su, Gurmeher Kaur</td>
+                            <td class="ta">Marcel Torne</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Ahmed%20Sherif%20Ahmed%20Elbakry%20Mohamed%20submission_416130057/CS224R_Report.pdf" target="_blank" rel="noopener"><b>Dense Rewards for RLVR on Countdown via ASTs</b></a></td>
+                            <td class="authors">Ahmed Sherif Ahmed Elbakry Mohamed</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Dhruv%20Arcot%20submission_416233949/CS224r_Final_Project.pdf" target="_blank" rel="noopener"><b>Dense Step-Level Rewards via Process Reward Models for Mathematical Reasoning</b></a></td>
+                            <td class="authors">Dhruv Arcot</td>
+                            <td class="ta">Joy He-Yueya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Luis%20Marc%20Botin-Sanz%20de%20Sautuola%20submission_415931110/Deployment_Time_Risk_Scoring_for_a_Safe_RL_Agent_under_Distribution_Shift.pdf" target="_blank" rel="noopener"><b>Deployment-Time Risk Scoring for a Safe RL Agent under Distribution Shift</b></a></td>
+                            <td class="authors">Luis Marc Botin-Sanz de Sautuola</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/William%20Z%20Liu%20Sakthivel%20Sivaraman%20Jerry%20Gu%20submission_416331397/CS_224R_Final_Project_Report.pdf" target="_blank" rel="noopener"><b>DiSCo: Distilled Steering via Consolidation for Robot Diffusion Policies</b></a></td>
+                            <td class="authors">William Z Liu, Sakthivel Sivaraman, Jerry Gu</td>
+                            <td class="ta">Max Du</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Jane%20Yang%20Will%20Nathaniel%20Hansen%20submission_416276770/224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Diversity-Aware RLOO for Pass@k Reasoning in Countdown</b></a></td>
+                            <td class="authors">Jane Yang, Will Nathaniel Hansen</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Juntao%20Cheng%20Qi%20Wu%20Zhuoang%20Tao%20submission_416288270/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Diversity-Preserving On-Policy Distillation and Test-Time Verification for Countdown Reasoning</b></a></td>
+                            <td class="authors">Juntao Cheng, Qi Wu, Zhuoang Tao</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Minyeong%20Kim%20submission_416288775/cs224r_final_report_2025.pdf" target="_blank" rel="noopener"><b>Do generated futures help robot policies through representation alignment or explicit conditioning?</b></a></td>
+                            <td class="authors">Minyeong Kim</td>
+                            <td class="ta">Jonathan Yang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Artur%20Barbosa%20Carneiro%20submission_416073818/CS_224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Do Persona Vectors Track Sycophancy Under RL Fine-Tuning?</b></a></td>
+                            <td class="authors">Artur Barbosa Carneiro</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Mark%20William%20Gernitis%20submission_416285813/Final_Report_3.pdf" target="_blank" rel="noopener"><b>Does LoRA Rank Requirement Scale with Reward Density? An Empirical Study of Policy-Gradient Post-Training</b></a></td>
+                            <td class="authors">Mark William Gernitis</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Felipe%20Laufer%20Barbosa%20Mark%20Music%20Alex%20Jihun%20Kim%20submission_416181642/PiDrive_Paper.pdf" target="_blank" rel="noopener"><b>π-Drive: Reinforcement Post-Training Turns a Manipulation VLA into a Real-Time Driving Policy</b></a></td>
+                            <td class="authors">Felipe Laufer Barbosa, Mark Music, Alex Jihun Kim</td>
+                            <td class="ta">Tian Gao</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Kevin%20Michael%20Porter%20submission_416252459/CS224R_Project.pdf" target="_blank" rel="noopener"><b>Effect of Stigmergic Potential Fields on Drone Swarm Coordination</b></a></td>
+                            <td class="authors">Kevin Michael Porter</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Riya%20Karthik%20Narain%20Brooke%20Hunter%20Ballhaus%20submission_416254456/CS_224R_Final_Project_Report.pdf" target="_blank" rel="noopener"><b>Emergent Cooperation in Multi-Agent Pandemic Resource Allocation</b></a></td>
+                            <td class="authors">Riya Karthik Narain, Brooke Hunter Ballhaus</td>
+                            <td class="ta">Alex Nam</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Melvin%20Liam%20Poon%20Keat%20Kenna%20Zeng%20submission_416218785/CS224r_Report.pdf" target="_blank" rel="noopener"><b>Encouraging Taxonomy-Based Diversity within RL Automated Multi-Turn Red-Teaming</b></a></td>
+                            <td class="authors">Melvin Liam Poon Keat, Kenna Zeng</td>
+                            <td class="ta">Alex Nam</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Irawadee%20Thawornbut%20Rinnara%20Sangpisit%20submission_416288336/CS224R_Final_Report_Rinnara_Irawadee.pdf" target="_blank" rel="noopener"><b>Enhancing RLOO with Dense Symbolic Rewards and Bandit-Driven Curricula</b></a></td>
+                            <td class="authors">Irawadee Thawornbut, Rinnara Sangpisit</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Erwin%20Giovanbattista%20Marcel%20R.%20Poussi%20submission_416175488/SINGER_report_citations_added.pdf" target="_blank" rel="noopener"><b>Enhancing SINGER: Onboard Visual Drone Navigation through Iterative Imitation Learning and Reinforcement Fine-Tuning</b></a></td>
+                            <td class="authors">Erwin Giovanbattista Marcel R. Poussi</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Lin%20Yuan%20Chloe%20Yuri%20Jeon%20Kelvin%20Kahiu%20Waititu%20submission_416288449/CS224R___Final_Report.pdf" target="_blank" rel="noopener"><b>Evaluating RL efficiency improvement methods including Synthetic Data Augmentation and Any-Generation Reward Optimization for Mathematical Reasoning on Countdown Tasks</b></a></td>
+                            <td class="authors">Lin Yuan, Chloe Yuri Jeon, Kelvin Kahiu Waititu</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Eli%20Thomas%20Wandless%20submission_416209154/224r_report.pdf" target="_blank" rel="noopener"><b>Exploratory Coding with Poly-EPO</b></a></td>
+                            <td class="authors">Eli Thomas Wandless</td>
+                            <td class="ta">Ifdita Hasan Orney</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Kuo-Han%20Hung%20submission_415391100/224_final_project__3_.pdf" target="_blank" rel="noopener"><b>EXPO-FT: Sample-Efficient Reinforcement Learning Finetuning for Vision-Language-Action Models</b></a></td>
+                            <td class="authors">Kuo-Han Hung</td>
+                            <td class="ta">Perry Dong</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Ashwin%20Mahendran%20Anjali%20Sreenivas%20Arianna%20Liang%20Cao%20submission_416286063/CS_224R_Project_Final_Report.pdf" target="_blank" rel="noopener"><b>Failing to Grasp the Point: Hierarchical Reinforcement Learning for Grasping Tasks</b></a></td>
+                            <td class="authors">Ashwin Mahendran, Anjali Sreenivas, Arianna Liang Cao</td>
+                            <td class="ta">Tian Gao</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Sidhanth%20Mishra%20submission_416270412/CS224R___Final_Project_Paper_Sidhanth_M-2.pdf" target="_blank" rel="noopener"><b>Fault-Adaptive Locomotion via Implicit Damage Detection in MuJoCo Ant</b></a></td>
+                            <td class="authors">Sidhanth Mishra</td>
+                            <td class="ta">Tian Gao</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Vishaal%20Samir%20Saraiya%20submission_416286908/CS_224R_-_Final_Report_-_Vishaal_Samir_Saraiya.pdf" target="_blank" rel="noopener"><b>Feature-Space Curriculum Learning for Countdown Reasoning</b></a></td>
+                            <td class="authors">Vishaal Samir Saraiya</td>
+                            <td class="ta">Yash Kankariya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Chandon%20Robert%20Hamel%20submission_416154851/cs224r_final_report_2026.pdf" target="_blank" rel="noopener"><b>FlowMPC: Improving Flow Matching policies with World Models</b></a></td>
+                            <td class="authors">Chandon Robert Hamel</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Elana%20N%20Chen%20Hayden%20Kwan%20William%20Charles%20Rose%20submission_416286846/CS224R_Final_Report__2_.pdf" target="_blank" rel="noopener"><b>Forced Grounding: Diagnosing and Repairing Language Neglect in Imitation-Learned Robot Policies via RL</b></a></td>
+                            <td class="authors">Elana N Chen, Hayden Kwan, William Charles Rose</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Brion%20Qi%20Ye%20submission_416285160/cs224r_report.pdf" target="_blank" rel="noopener"><b>Foveated Vision via Prediction Error–Augmented Reinforcement Learning</b></a></td>
+                            <td class="authors">Brion Qi Ye</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Asmani%20Yamin%20Megan%20Santhumayor%20Katie%20Liu%20submission_416286923/cs224r_final_report__Copy_.pdf" target="_blank" rel="noopener"><b>Fragment Assembly as Goal-Reaching: An RL Approach to Targeted Molecular Design</b></a></td>
+                            <td class="authors">Asmani Yamin, Megan Santhumayor, Katie Liu</td>
+                            <td class="ta">Perry Dong</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Alan%20Zhao%20Juhyun%20Jung%20submission_416278468/final_project_report.pdf" target="_blank" rel="noopener"><b>Frequency Reparameterization and Anchored Residuals for Flow Matching Robot Policies</b></a></td>
+                            <td class="authors">Alan Zhao, Juhyun Jung</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Kyle%20Ian%20Schmoyer%20Hannah%20Gabriella%20Clay%20Shane%20Robinson%20Mion%20submission_416279703/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>From Contact to Return: Curriculum and Predictive Shaping for Humanoid Table Tennis</b></a></td>
+                            <td class="authors">Kyle Ian Schmoyer, Hannah Gabriella Clay, Shane Robinson Mion</td>
+                            <td class="ta">Jonathan Yang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Christine%20Li%20Eric%20Xia%20submission_416282476/CS224r_Final_Report_Final_Version.pdf" target="_blank" rel="noopener"><b>From Structured Backtracking to Targeted Failure Correction for Robust Mathematical Reasoning</b></a></td>
+                            <td class="authors">Christine Li, Eric Xia</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Kuzey%20Kantarcioglu%20Benji%20Warburton%20submission_415727507/Benji_Kuzey_Final_Paper_224R.pdf" target="_blank" rel="noopener"><b>From Text to Torque: Improving RL Tracking of Text-Generated Humanoid Motions</b></a></td>
+                            <td class="authors">Kuzey Kantarcioglu, Benji Warburton</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Andy%20Sung%20Jae%20Kim%20Marco%20Antonio%20Vizcarra%20Tovar%20submission_416284152/cs224r_final_project.pdf" target="_blank" rel="noopener"><b>Frontier Curriculum and Adaptive Test-Time Compute for Efficient RLOO</b></a></td>
+                            <td class="authors">Andy Sung Jae Kim, Marco Antonio Vizcarra Tovar</td>
+                            <td class="ta">Anikait Singh</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Garrett%20Alarcon%20submission_416154037/CS224_Final_Report_gaa.pdf" target="_blank" rel="noopener"><b>Frontier-Weighted SEC: A Case Study in Curriculum Learning for RL Fine-Tuning of Language Models</b></a></td>
+                            <td class="authors">Garrett Alarcon</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Omar%20Eduardo%20Jimenez%20Lopez%20submission_416370746/ejimenel_report_v2.pdf" target="_blank" rel="noopener"><b>Generative and Hierarchical Imitation Learning for Marine Trajectory Control in Stochastic Ocean Currents</b></a></td>
+                            <td class="authors">Omar Eduardo Jimenez Lopez</td>
+                            <td class="ta">Jonathan Yang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Mete%20Gumusayak%20submission_416288594/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Goal Conditioned Behavior Cloning for Robot Social Navigation</b></a></td>
+                            <td class="authors">Mete Gumusayak</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Emma%20Marie%20Beharry%20Abel%20Philip%20John%20Elizabeth%20Michelle%20Gallagher%20submission_416269695/224R_Final_Report-2.pdf" target="_blank" rel="noopener"><b>GoodLiars: A Multi-Turn Extension of Reinforcement Learning-Based Belief Disruption</b></a></td>
+                            <td class="authors">Emma Marie Beharry, Abel Philip John, Elizabeth Michelle Gallagher</td>
+                            <td class="ta">Alex Nam</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Kevin%20Song%20Sukeerth%20Ramkumar%20submission_416286534/cs224r_finalreport__3_.pdf" target="_blank" rel="noopener"><b>Granularity-Aware Off-Policy Fine-Tuning of LLMs via Expert Demonstrations</b></a></td>
+                            <td class="authors">Kevin Song, Sukeerth Ramkumar, Yina Jian</td>
+                            <td class="ta">Shengqu Cai</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Dhruv%20Manani%20Churan%20He%20submission_416281316/cs224r_final_report.pdf" target="_blank" rel="noopener"><b>Graphs and Meta Reinforcement Learning for Portfolio Management</b></a></td>
+                            <td class="authors">Dhruv Manani, Churan He</td>
+                            <td class="ta">Joy He-Yueya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Leon%20Reilly%20Duy%20Nguyen%20submission_416241040/CS224R_Final_Writeup.pdf" target="_blank" rel="noopener"><b>GRPO Didn’t Pass the Bar (But the Harness Did): Harness-Guided Post-Training for Legal Agents</b></a></td>
+                            <td class="authors">Leon Reilly, Duy Nguyen</td>
+                            <td class="ta">Joy He-Yueya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Emi%20Maria%20Mathew%20submission_416075553/CS224R_Paper__1_.pdf" target="_blank" rel="noopener"><b>Hierarchical RL for Cost Aware Protein Engineering Campaigns in Cloud Labs</b></a></td>
+                            <td class="authors">Emi Maria Mathew</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Alfred%20Sven%20Bertil%20Sjoeqivst%20Hana%20Mengyao%20Liu%20submission_416271147/CS224R_Final_Report_Hana_Liu_Alfred_Sjoqvist.pdf" target="_blank" rel="noopener"><b>How Does Scaffolding Affect Cross-Environment Generalization in LLM RL Fine-Tuning?</b></a></td>
+                            <td class="authors">Alfred Sven Bertil Sjoeqivst, Hana Mengyao Liu</td>
+                            <td class="ta">Alex Nam</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Amulya%20Parthasarathy%20submission_416142385/CS224R_RLOO_replay_Final_Project_report_12.pdf" target="_blank" rel="noopener"><b>How Much Stale Rollout Reuse Can Verifier-Based RLOO Tolerate? A Semi-Off-Policy Replay Study on Countdown Reasoning</b></a></td>
+                            <td class="authors">Amulya Parthasarathy</td>
+                            <td class="ta">Max Du</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Max%20Luis%20Rodriguez%20Samantha%20Malowane%20Leventis%20Joseph%20Li%20submission_416020371/final_report.pdf" target="_blank" rel="noopener"><b>Hybrid Advantage Shaping with Goal-Aware Attention for Per-Turn Credit Assignment in LLM-Agent Reinforcement Learning</b></a></td>
+                            <td class="authors">Max Luis Rodriguez, Samantha Malowane Leventis, Joseph Li</td>
+                            <td class="ta">Perry Dong</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Moritz%20Schreyoegg%20Jack%20Herrmann%20Daniel%20Hagenlocker%20submission_416285738/CS224R_Final_Report__2_.pdf" target="_blank" rel="noopener"><b>Hybrid Reinforcement Learning for Chip Macro Placement</b></a></td>
+                            <td class="authors">Moritz Schreyoegg, Jack Herrmann, Daniel Hagenlocker</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Albert%20Kui%20Lin%20submission_416236706/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Improving Fine-Grained Manipulation by World Action Models via Online World Model-Based Feedback Planning</b></a></td>
+                            <td class="authors">Albert Kui Lin</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Alex%20Lopez%20Kevin%20Rizk%20Fred%20Rajasekaran%20submission_416288218/CS224R_Final_Project.pdf" target="_blank" rel="noopener"><b>Improving Lean Premise Retrieval via RL and Distillation</b></a></td>
+                            <td class="authors">Alex Lopez, Kevin Rizk, Fred Rajasekaran</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Xinyi%20Ai%20Jiayu%20Sui%20submission_416288358/CS_224R_Project_Final_Report.pdf" target="_blank" rel="noopener"><b>Improving Mathematical Reasoning in Small Language Models via Curriculum Learning and Iterative Execution Feedback</b></a></td>
+                            <td class="authors">Xinyi Ai, Jiayu Sui</td>
+                            <td class="ta">Yash Kankariya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Maty%20Bohacek%20Jason%20Boxi%20Zhang%20submission_416271801/Jason___Maty_CS224R_Final_Paper__2_.pdf" target="_blank" rel="noopener"><b>Improving Tool Internalization for Small Models: Annealed Tool Access for RLOO on Countdown</b></a></td>
+                            <td class="authors">Maty Bohacek, Jason Boxi Zhang</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Cynthia%20Wang%20Ravenor%20Carroll%20Davion%20submission_416288259/Intelligence_per_Joule_as_a_First_Class_Post_Training_Objective__5_.pdf" target="_blank" rel="noopener"><b>Intelligence per Joule as a First-Class Post-Training Objective</b></a></td>
+                            <td class="authors">Cynthia Wang, Ravenor Carroll Davion</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Harshvardhan%20Singh%20submission_416284215/main.pdf" target="_blank" rel="noopener"><b>Interoception: Teaching LLMs to Reason on a Wallclock Budget</b></a></td>
+                            <td class="authors">Harshvardhan Singh</td>
+                            <td class="ta">Joy He-Yueya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Donnie%20Brooks%20Raymond%20submission_416288102/CS224R_Final_Project.pdf" target="_blank" rel="noopener"><b>IPO + RLOO Alignment Report</b></a></td>
+                            <td class="authors">Donnie Brooks Raymond, Matthew Darshan Torre</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Karthik%20Vinay%20Seetharaman%20Tushar%20Dalmia%20Aaryan%20Shah%20submission_416284876/224R_Report__3_.pdf" target="_blank" rel="noopener"><b>Is Exploration Helpful? Evaluating Transfer of Open-Ended Traces to Assignment-Based Code Edits</b></a></td>
+                            <td class="authors">Karthik Vinay Seetharaman, Tushar Dalmia, Aaryan Shah</td>
+                            <td class="ta">Megha Srivastava</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Jiaming%20Shen%20Jiaxin%20Fang%20Jenny%20Jin%20submission_416281900/CS224R_final_report.pdf" target="_blank" rel="noopener"><b>Joint Optimization of Task Difficulty and Diversity for Fine-Tuning LLMs under Sparse Rewards</b></a></td>
+                            <td class="authors">Jiaming Shen, Jiaxin Fang, Jenny Jin</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Kai%20Wen%20submission_416185414/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Learnable Curricula via Self-Play for Verifiable Reasoning Tasks</b></a></td>
+                            <td class="authors">Kai Wen</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Han%20Shaun%20Lee%20submission_416288317/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Learned Forgetting: Task-Conditioned Visual Memory Selection via Reinforcement Learning</b></a></td>
+                            <td class="authors">Han Shaun Lee</td>
+                            <td class="ta">Marcel Torne</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Aditya%20Bora%20submission_416257309/Aditya_Bora_CS224R_Final_Paper.pdf" target="_blank" rel="noopener"><b>Learning Adaptive Tutor Policies for Conversational Language Learning via Offline Reinforcement Learning</b></a></td>
+                            <td class="authors">Aditya Bora</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Chenyue%20Li%20submission_416194974/Your_Project_Title.pdf" target="_blank" rel="noopener"><b>Learning from Failure: Natural Language Feedback for Reusing Failed GRPO Trajectories</b></a></td>
+                            <td class="authors">Chenyue Li</td>
+                            <td class="ta">Ethan Hsu</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Sydney%20Yan%20Tracy%20Y%20Wei%20Evy%20Zhu%20Shen%20submission_416285569/CS224R_Final_Project_Report-2.pdf" target="_blank" rel="noopener"><b>Learning from Heterogeneous Data</b></a></td>
+                            <td class="authors">Sydney Yan, Tracy Y Wei, Evy Zhu Shen</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Joseph%20Tey%20Nick%20Jiang%20submission_416142007/icml2018_style_2.pdf" target="_blank" rel="noopener"><b>Learning Interpretable Code Explanations of LLM Behavior</b></a></td>
+                            <td class="authors">Joseph Tey, Nick Jiang</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Seraph%20Kai%20Yang%20submission_416249312/CS224R_Final_Project__1_.pdf" target="_blank" rel="noopener"><b>Learning Latent Action World Models for Robot Control from Unlabeled Video</b></a></td>
+                            <td class="authors">Seraph Kai Yang</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Kyle%20Avery%20Feinstein%20Steve%20Roy%20Mendeleev%20Ryan%20Bookman%20submission_416280185/CS_224R_Project_Paper-3.pdf" target="_blank" rel="noopener"><b>Learning Priority Functions for Graph-Based Exploration in ARC-AGI-3</b></a></td>
+                            <td class="authors">Kyle Avery Feinstein, Steve Roy Mendeleev, Ryan Bookman</td>
+                            <td class="ta">Ethan Hsu</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Jaden%20Chen%20Gia%20Grace%20Ancone%20submission_416230070/CS_224R_Final_report__3_.pdf" target="_blank" rel="noopener"><b>Learning Structured Trust Policies from Uncertainty, Advisor Signals, and Agreement</b></a></td>
+                            <td class="authors">Jaden Chen, Gia Grace Ancone</td>
+                            <td class="ta">Ifdita Hasan Orney</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Lucia%20Zheng%20submission_416288226/cs224r_final_report_2026.pdf" target="_blank" rel="noopener"><b>Learning to Explore Through Information-Directed Bayesian Optimal Experimental Design</b></a></td>
+                            <td class="authors">Lucia Zheng</td>
+                            <td class="ta">Ethan Hsu</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Selim%20Emir%20Can%20Mete%20Erdogan%20submission_415927787/Deep_RL_Project-report.pdf" target="_blank" rel="noopener"><b>Learning to Teach for Test-Time Reasoning</b></a></td>
+                            <td class="authors">Selim Emir Can, Mete Erdogan</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Isaac%20Wooman%20Park%20Sam%20Lustgarten%20submission_416160689/Learning_to_Teach__Teaching_to_Learn_Final.pdf" target="_blank" rel="noopener"><b>Learning to Teach, Teaching to Learn</b></a></td>
+                            <td class="authors">Isaac Wooman Park, Sam Lustgarten</td>
+                            <td class="ta">Anikait Singh</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Zi%20Wang%20Minghui%20Xu%20submission_416282185/CS224R_Report.pdf" target="_blank" rel="noopener"><b>Learning to Use Tools: Reinforcement Learning for Tool-Integrated Mathematical Reasoning</b></a></td>
+                            <td class="authors">Zi Wang, Minghui Xu</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Malti%20Mohan%20John%20submission_416243998/CS224R_Final_Report-4.pdf" target="_blank" rel="noopener"><b>Learning Transfer in Multitask Agents</b></a></td>
+                            <td class="authors">Malti Mohan John</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Vikram%20Garrett%20Srinivasan%20submission_416281263/cs-224r-report.pdf" target="_blank" rel="noopener"><b>Learning When to Use Tools: Cost-Aware RL for Agentic Reasoning</b></a></td>
+                            <td class="authors">Vikram Garrett Srinivasan</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Luan%20Lam%20submission_416274427/cs224r_Report.pdf" target="_blank" rel="noopener"><b>Learning with a Curriculum: Enhancing LLM Math Reasoning via Hint-Based RL Fine-Tuning</b></a></td>
+                            <td class="authors">Luan Lam</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Teresa%20Zhang%20submission_415107586/_EMNLP_26__Librarian_Agents__CS224R_Project_Report___2_.pdf" target="_blank" rel="noopener"><b>Librarian Models: Anticipatory Filesystem Construction via Reinforcement Learning</b></a></td>
+                            <td class="authors">Teresa Zhang</td>
+                            <td class="ta">Ifdita Hasan Orney</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Zayn%20Malhotra%20Ziyi%20Ding%20submission_416287508/CS224R_REPORT_V3.pdf" target="_blank" rel="noopener"><b>Making RLOO Learn From Better Signals Curriculum Scheduling and Verification Commit Contrast for Countdown Reasoning</b></a></td>
+                            <td class="authors">Zayn Malhotra, Ziyi Ding</td>
+                            <td class="ta">Anikait Singh</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Olufeolu%20Oluwapelumi%20Kolawole%20Karn%20Kaura%20Nihar%20Mudigonda%20submission_416286897/main.pdf" target="_blank" rel="noopener"><b>MARC: Multi-Agent Role Coordination</b></a></td>
+                            <td class="authors">Olufeolu Oluwapelumi Kolawole, Karn Kaura, Nihar Mudigonda</td>
+                            <td class="ta">Marcel Torne</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Petru%20Cristian%20Budianu%20Nicolas%20Bejar%20Arambula%20submission_416215724/CS224R___Final_Project_Report__2_.pdf" target="_blank" rel="noopener"><b>MaxRL with Imperfect Reward Signals on Countdown</b></a></td>
+                            <td class="authors">Petru Cristian Budianu, Nicolas Bejar Arambula</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Chung%20Fat%20Wong%20Anna%20Grebenchtchikova%20submission_416285765/Meaningless_Trivia__Meaningful_Compression__Near_Free_Token_Efficiency_in_RL_for_Reasoning.pdf" target="_blank" rel="noopener"><b>Meaningless Trivia, Meaningful Compression: Near-Free Token Efficiency in RL for Reasoning</b></a></td>
+                            <td class="authors">Chung Fat Wong, Anna Grebenchtchikova</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Renn%20Su%20Summer%20Olivia%20Royal%20submission_416288403/CS224R_Final_Project_Report__3_.pdf" target="_blank" rel="noopener"><b>Memory as an Action Space: Adaptive Retrieval in Small Language Models for Medical Reasoning</b></a></td>
+                            <td class="authors">Renn Su, Summer Olivia Royal</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Pengyu%20Mo%20Haowen%20Wang%20Zhen%20Jia%20submission_416271921/Memory_Pretraining_for_Vision_Language_Action_Model.pdf" target="_blank" rel="noopener"><b>Memory Pretraining for Vision-Language-Action Model</b></a></td>
+                            <td class="authors">Pengyu Mo, Haowen Wang, Zhen Jia</td>
+                            <td class="ta">Marcel Torne</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Krish%20Sharma%20Lucas%20Burgett%20submission_416287359/CS224R_Final_Report__9_.pdf" target="_blank" rel="noopener"><b>Memory-Augmented VLM Planners for Long-Horizon VLA Control via RL</b></a></td>
+                            <td class="authors">Krish Sharma, Lucas Burgett</td>
+                            <td class="ta">Marcel Torne</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Alex%20Lin%20Wang%20Dario%20Gaitzi%20Soatto%20submission_416333815/MiniHedgemony__Asymmetric_Reward_Structures_in_Self_Play_Wargames.pdf" target="_blank" rel="noopener"><b>MiniHedgemony: Asymmetric Reward Structures in Self-Play Wargames</b></a></td>
+                            <td class="authors">Alex Lin Wang, Dario Gaitzi Soatto</td>
+                            <td class="ta">Tian Gao</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Abhinav%20Sattiraju%20Samrat%20Sahoo%20submission_416116219/CS_224R___Final_Report-2.pdf" target="_blank" rel="noopener"><b>MIRAGE: Model Imagined Reachability for Augmented Graph Expansion</b></a></td>
+                            <td class="authors">Abhinav Sattiraju, Samrat Sahoo</td>
+                            <td class="ta">Ifdita Hasan Orney</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Ryan%20Wu%20submission_416175581/CS224R_Final_Project.pdf" target="_blank" rel="noopener"><b>Model-Based Reinforcement Learning for Particle Accelerator Control</b></a></td>
+                            <td class="authors">Ryan Wu</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Yize%20Liu%20submission_416224107/cs224r_final_report_2026.pdf" target="_blank" rel="noopener"><b>Multi-Move Refinement Reinforcement Learning with D4 Spatial Equivariance for 3D Chip Placement</b></a></td>
+                            <td class="authors">Yize Liu</td>
+                            <td class="ta">Perry Dong</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Timothy%20Yu%20Yash%20Ranjith%20submission_416252642/CS224R_Final_Paper.pdf" target="_blank" rel="noopener"><b>Multi-Stage Curriculum GRPO for Countdown</b></a></td>
+                            <td class="authors">Timothy Yu, Yash Ranjith</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Po-Yun%20Cheng%20Wayne%20Chu%20submission_416284543/CS224R_Final_Project_Report__1_.pdf" target="_blank" rel="noopener"><b>Multi-Timescale Language Memory for a Frozen VLA Controller</b></a></td>
+                            <td class="authors">Po-Yun Cheng, Wayne Chu</td>
+                            <td class="ta">Marcel Torne</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Deepika%20Dandeboyina%20submission_416242735/Final_project_report.pdf" target="_blank" rel="noopener"><b>Multimodal LLM Self-Play</b></a></td>
+                            <td class="authors">Deepika Dandeboyina</td>
+                            <td class="ta">Shengqu Cai</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Jehan%20Shah%20submission_416159879/CS224R_project_report.pdf" target="_blank" rel="noopener"><b>Multimodal RLPD for Industrial Robotic Cable Insertion</b></a></td>
+                            <td class="authors">Jehan Shah</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Jett%20Crist%20Carruth%20Alex%20Tadken%20Shaffer%20submission_416252239/CS_224R_Final_Paper__3_.pdf" target="_blank" rel="noopener"><b>Off Policy or On Policy? Multi-Agent Reinforcement Learning for Drone Swarm Coordination</b></a></td>
+                            <td class="authors">Jett Crist Carruth, Alex Tadken Shaffer</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Kennaissa%20Kebeto%20Nabi%20Henok%20Mikael%20Tewolde%20submission_416276833/Off_Policy_Sampling_for_RLOO_.pdf" target="_blank" rel="noopener"><b>Off-Policy Sampling for RLOO: When Does Reusing Rollouts Help?</b></a></td>
+                            <td class="authors">Kennaissa Kebeto Nabi, Henok Mikael Tewolde</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Naomie%20Sandra%20Chien%20submission_416189630/CS224R__Project_Final_Report_Template.pdf" target="_blank" rel="noopener"><b>Offline Model-Based Reinforcement Learning for Energy-Efficient GPU Data-Center Cooling</b></a></td>
+                            <td class="authors">Naomie Sandra Chien</td>
+                            <td class="ta">Perry Dong</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Onyinyechi%20Nichole%20Okoye%20submission_416282924/Offline_RL_for_Adaptive_Vocabulary_Selection_in_Conversational_Language_Tutoring.pdf" target="_blank" rel="noopener"><b>Offline RL for Adaptive Vocabulary Selection in Conversational Language Tutoring</b></a></td>
+                            <td class="authors">Onyinyechi Nichole Okoye</td>
+                            <td class="ta">Ifdita Hasan Orney</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Alex%20Li%20Cheney%20Sang%20Aidan%20Whitedeer%20submission_416286475/CS224RPaper_updated__1_.pdf" target="_blank" rel="noopener"><b>Parallel Deep-RL Agents for Roblox Obstacle-Course Navigation: From Single-Course Memorization to Generalizing Across Procedurally-Composed Courses</b></a></td>
+                            <td class="authors">Alex Li, Cheney Sang, Aidan Whitedeer</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Elijah%20Song%20Ryan%20Minh-Tri%20Le%20submission_416283659/CS_224R_Final_Project_Report-2.pdf" target="_blank" rel="noopener"><b>Personalizing Slide Layouts: A Case Study in RL Reward and Context Bottlenecks</b></a></td>
+                            <td class="authors">Elijah Song, Ryan Minh-Tri Le</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Shobhit%20Agarwal%20Amirreza%20Zeinali%20submission_416263784/final_report.pdf" target="_blank" rel="noopener"><b>PFP: A Perception-Factored Policy for Robust and Efficient SO-101 Manipulation</b></a></td>
+                            <td class="authors">Shobhit Agarwal, Amirreza Zeinali</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Zichen%20Yuan%20Sophia%20Huang%20submission_416281563/cs224r_final_report.pdf" target="_blank" rel="noopener"><b>Physics-Blind Reward Hacking: Exposing and Mitigating Safety Failures in LLM-Generated Reward Functions for Robotic Manipulation</b></a></td>
+                            <td class="authors">Zichen Yuan, Sophia Huang</td>
+                            <td class="ta">Tian Gao</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Henry%20Bosch%20Shurui%20Liu%20submission_416282587/cs224r_proposal__1_.pdf" target="_blank" rel="noopener"><b>PipelineRL: Limits of Asynchronous Reinforcement Learning for Long-Horizon Trajectories</b></a></td>
+                            <td class="authors">Henry Bosch, Shurui Liu</td>
+                            <td class="ta">Jonathan Yang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/JP%20Paul%20McAnally%20submission_416260391/224R.pdf" target="_blank" rel="noopener"><b>PlayGrader: Coaching the Coaches with Deep RL</b></a></td>
+                            <td class="authors">JP Paul McAnally</td>
+                            <td class="ta">Jonathan Yang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Minsik%20Oh%20submission_416288501/CS224R_Project_Report__1_.pdf" target="_blank" rel="noopener"><b>Pluralistic Alignment via Self-Distillation from Synthetic User Feedback</b></a></td>
+                            <td class="authors">Minsik Oh</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Raul%20Garreta%20Tompson%20Joshua%20Alexander%20Bowden%20Swaroop%20Pal%20submission_416215691/cs224r_2026_final_report_point_and_pick.pdf" target="_blank" rel="noopener"><b>Point and Pick: Bounding-Box Conditioned Diffusion Policies and Offline RL for Target-Specific Robot Manipulation</b></a></td>
+                            <td class="authors">Raul Garreta Tompson, Joshua Alexander Bowden, Swaroop Pal</td>
+                            <td class="ta">Marcel Torne</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Joseph%20Dehoney%20submission_416247106/jdehoney_224r_final_report.pdf" target="_blank" rel="noopener"><b>Pose Under Pressure: Robustness of Pose-Derived Dense Rewards in Demonstration-Guided Reinforcement Learning</b></a></td>
+                            <td class="authors">Joseph Dehoney</td>
+                            <td class="ta">Ethan Hsu</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Arda%20Dastan%20Kevin%20Chen%20Elijah%20Alexander%20Schacter%20submission_416266246/CS224R_writeup.pdf" target="_blank" rel="noopener"><b>Preclinical HIV Drug Candidate Discovery with Reinforcement Learning</b></a></td>
+                            <td class="authors">Arda Dastan, Kevin Chen, Elijah Alexander Schacter</td>
+                            <td class="ta">Jonathan Yang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Akshar%20Sarvesh%20submission_416342530/cs224r_final_report_2025a.pdf" target="_blank" rel="noopener"><b>Preference Optimization and Curriculum RLOO for Countdown Reasoning</b></a></td>
+                            <td class="authors">Akshar Sarvesh</td>
+                            <td class="ta">Yash Kankariya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Maanit%20Goel%20submission_415957090/Prisoner_s_Lemma__Exploitability_Aware_Reinforcement_Learning_for_Online_Strategic_Adaptation___Maanit__5_.pdf" target="_blank" rel="noopener"><b>Prisoner’s Lemma: Exploitability-Aware Reinforcement Learning for Online Strategic Adaptation</b></a></td>
+                            <td class="authors">Maanit Goel</td>
+                            <td class="ta">Marcel Torne</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Michael%20Yang%20Du%20Li%20submission_416286065/Process_Rewards_and_Tool_Use_Two_Extensions_to_RLOO_Fine_Tuning_for_Math_Reasoning.pdf" target="_blank" rel="noopener"><b>Process Rewards and Tool Use: Two Extensions to RLOO Fine-Tuning for Math Reasoning</b></a></td>
+                            <td class="authors">Michael Yang, Du Li</td>
+                            <td class="ta">Max Du</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Dongyu%20Jia%20submission_416159521/cs224r_final_report_2025.pdf" target="_blank" rel="noopener"><b>Process-Level Alignment and Value-Guided Stepwise Planning in Countdown Math Reasoning</b></a></td>
+                            <td class="authors">Dongyu Jia</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Henry%20Jingsong%20Zhou%20Oleh%20Ivankiv%20submission_415708497/CS224R_Final_report.pdf" target="_blank" rel="noopener"><b>Programmatic Reasoning for Countdown: Learning to Generate Executable Python-Style Verifications</b></a></td>
+                            <td class="authors">Henry Jingsong Zhou, Oleh Ivankiv</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Jason%20Yan%20submission_416190006/cs224r_final_report_2025.pdf" target="_blank" rel="noopener"><b>Progress-Aware Prompt Sampling for Verifier-Based RL Fine-Tuning</b></a></td>
+                            <td class="authors">Jason Yan</td>
+                            <td class="ta">Yash Kankariya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Meng-Chin%20Wang%20submission_416117632/CS224R_-_Progressive_Rationality_-_Enhancing_LLM_Mathematical_Reasoning_via_Numerical_Target_Curriculum_SFT_in_the_Countdown_Task.pdf" target="_blank" rel="noopener"><b>Progressive Rationality: Enhancing LLM Mathematical Reasoning via Numerical-Target-Curriculum-SFT in the Countdown Task</b></a></td>
+                            <td class="authors">Meng-Chin Wang</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Yikai%20Cao%20Zhibo%20Dai%20submission_416216886/CS224R_Project_Report.pdf" target="_blank" rel="noopener"><b>Prompt Distribution Design for RLOO Countdown Reasoning</b></a></td>
+                            <td class="authors">Yikai Cao, Zhibo Dai</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Hailemariam%20Teshome%20submission_416288554/report.pdf" target="_blank" rel="noopener"><b>RadOncReason: Reinforcement Learning with Verifiable Guideline Rewards for Clinical Reasoning in Radiation Oncology</b></a></td>
+                            <td class="authors">Hailemariam Teshome</td>
+                            <td class="ta">Jonathan Yang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Abraham%20Yeung%20Anagha%20Ramaswamy%20submission_416276999/report.pdf" target="_blank" rel="noopener"><b>Reading vs. Writing a Near-Oracle Internal Verifier: How RL Design Determines Whether a Correctness Probe Is Safe</b></a></td>
+                            <td class="authors">Abraham Yeung, Anagha Ramaswamy</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Aaditya%20Shah%20Karthik%20Pythireddi%20Jonathan%20Manfu%20Lu%20submission_416284827/CS_224R_Final_Report__2_.pdf" target="_blank" rel="noopener"><b>RECAP-Ψ: Advantage-Conditioned Fine-Tuning for Open-Source Humanoid VLAs</b></a></td>
+                            <td class="authors">Aaditya Shah, Karthik Pythireddi, Jonathan Manfu Lu</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Rushank%20Goyal%20submission_416288481/CS224R_report.pdf" target="_blank" rel="noopener"><b>Reducing Citation Hallucinations in Large Language Models</b></a></td>
+                            <td class="authors">Rushank Goyal</td>
+                            <td class="ta">Ifdita Hasan Orney</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Armaan%20Alan%20Abraham%20submission_416253123/cs224r_final_report_2026.pdf" target="_blank" rel="noopener"><b>Reducing Scalar Rewards to Binary Success: General Off-Policy Learning with Success Functions</b></a></td>
+                            <td class="authors">Armaan Alan Abraham</td>
+                            <td class="ta">Jonathan Yang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Dylan%20Zhou%20Anuva%20Banwasi%20Jiaye%20Zou%20submission_416285166/Refine_and_Compose__Mahalanobis_Action_Barriers_over_Demo_free_Contrastive_RL_Primitives.pdf" target="_blank" rel="noopener"><b>Refine and Compose: Mahalanobis Action Barriers over Demo-free Contrastive RL Primitives</b></a></td>
+                            <td class="authors">Dylan Zhou, Anuva Banwasi, Jiaye Zou</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Ayeeshi%20Lakshmi%20Poosarla%20Ryan%20Arya%20Nayebi%20submission_416149282/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>REFINE: Reinforcement-based EHR Feature Induction and Editing</b></a></td>
+                            <td class="authors">Ayeeshi Lakshmi Poosarla, Ryan Arya Nayebi</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Yun%20Dong%20Saimai%20Lau%20Liane%20Ozoemelam%20submission_416283567/CS224R_Final_project_Report.pdf" target="_blank" rel="noopener"><b>Reinforcement Learning for Clinical Site-of-Care Triage in a Sepsis Simulator</b></a></td>
+                            <td class="authors">Yun Dong, Saimai Lau, Liane Ozoemelam</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/John%20William%20Carlson%20Josh%20Joseph%20submission_416281809/Reinforcement_Learning_for_Compiled_CNOT_Efficient_Variational_Quantum_Eigensolver_Circuits__1_.pdf" target="_blank" rel="noopener"><b>Reinforcement Learning for Compiled-CNOT-Efficient VQE Circuits</b></a></td>
+                            <td class="authors">John William Carlson, Josh Joseph</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Susan%20Zhang%20submission_416331144/CS224R_Final_Project_Report.pdf" target="_blank" rel="noopener"><b>Reinforcement Learning for Dynamic Beam Steering in Plasma Metamaterials</b></a></td>
+                            <td class="authors">Susan Zhang</td>
+                            <td class="ta">Megha Srivastava</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Daniel%20Li%20Yang%20submission_416100137/CS224R_Project_Report-5.pdf" target="_blank" rel="noopener"><b>Reinforcement Learning for Figgie: Learning Negotiation as a First-Class Skill</b></a></td>
+                            <td class="authors">Daniel Li Yang</td>
+                            <td class="ta">Ethan Hsu</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Sandeep%20Sethuraman%20Kuba%20Hashemian%20Leon%20Junliang%20Liu%20submission_416267121/CS224R_Final.pdf" target="_blank" rel="noopener"><b>Reinforcement Learning for Fog of War Chess with Action Space Pruning</b></a></td>
+                            <td class="authors">Sandeep Sethuraman, Kuba Hashemian, Leon Junliang Liu</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Devan%20Shaan%20Agrawal%20submission_416288077/_Final__CS_224R_Report.pdf" target="_blank" rel="noopener"><b>Reinforcement Learning for Geothermal Drilling Optimization</b></a></td>
+                            <td class="authors">Devan Shaan Agrawal</td>
+                            <td class="ta">Perry Dong</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Elisabeth%20A%20Holm%20Juan%20Pablo%20Gonzalez%20Pacheco%20Alfred%20Yu%20submission_416282815/CS_224R_Final_Paper.pdf" target="_blank" rel="noopener"><b>Reinforcement Learning for Mental Health Interventions Using Unlabeled Smartphone Data</b></a></td>
+                            <td class="authors">Elisabeth A Holm, Juan Pablo Gonzalez Pacheco, Alfred Yu</td>
+                            <td class="ta">Alex Nam</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Vinav%20Shah%20Abhishek%20A%20Shah%20submission_416288555/Final_Report.pdf" target="_blank" rel="noopener"><b>Reinforcement Learning for Noise-Aware Quantum Circuit Compilation</b></a></td>
+                            <td class="authors">Vinav Shah, Abhishek A Shah</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Jerry%20Wang%20Ryan%20Wang%20submission_416268483/CS224R.pdf" target="_blank" rel="noopener"><b>Reinforcement Learning for Self-Guided Context Compression in Mathematical Reasoning</b></a></td>
+                            <td class="authors">Jerry Wang, Ryan Wang</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Jerry%20Yin%20submission_416287340/224R_Final_Project.pdf" target="_blank" rel="noopener"><b>Reinforcement Learning for Terminal-Area Air Traffic Control</b></a></td>
+                            <td class="authors">Jerry Yin</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Hao%20Xu%20submission_416131335/cs224r_final_report.pdf" target="_blank" rel="noopener"><b>Replay-Augmented RLOO: Restoring Within-Group Reward Variance in Sparse-Reward Policy Gradients</b></a></td>
+                            <td class="authors">Hao Xu</td>
+                            <td class="ta">Shengqu Cai</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Shekhar%20Sharma%20submission_416271145/cs224r_final_report_2026.pdf" target="_blank" rel="noopener"><b>Replay-Aware Curriculum Learning for RoboPianist</b></a></td>
+                            <td class="authors">Shekhar Sharma</td>
+                            <td class="ta">Megha Srivastava</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Andres%20Felipe%20Restrepo%20submission_416172045/CS224R_Project_Final_Report__1_.pdf" target="_blank" rel="noopener"><b>Reproducible Top-K PPO for S&amp;P 500 Portfolio Selection: Risk-Adjusted Gains, Seed Variance, and the Limits of Return-Maximizing RL</b></a></td>
+                            <td class="authors">Andres Felipe Restrepo</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Bautista%20Guerra%20Andrew%20Yuxuan%20Liang%20Alexander%20Tarvo%20submission_416268133/CS224R_Project_Final_Report.pdf" target="_blank" rel="noopener"><b>Residual Reinforcement Learning for Robotic Manipulation of Wire-like Objects</b></a></td>
+                            <td class="authors">Bautista Guerra, Andrew Yuxuan Liang, Alexander Tarvo</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Justin%20Yizhou%20Huang%20Adam%20Joseph%20Banks%20submission_416261454/CS_224R_Final_Report__6_.pdf" target="_blank" rel="noopener"><b>Reversing Emergent Misalignment Using Simple Self-Distillation</b></a></td>
+                            <td class="authors">Justin Yizhou Huang, Adam Joseph Banks</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Jack%20Frederick%20Lofwall%20Luca%20Thomas%20Wheeler%20submission_416282441/224R-Report.pdf" target="_blank" rel="noopener"><b>Reward Density and Process-Reward Hacking in a Code-Repair MDP: A Controlled Study of PPO Meta-Control over a Frozen Code LLM</b></a></td>
+                            <td class="authors">Jack Frederick Lofwall, Luca Thomas Wheeler</td>
+                            <td class="ta">Yash Kankariya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Yunshan%20Wang%20submission_416289237/cs224r_final_report-4.pdf" target="_blank" rel="noopener"><b>Reward Design for Reinforcement-Learning Fine-Tuning of Navigation Policies</b></a></td>
+                            <td class="authors">Yunshan Wang</td>
+                            <td class="ta">Ethan Hsu</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Siddharth%20Sachdeva%20submission_416288366/main__1_.pdf" target="_blank" rel="noopener"><b>Reward-Model-Calibrated Reinforcement Learning from Verifiable Rewards for Machine Learning Engineering</b></a></td>
+                            <td class="authors">Siddharth Sachdeva</td>
+                            <td class="ta">Joy He-Yueya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Anish%20Chaudhuri%20Aniket%20Mahajan%20submission_416288572/CS224r_Final_Report.pdf" target="_blank" rel="noopener"><b>RL &amp; Domain Randomization for Volt-VAR Control in Electricity Distribution Grids</b></a></td>
+                            <td class="authors">Anish Chaudhuri, Aniket Mahajan</td>
+                            <td class="ta">Alex Nam</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Howard%20Xiao%20Weiwei%20Wu%20submission_416281412/CS_224R_Final_Report.pdf" target="_blank" rel="noopener"><b>RL Fine-Tuning for Countdown Reasoning with Test-Time Verification and Curriculum Learning</b></a></td>
+                            <td class="authors">Howard Xiao, Weiwei Wu</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Hoang%20D%20Nguyen%20Peter%20Martin%20Alisky%20Zhenghui%20Chen%20submission_416223910/CS_224R_Final_Report.pdf" target="_blank" rel="noopener"><b>RL for Adaptive Tutoring: When Should a Tutor Intervene?</b></a></td>
+                            <td class="authors">Hoang D Nguyen, Peter Martin Alisky, Zhenghui Chen</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Prabu%20Ganesh%20Ravindren%20submission_415987469/CS224r_Project.pdf" target="_blank" rel="noopener"><b>RL-Powered Hint Generation for Adaptive Math Tutoring: A Simulated Student Evaluation of RLOO and DPO Policies</b></a></td>
+                            <td class="authors">Prabu Ganesh Ravindren</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Manat%20Kaur%20Felipe%20Leite%20Teixeira%20submission_416286890/CS224RReport2.pdf" target="_blank" rel="noopener"><b>Sample Wide, Pick Smart: For a Fixed 0.5B Countdown Reasoner, Test-Time Selection Beats More Training</b></a></td>
+                            <td class="authors">Manat Kaur, Felipe Leite Teixeira</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Mark%20Mutugi%20Athiri%20submission_416279705/atari_ssl_writeup.pdf" target="_blank" rel="noopener"><b>Sample-Efficient Atari RL with Self-Supervised Pretrained Visual Encoders</b></a></td>
+                            <td class="authors">Mark Mutugi Athiri</td>
+                            <td class="ta">Joonwon Kang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Zhaoyang%20Li%20submission_416286590/cs224r_final_report_2025.pdf" target="_blank" rel="noopener"><b>Sample-Efficient RLOO via Off-Policy Rollout Reuse</b></a></td>
+                            <td class="authors">Zhaoyang Li</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Anna%20Luna%20Fisher%20Lopez%20Justin%20Choo%20Eric%20Martz%20submission_416281869/CS_224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Scale-Based Curriculum Pretraining for Robotic Piano Performance</b></a></td>
+                            <td class="authors">Anna Luna Fisher Lopez, Justin Choo, Eric Martz</td>
+                            <td class="ta">Megha Srivastava</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Jiaxuan%20Sun%20Angel%20Zhang%20submission_415717543/Final_Report.pdf" target="_blank" rel="noopener"><b>Scaling Test-Time Computation for Countdown Reasoning through Verifier-Guided Resampling</b></a></td>
+                            <td class="authors">Jiaxuan Sun, Angel Zhang</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Mohammad%20Rehan%20Ghori%20submission_416275844/cs224r_Final_Project__1_.pdf" target="_blank" rel="noopener"><b>Scaling Test-Time Compute via Generative Verification in Constrained Parameter Regimes</b></a></td>
+                            <td class="authors">Mohammad Rehan Ghori</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Zijian%20%28Carl%29%20Ma%20submission_416288476/cs224r_final_report_2026.pdf" target="_blank" rel="noopener"><b>SciencePRM: Process-Reward RL (GRPO) for the Scientific Validity of Intermediate Reasoning Steps</b></a></td>
+                            <td class="authors">Zijian (Carl) Ma</td>
+                            <td class="ta">Joy He-Yueya</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Nathan%20Zhou%20Ria%20Garg%20submission_416280457/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>SEACTS: Sequential Evidence Acquisition for Cancer Target Selection</b></a></td>
+                            <td class="authors">Nathan Zhou, Ria Garg</td>
+                            <td class="ta">Megha Srivastava</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Haozhan%20Gao%20submission_416279196/CS224R_final_report.pdf" target="_blank" rel="noopener"><b>Seeking Disagreement: Online Credit Assignment with Delayed and Pseudo-Aggregated Rewards</b></a></td>
+                            <td class="authors">Haozhan Gao</td>
+                            <td class="ta">Perry Dong</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Syed%20Ashal%20Ali%20submission_416245483/CS_224R_Final_Project_Report__2_.pdf" target="_blank" rel="noopener"><b>Selective Entropy Shaping For RLOO: When Importance Weight Gating Hurts Exploration</b></a></td>
+                            <td class="authors">Syed Ashal Ali</td>
+                            <td class="ta">Shengqu Cai</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Khai%20Loong%20Aw%20Zhang%20Bai-han%20submission_416050879/2111_-_CS224R_Project_Final_Report.pdf" target="_blank" rel="noopener"><b>Self-improving Vision-Language Models: Reinforcement Learning over Visual Abstractions</b></a></td>
+                            <td class="authors">Khai Loong Aw, Zhang Bai-han</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Roman%20Gasiorowski%20submission_416246023/final_report.pdf" target="_blank" rel="noopener"><b>Self-Supervised Data Quality Scoring for Offline RL in Driving</b></a></td>
+                            <td class="authors">Roman Gasiorowski</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Spencer%20Zhang%20submission_416278341/cs224r_report__1_.pdf" target="_blank" rel="noopener"><b>Sequential Injection Control for Optimal Stimulated Geologic Hydrogen Production through Deep Reinforcement Learning</b></a></td>
+                            <td class="authors">Spencer Zhang</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Nicole%20Cortes%20Esidore%20Fajardo%20Eneinyang%20Chloe%20Di%20Murdoch%20submission_415793799/CS224R_Report__7_.pdf" target="_blank" rel="noopener"><b>Sequential Outfit Curation with Multi-Dimensional Aesthetic Rewards</b></a></td>
+                            <td class="authors">Nicole Cortes, Esidore Fajardo Eneinyang, Chloe Di Murdoch</td>
+                            <td class="ta">Anushree Aggarwal</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Aizada%20Nurdinova%20Ellie%20Sampson%20Adhi%20Daiv%20submission_416275011/CS224R_Final_report__2_.pdf" target="_blank" rel="noopener"><b>SFT Augmentation and Replay-Based RL for Countdown Reasoning</b></a></td>
+                            <td class="authors">Aizada Nurdinova, Ellie Sampson, Adhi Daiv</td>
+                            <td class="ta">Anikait Singh</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Vanessa%20Felix%20submission_416277016/cs224r_final_report_2025.pdf" target="_blank" rel="noopener"><b>SFT-Estimated Curriculum Learning for Rule-Based RLOO Fine-Tuning</b></a></td>
+                            <td class="authors">Vanessa Felix</td>
+                            <td class="ta">Anikait Singh</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Tianhui%20Huang%20Jacob%20Lokheen%20Lee%20Daniel%20Contreras-Esquivel%20submission_416191313/main.pdf" target="_blank" rel="noopener"><b>SHIELD: Failure-Aware Policy Shielding for Frozen Vision-Language-Action Policies</b></a></td>
+                            <td class="authors">Tianhui Huang, Jacob Lokheen Lee, Daniel Contreras-Esquivel</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Cayden%20Gu%20Karen%20Vo%20Christine%20Zhang%20submission_416276229/CS224R_Project__3_.pdf" target="_blank" rel="noopener"><b>SimToolReal-RGB: Visuomotor Diffusion Policies for Dexterous Manipulation</b></a></td>
+                            <td class="authors">Cayden Gu, Karen Vo, Christine Zhang</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Mallika%20Parulekar%20Tia%20S%20Geri%20Hannah%20Rachel%20Levin%20submission_416341046/CS224R_Final_Report__1__Hannah.pdf" target="_blank" rel="noopener"><b>SketchRL: Finetuning Generative Sketch Models with Visual Rewards</b></a></td>
+                            <td class="authors">Mallika Parulekar, Tia S Geri, Hannah Rachel Levin</td>
+                            <td class="ta">Ifdita Hasan Orney</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Joshua%20Delgadillo%20Jui%20Khankari%20submission_416276148/CS_224R_Project_Report__2_.pdf" target="_blank" rel="noopener"><b>Small Generative Verifiers for Inference-Time Scaling Across RL Training Frameworks</b></a></td>
+                            <td class="authors">Joshua Delgadillo, Jui Khankari</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Umar%20Padela%20Neetish%20Sharma%20submission_416360541/SODA__Supervised_Option_Discovery_for_Dynamic_Action_Chunking__1_.pdf" target="_blank" rel="noopener"><b>SODA: Supervised Option Discovery for Dynamic Action Chunking</b></a></td>
+                            <td class="authors">Umar Padela, Neetish Sharma</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Monami%20Dutta%20Gupta%20submission_416208168/CS224R_Project_Final_Report.pdf" target="_blank" rel="noopener"><b>SpecGen: RL-Driven Compiler Verification</b></a></td>
+                            <td class="authors">Monami Dutta Gupta</td>
+                            <td class="ta">Jonathan Yang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Norah%20Asemota%20submission_416288794/CS224r_Final_Report__1_.pdf" target="_blank" rel="noopener"><b>Static vs. Adaptive Curriculum Learning for RLOO Fine-Tuning of Language Models</b></a></td>
+                            <td class="authors">Norah Asemota</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Samantha%20Estrada%20submission_416286941/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Stay In Your Lane! Hierarchical RL for a Modified Asteroids Game</b></a></td>
+                            <td class="authors">Samantha Estrada</td>
+                            <td class="ta">Rahul Chand</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Shreyas%20C%20S%20Anushka%20Rawat%20submission_416233239/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Strategy-Diverse Synthetic Warm-Starts for RL Fine-Tuning on Countdown</b></a></td>
+                            <td class="authors">Shreyas C S, Anushka Rawat</td>
+                            <td class="ta">Max Du</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Andrew%20Samuel%20Park%20submission_416280297/CS224R_Final_Project_Paper.pdf" target="_blank" rel="noopener"><b>Strong Sub-Agents in a Monitored “Private” Channel Under a Weak RL Supervisor</b></a></td>
+                            <td class="authors">Andrew Samuel Park</td>
+                            <td class="ta">Perry Dong</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Rutanshu%20Jhaveri%20submission_416288083/CS_224R_Final_Report__4_.pdf" target="_blank" rel="noopener"><b>Structural Diversity Rewards for Verifiable Graph-Structured Reasoning</b></a></td>
+                            <td class="authors">Rutanshu Jhaveri</td>
+                            <td class="ta">Ifdita Hasan Orney</td>
+                        </tr>
+                        <tr>
+                            <td class="type">&mdash;</td>
+                            <td class="title"><a href="./pdfs/Sarvesh%20R.%20Babu%20submission_416283856/CS_224R.pdf" target="_blank" rel="noopener"><b>Structured Action-Effect Observables for Residual RL under Hidden Actuator Drift</b></a></td>
+                            <td class="authors">Sarvesh R. Babu</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Anuj%20Jamwal%20Srinidhi%20Bhat%20submission_416284828/CS224r_Final_Report.pdf" target="_blank" rel="noopener"><b>Structured Q&amp;A Reasoning for Language Models</b></a></td>
+                            <td class="authors">Anuj Jamwal, Srinidhi Bhat</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Parth%20Sheth%20Yucheng%20Huang%20submission_416155725/Parth__Yucheng___CS224R_Final_Project_Report.pdf" target="_blank" rel="noopener"><b>Structured Search Traces for Process-Aware Countdown Training</b></a></td>
+                            <td class="authors">Parth Sheth, Yucheng Huang</td>
+                            <td class="ta">Max Du</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Yubo%20Ruan%20submission_416011159/cs224r_final_report_2025.pdf" target="_blank" rel="noopener"><b>SUBTITLE-DPO: Verifiable-Reward Preference Optimization to Suppress Spurious Burned-in Subtitles in Audio-Visual Video Diffusion</b></a></td>
+                            <td class="authors">Yubo Ruan</td>
+                            <td class="ta">Perry Dong</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Edward%20Neo%20Lee%20Shatong%20Zhu%20Haoyue%20Xiao%20submission_416288448/CS_224R_Final_Project_Report__1_.pdf" target="_blank" rel="noopener"><b>Survival Instinct: One-Staged RL for Quadruped Parkour Self-Play</b></a></td>
+                            <td class="authors">Edward Neo Lee, Shatong Zhu, Haoyue Xiao</td>
+                            <td class="ta">Tian Gao</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Esmee%20Cowing%20Milly%20Wong%20Tesvara%20Suliani%20Jiang%20submission_416289332/cs224r_report__1_.pdf" target="_blank" rel="noopener"><b>System-Aware Reward Shaping for the Pythia RL Prefetcher</b></a></td>
+                            <td class="authors">Esmee Cowing, Milly Wong, Tesvara Suliani Jiang</td>
+                            <td class="ta">Perry Dong</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Abhishek%20Bharani%20submission_416136219/cs224r_final.pdf" target="_blank" rel="noopener"><b>Systems-Aware Off-Policy RLOO: Amortizing Sampling Cost via K-Reuse</b></a></td>
+                            <td class="authors">Abhishek Bharani</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Andres%20Ernesto%20Garcia%20Prakash%20Koukuntla%20Joshua%20Hsieh%20submission_416266868/Targeted_Counterfactual_Branching_for_Tool_Invocation_Decisions_in_RL_Fine_Tuning__1_.pdf" target="_blank" rel="noopener"><b>Targeted Counterfactual Branching for Tool-Invocation Decisions in RL Fine-Tuning</b></a></td>
+                            <td class="authors">Andres Ernesto Garcia, Prakash Koukuntla, Joshua Hsieh</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Juntong%20Shi%20submission_416022738/CS224R_Teacher_Contrastive_OPD.pdf" target="_blank" rel="noopener"><b>Teacher-Contrastive On-Policy Distillation</b></a></td>
+                            <td class="authors">Juntong Shi</td>
+                            <td class="ta">Perry Dong</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Rosemary%20Mingrui%20Jiang%20submission_416266797/CS_224R_Final_Project_Report__1_.pdf" target="_blank" rel="noopener"><b>Teaching Small Models to Teach</b></a></td>
+                            <td class="authors">Rosemary Mingrui Jiang</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Jingshu%20Liu%20submission_416288258/cs224r_final_project__11_.pdf" target="_blank" rel="noopener"><b>Test-Time Best-of-K Selection with Generative Verification for Countdown Reasoning</b></a></td>
+                            <td class="authors">Jingshu Liu</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Ava%20Kouhana%20Julian%20Rodriguez%20Cardenas%20Leah%20Balakrishnan%20submission_416238953/CS224R_-_Final_Project_Report.pdf" target="_blank" rel="noopener"><b>Test-Time Inference Scaling for RL Fine-Tuned Language Models</b></a></td>
+                            <td class="authors">Ava Kouhana, Julian Rodriguez Cardenas, Leah Balakrishnan</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Rydham%20Goyal%20Rakshit%20Kaushik%20submission_416169225/Final_Report.pdf" target="_blank" rel="noopener"><b>Test-Time Selection and Curriculum Learning for RL Fine-Tuned Language Models on Countdown Reasoning</b></a></td>
+                            <td class="authors">Rydham Goyal, Rakshit Kaushik</td>
+                            <td class="ta">Anikait Singh</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Jonathan%20Andrew%20Lutch%20submission_416288603/CS224RFinalReport__1_.pdf" target="_blank" rel="noopener"><b>The Affect of Opponent Pool Size on the Policy Stability of Compute Constrained Self-play Tasks</b></a></td>
+                            <td class="authors">Jonathan Andrew Lutch</td>
+                            <td class="ta">Tian Gao</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Brydie%20Sigg%20Naomi%20Y%20Boneh%20Christelle%20Chantal%20Millos-Lopez%20submission_416287519/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>The Long Game: A Long-Horizon RL Study of Fairness in Financial Lending</b></a></td>
+                            <td class="authors">Brydie Sigg, Naomi Y Boneh, Christelle Chantal Millos-Lopez</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Mahmood%20Ishaq%20Alhusseini%20Frank%20D%27Agostino%20Sebastian%20Beckett%20Fisher%20submission_416288352/CS_224R_project_poster-3.pdf" target="_blank" rel="noopener"><b>Tool-Integrated Reasoning for Countdown</b></a></td>
+                            <td class="authors">Mahmood Ishaq Alhusseini, Frank D&#x27;Agostino, Sebastian Beckett Fisher</td>
+                            <td class="ta">Anikait Singh</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Isaiah%20Flores%20Mia%20Xiao%20Katherine%20Wang%20Xu%20submission_416165870/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>Tool-Integrated RLOO and Pass@K: Testing the Invisible Leash</b></a></td>
+                            <td class="authors">Isaiah Flores, Mia Xiao, Katherine Wang Xu</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Gaurav%20Tyagi%20submission_416087944/CS224r_Final_Report.pdf" target="_blank" rel="noopener"><b>Topology-Aware Reinforcement Learning for Text-to-CAD Code Generation</b></a></td>
+                            <td class="authors">Gaurav Tyagi</td>
+                            <td class="ta">Ke Wang</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Ricardo%20Alberto%20Carrillo%20Romero%20submission_416274651/cs224r_final_report_Ricardo_Carrillo.pdf" target="_blank" rel="noopener"><b>Towards Advantage Shaping for Multi-tool Reasoning: A Preliminary Empirical Study</b></a></td>
+                            <td class="authors">Ricardo Alberto Carrillo Romero</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Steven%20Feng%20April%20Yang%20Daniel%20Zou%20submission_416285789/CS224R_Template.pdf" target="_blank" rel="noopener"><b>Training Robot Policies with a Foundation Model Teacher</b></a></td>
+                            <td class="authors">Steven Feng, April Yang, Daniel Zou</td>
+                            <td class="ta">Tyler Lum</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Diego%20Sierra%20Brianna%20Xie%20submission_415464895/CS224R_Final_Project_Diego_Brianna.pdf" target="_blank" rel="noopener"><b>Using, Learning, and Removing Tools: A Study of Tool-Integrated Reasoning for Countdown</b></a></td>
+                            <td class="authors">Diego Sierra, Brianna Xie</td>
+                            <td class="ta">Max Du</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Yuyan%20Wu%20submission_416267242/CS224R_Final_Report_yuyan.pdf" target="_blank" rel="noopener"><b>Verifier-Based Reinforcement Learning for Countdown with Curriculum Training</b></a></td>
+                            <td class="authors">Yuyan Wu</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Shyam%20Sai%20Bethina%20Sahil%20Koita%20Ananya%20Ganapathi%20submission_416285627/main.pdf" target="_blank" rel="noopener"><b>Verifier-Guided Recombination Search for Token-Efficient Test-Time Compute in Countdown</b></a></td>
+                            <td class="authors">Shyam Sai Bethina, Sahil Koita, Ananya Ganapathi</td>
+                            <td class="ta">Anubha Mahajan</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Finn%20Staeblein%20submission_416286016/CS244r_final_report-2.pdf" target="_blank" rel="noopener"><b>When Can a Model Write Its Own Curriculum? A Diagnostic Study of Joint Conjecturer/Prover RLOO for Countdown</b></a></td>
+                            <td class="authors">Finn Staeblein, Nicholas Simon Allen</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Louis%20de%20Germay%20de%20Cirfontaine%20Arthur%20Gontier%20submission_416269959/CS224R_Final_Report.pdf" target="_blank" rel="noopener"><b>When Does Curriculum Learning Help? A Knowledge-Aware Learning-Progress Curriculum for RLVR</b></a></td>
+                            <td class="authors">Louis de Germay de Cirfontaine, Arthur Gontier</td>
+                            <td class="ta">Riya Karumanchi</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Yucheng%20Yao%20submission_416115882/msf_rlvr_final_report_final.pdf" target="_blank" rel="noopener"><b>When Does Execution Feedback Transfer? Minimal-Sufficient Feedback for Internalized RLVR</b></a></td>
+                            <td class="authors">Yucheng Yao</td>
+                            <td class="ta">Alex Nam</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Ethan%20Charles%20Morgan%20submission_416282579/CS224R_FinalProject__7_.pdf" target="_blank" rel="noopener"><b>When Does Privileged Self-Distillation Help GUI Grounding? A Teacher-Gap Analysis of Visual SDPO</b></a></td>
+                            <td class="authors">Ethan Charles Morgan</td>
+                            <td class="ta">Ethan Hsu</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Custom</td>
+                            <td class="title"><a href="./pdfs/Mert%20Karabiyik%20submission_416243179/final_report.pdf" target="_blank" rel="noopener"><b>When Does Specialist RL Help a Small-Model Multi-Agent Pipeline? A Cross-Benchmark Study on Long-Document QA</b></a></td>
+                            <td class="authors">Mert Karabiyik</td>
+                            <td class="ta">Alex Nam</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Aarohi%20Gupta%20submission_416235005/cs224R_final_paper.pdf" target="_blank" rel="noopener"><b>Where RLOO Stops on Countdown: A Capability Ceiling at the Additive ↔ Multiplicative Boundary</b></a></td>
+                            <td class="authors">Aarohi Gupta</td>
+                            <td class="ta">Abhijnya Bhat</td>
+                        </tr>
+                        <tr>
+                            <td class="type">Default</td>
+                            <td class="title"><a href="./pdfs/Joshua%20A%20Slagle%20submission_416229403/cs224r_final_report_2025.pdf" target="_blank" rel="noopener"><b>Zero Sum Game Framework for Group Advantage Simplification</b></a></td>
+                            <td class="authors">Joshua A Slagle</td>
+                            <td class="ta">Yash Kankariya</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="noresults">No projects match your search.</div>
+
+                <!-- The footer -->
+                <div class="hrline">
+                    <hr>
+                </div><br>
+                <div class="row clearfix">
+                    <div class="col-md-3 column">
+                    </div>
+                    <div class="col-md-6 column">
+                        <div class="text-center">
+                            <p>
+                                &nbsp;&nbsp;&nbsp; &#169; Chelsea Finn 2026
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 column">
+                    </div>
+                </div>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var input = document.getElementById("search");
+        var countEl = document.getElementById("count");
+        var noResults = document.getElementById("noresults");
+        var rows = Array.prototype.slice.call(document.getElementById("rows").rows);
+        var haystacks = rows.map(function (r) { return r.innerText.toLowerCase(); });
+        var total = rows.length;
+
+        function applyFilter() {
+            var q = input.value.trim().toLowerCase();
+            var shown = 0;
+            for (var i = 0; i < rows.length; i++) {
+                var hit = !q || haystacks[i].indexOf(q) !== -1;
+                rows[i].style.display = hit ? "" : "none";
+                if (hit) shown++;
+            }
+            countEl.textContent = q ? shown + " of " + total + " projects" : "";
+            noResults.style.display = shown ? "none" : "block";
+        }
+
+        input.addEventListener("input", applyFilter);
+        input.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") { input.value = ""; applyFilter(); input.blur(); }
+        });
+        document.addEventListener("keydown", function (e) {
+            if (e.key === "/" && document.activeElement !== input) { e.preventDefault(); input.focus(); }
+        });
+    </script>
+</body>
+
+</html>
