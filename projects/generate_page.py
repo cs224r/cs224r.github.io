@@ -1,7 +1,9 @@
 """Render cs224r_final_projects.html from final_projects.csv.
 
-Rows are sorted by title. A title starting with "Outstanding Project:"
-gets a gold badge and a highlighted row, same convention as the 2025 CSV.
+Rows are sorted by title, then award-winning projects float to the top:
+Outstanding (gold badge) first, then Honorable Mention (steel badge),
+each alphabetical within its group. The Award value comes from the CSV
+column of the same name (set in extract_metadata.py).
 
 The page reuses the main site's stylesheets (css/bootstrap.min.css and
 css/style.css) so it looks like the rest of cs224r.stanford.edu.
@@ -67,7 +69,12 @@ PAGE = """<!DOCTYPE html>
         .table-hover > tbody > tr.outstanding-row:hover > td {
             background-color: #fff8e1;
         }
+        tr.honorable-row,
+        .table-hover > tbody > tr.honorable-row:hover > td {
+            background-color: #eef4f8;
+        }
         .label-outstanding { background-color: #b8860b; }
+        .label-honorable { background-color: #5b7f96; }
         #noresults {
             display: none;
             padding: 24px 14px;
@@ -179,7 +186,12 @@ __ROWS__
 </html>
 """
 
-OUTSTANDING_PREFIX = "Outstanding Project:"
+AWARD_RANK = {"Outstanding": 0, "Honorable": 1}
+AWARD_BADGE = {
+    "Outstanding": '<span class="label label-outstanding">Outstanding Project</span> ',
+    "Honorable": '<span class="label label-honorable">Honorable Mention</span> ',
+}
+AWARD_ROWCLASS = {"Outstanding": "outstanding-row", "Honorable": "honorable-row"}
 
 
 def sort_key(title):
@@ -190,19 +202,18 @@ def main():
     with open(CSV_PATH, encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
     rows.sort(key=lambda r: sort_key(r["Title"]))
-    # outstanding projects float to the top, like the 2025 page
-    rows.sort(key=lambda r: 0 if r["Title"].startswith(OUTSTANDING_PREFIX) else 1)
+    # award winners float to the top (Outstanding, then Honorable), like the
+    # 2025 page; stable sort keeps each group alphabetical
+    rows.sort(key=lambda r: AWARD_RANK.get(r.get("Award", ""), 2))
 
     body = []
     for row in rows:
         title, authors, pdf = row["Title"], row["Authors"], row["PDF"]
         ptype = row.get("Type", "") or "&mdash;"
         ta = html.escape(row.get("Mentor TA", "")) or "&mdash;"
-        outstanding = title.startswith(OUTSTANDING_PREFIX)
-        badge = ""
-        if outstanding:
-            title = title[len(OUTSTANDING_PREFIX):].strip()
-            badge = '<span class="label label-outstanding">Outstanding Project</span> '
+        award = row.get("Award", "")
+        badge = AWARD_BADGE.get(award, "")
+        row_class = AWARD_ROWCLASS.get(award, "")
         if pdf:
             href = "./pdfs/" + quote(pdf)
             title_cell = f'<a href="{href}" target="_blank" rel="noopener"><b>{html.escape(title)}</b></a>'
@@ -210,7 +221,7 @@ def main():
             # report withheld at the authors' request; only the title is listed
             title_cell = f"<b>{html.escape(title)}</b>"
         body.append(
-            f'                        <tr{" class=\"outstanding-row\"" if outstanding else ""}>\n'
+            f'                        <tr{f" class=\"{row_class}\"" if row_class else ""}>\n'
             f'                            <td class="type">{ptype}</td>\n'
             f'                            <td class="title">{badge}{title_cell}</td>\n'
             f'                            <td class="authors">{html.escape(authors)}</td>\n'
