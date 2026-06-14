@@ -52,20 +52,13 @@ OPT_OUT_IDS = {
     "416281264", "416281688", "416282078", "416283030", "416283033",
     "416284091", "416284161", "416286352", "416287375", "416287462",
     "416287507", "416287710", "416288023", "416288034", "416288109",
-    "416288210", "416288249", "416288264", "416288334",
-    "416288360", "416288431", "416288434", "416288439",
+    "416288210", "416288249", "416288264", "416288267", "416288334",
+    "416288360", "416288417", "416288431", "416288434", "416288439",
     "416288547", "416288549", "416288552", "416288582", "416288588",
     "416288756", "416332047",
 }
-# Authors who asked for the report to be withheld but the title kept.
-# (The two opt-out awardees are here too: they opted out of the page, but
-# per staff they are listed as title + award only, with the report withheld
-# and never linked. Their PDFs stay gitignored alongside the opt-outs.)
-TITLE_ONLY_IDS = {
-    "416288758",  # William Yang -- keep title, redact paper
-    "416288417",  # Charlie Stringfellow -- opted out; Outstanding award, report withheld
-    "416288267",  # Youssif Siessa -- opted out; Honorable award, report withheld
-}
+# Authors who asked for the report to be withheld but the title kept
+TITLE_ONLY_IDS = {"416288758"}
 
 # Project awards (Spring 2026), keyed by Gradescope submission id. A
 # submission may appear in at most one set. An opted-out submission cannot
@@ -76,7 +69,7 @@ OUTSTANDING_IDS = {
     "416283010",  # A Semi-Decentralized Approach to Scalable Multiagent Control
     "415391100",  # EXPO-FT: Sample-Efficient RL Finetuning for VLA Models
     "416275011",  # SFT Augmentation and Replay-Based RL for Countdown Reasoning
-    "416288417",  # Where the Length Penalty Enters GRPO (Stringfellow) -- title-only, report withheld
+    # "416288417"  Where the Length Penalty Enters GRPO (Stringfellow) -- OPTED OUT, announced on Ed only
 }
 HONORABLE_IDS = {
     "416181642",  # π-Drive
@@ -88,7 +81,7 @@ HONORABLE_IDS = {
     "416288476",  # SciencePRM
     "416284152",  # Frontier Curriculum and Adaptive Test-Time Compute for Efficient RLOO
     "416276999",  # Reading vs. Writing a Near-Oracle Internal Verifier
-    "416288267",  # Action Space Design for Reasoning Transfer (Siessa) -- title-only, report withheld
+    # "416288267"  Action Space Design for Reasoning Transfer (Siessa) -- OPTED OUT, announced on Ed only
 }
 
 # folder name -> title, for PDFs the heuristics cannot crack
@@ -101,10 +94,6 @@ OVERRIDES = {
         "Where the Length Penalty Enters GRPO: Placement, Collapse, and a Cure",
     "Olufeolu Oluwapelumi Kolawole Karn Kaura Nihar Mudigonda submission_416286897":
         "MARC: Multi-Agent Role Coordination",
-    # title-only awardee: lock the title so it never re-reads the withheld PDF
-    "Youssif Siessa submission_416288267":
-        "Action Space Design for Reasoning Transfer in RLVR: "
-        "Generative vs Multiple-Choice Grammatical Parsing",
 }
 
 DASH = r"\s:–—\-"
