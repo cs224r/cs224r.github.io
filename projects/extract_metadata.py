@@ -55,10 +55,10 @@ OPT_OUT_IDS = {
     "416288210", "416288249", "416288264", "416288267", "416288334",
     "416288360", "416288417", "416288431", "416288434", "416288439",
     "416288547", "416288549", "416288552", "416288582", "416288588",
-    "416288756", "416332047",
+    "416288756", "416288758", "416332047",
 }
 # Authors who asked for the report to be withheld but the title kept
-TITLE_ONLY_IDS = {"416288758"}
+TITLE_ONLY_IDS = set()
 
 # Project awards (Spring 2026), keyed by Gradescope submission id. A
 # submission may appear in at most one set. An opted-out submission cannot
